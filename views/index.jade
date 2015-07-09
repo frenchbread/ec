@@ -1,11 +1,123 @@
-doctype html
-html
-  head
-    meta(charset='utf-8')
-    title Your basic web app structure
-    link(href="/css/style.css", rel="stylesheet")
-  body
-      .box
-          .content
-              h1 Hello world!
-              p Basic node app structure
+extends ./layout/base
+
+block content
+    .container(style="margin-top:20px;")
+        form
+            .row
+                .col-md-4
+
+                .col-md-4
+                    .form-group
+                        label(for='city') Город
+                        select.form-control
+                            option -
+                            option(value="spb") Санкт-Петербург
+                            option(value="msk") Москва
+
+                    .form-group
+                        label(for='city') Количество дней
+                        input.form-control(type='text', placeholder='Например: 10')
+                        p.help-block Example block-level help text here.
+
+                    h3 Гостиница
+
+                    .form-group
+                        label(for='') Название
+                        input.form-control(type='text', placeholder='')
+
+                    .form-group
+                        label(for='') Тип комнаты
+                        input.form-control(type='text', placeholder='')
+
+                    .form-group
+                        label(for='') Количество человек
+                        input.form-control(type='text', placeholder='Например: 3')
+
+                    .form-group
+                        label(for='') Стоимость за номер
+                        input.form-control(type='text', placeholder='')
+
+                    .form-group
+                        label(for='') Стоимость на человека
+                        input.form-control(type='text', placeholder='')
+
+
+
+                    h3 Трансфер
+
+                    .form-group
+                        label(for='') Количество человек
+                        input.form-control(type='text', placeholder='Например: 5')
+
+                    .form-group
+                        label(for='') Откуда
+                        input.form-control(type='text', placeholder='')
+
+                    .form-group
+                        label(for='') Куда
+                        input.form-control(type='text', placeholder='')
+
+                    .form-group
+                        label(for='') Класс авто
+                        select.form-control
+                            option Стандарт
+                            option Бизнес
+                            option Премиум
+                            option Минивен эконом
+                            option Минивен бизнес
+                            option Минивен премиум
+                            option Микроавтобус
+                            option Автобус
+
+                    .form-group
+                        label(for='') Стоимость за трансфер
+                        input.form-control(type='text', placeholder='')
+
+                    .form-group
+                        label(for='') Стоимость на человека
+                        input.form-control(type='text', placeholder='')
+
+                    .form-group
+                        label(for='') Количество человек
+                        input.form-control(type='text', placeholder='')
+
+                    h3 Экскурсия
+
+                    .form-group
+                        label(for='') Музей
+                        input.form-control(type='text', placeholder='')
+
+                    .form-group
+                        label(for='') Гид (язык)
+                        input.form-control(type='text', placeholder='')
+
+                    .form-group
+                        label(for='') Длительность экскурсии (часы)
+                        input.form-control(type='text', placeholder='')
+
+                    .form-group
+                        label(for='') Стоимость музея на человека
+                        input.form-control(type='text', placeholder='')
+
+                    .form-group
+                        label(for='') Количество человек
+                        input.form-control(type='text', placeholder='')
+
+                    h3 Питание
+
+                    .form-group
+                        label(for='') Завтрак
+                        textarea.form-control
+
+                    .form-group
+                        label(for='') Обед
+                        textarea.form-control
+
+                    .form-group
+                        label(for='') Ужин
+                        textarea.form-control
+
+                    button.btn.btn-default(type='submit') Посчитать
+
+
+                .col-md-4
