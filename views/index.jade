@@ -19,6 +19,7 @@ block content
                         input.form-control(type='text', placeholder='Например: 10')
                         p.help-block Example block-level help text here.
 
+                    hr
                     h3 Гостиница
 
                     .form-group
@@ -41,8 +42,10 @@ block content
                         label(for='') Стоимость на человека
                         input.form-control(type='text', placeholder='')
 
+                    button.btn.btn-default(type='submit') Показать другие варианты проживания
 
 
+                    hr
                     h3 Трансфер
 
                     .form-group
@@ -60,6 +63,7 @@ block content
                     .form-group
                         label(for='') Класс авто
                         select.form-control
+                            option -
                             option Стандарт
                             option Бизнес
                             option Премиум
@@ -81,7 +85,13 @@ block content
                         label(for='') Количество человек
                         input.form-control(type='text', placeholder='')
 
-                    h3 Экскурсия
+                    .form-group
+                        label(for='') Аренда с водителем
+                        br
+                        input(type='checkbox', name='vehicle', value='Bike')
+
+                    hr
+                    h3 Экскурсии
 
                     .form-group
                         label(for='') Музей
@@ -103,6 +113,11 @@ block content
                         label(for='') Количество человек
                         input.form-control(type='text', placeholder='')
 
+                    button.btn.btn-default(type='submit') Добавить экскурсию
+                    a &nbsp;
+                    button.btn.btn-default(type='submit') Добавить день
+
+                    hr
                     h3 Питание
 
                     .form-group
