@@ -90,20 +90,15 @@ block content
                 .col-md-2
                     .form-group
                         label(for='') Тип сервиса
-                        select.form-control#city
+                        select.form-control#service
                             option -
-                            option(value="") Трансфер
-                            option(value="") Аренда с водителем
-                            option(value="") Экскурсия
-                            option(value="") Питание
+                            option(value="transfer") Трансфер
+                            option(value="withDriver") Аренда с водителем
+                            option(value="excursion") Экскурсия
+                            option(value="food") Питание
 
-                .col-md-2
-
-                .col-md-2
-
-                .col-md-2
-
-                .col-md-2
+                .col-md-8#dynamicPlace
+                
 
             .row
                 .col-md-2
@@ -120,89 +115,69 @@ block content
             hr
 
             button.btn.btn-default(type='submit') + Добавить день
-
-            //.form-group
-            //    label(for='') Количество человек
-            //    input.form-control(type='text', placeholder='Например: 5')
-            //
-            //.form-group
-            //    label(for='') Откуда
-            //    input.form-control(type='text', placeholder='')
-            //
-            //.form-group
-            //    label(for='') Куда
-            //    input.form-control(type='text', placeholder='')
-            //
-            //.form-group
-            //    label(for='') Класс авто
-            //    select.form-control
-            //        option -
-            //        option Стандарт
-            //        option Бизнес
-            //        option Премиум
-            //        option Минивен эконом
-            //        option Минивен бизнес
-            //        option Минивен премиум
-            //        option Микроавтобус
-            //        option Автобус
-            //
-            //.form-group
-            //    label(for='') Стоимость за трансфер
-            //    input.form-control(type='text', placeholder='')
-            //
-            //.form-group
-            //    label(for='') Стоимость на человека
-            //    input.form-control(type='text', placeholder='')
-            //
-            //.form-group
-            //    label(for='') Количество человек
-            //    input.form-control(type='text', placeholder='')
-            //
-            //.form-group
-            //    label(for='') Аренда с водителем
-            //    br
-            //    input(type='checkbox', name='vehicle', value='Bike')
-            //
-            //hr
-            //h3 Экскурсии
-            //
-            //.form-group
-            //    label(for='') Музей
-            //    input.form-control(type='text', placeholder='')
-            //
-            //.form-group
-            //    label(for='') Гид (язык)
-            //    input.form-control(type='text', placeholder='')
-            //
-            //.form-group
-            //    label(for='') Длительность экскурсии (часы)
-            //    input.form-control(type='text', placeholder='')
-            //
-            //.form-group
-            //    label(for='') Стоимость музея на человека
-            //    input.form-control(type='text', placeholder='')
-            //
-            //.form-group
-            //    label(for='') Количество человек
-            //    input.form-control(type='text', placeholder='')
-            //
-            //button.btn.btn-default(type='submit') Добавить экскурсию
-            //a &nbsp;
-            //button.btn.btn-default(type='submit') Добавить день
-            //
-            //hr
-            //h3 Питание
-            //
-            //.form-group
-            //    label(for='') Завтрак
-            //    textarea.form-control
-            //
-            //.form-group
-            //    label(for='') Обед
-            //    textarea.form-control
-            //
-            //.form-group
-            //    label(for='') Ужин
-            //    textarea.form-control
-            //
-            //button.btn.btn-default(type='submit') Посчитать
+            
+            #hiddenTransfer(style="display:none")
+              .col-md-4
+                .form-group
+                   label(for='') Класс авто
+                   select.form-control
+                       option -
+                       option Стандарт
+                       option Бизнес
+                       option Премиум
+                       option Минивен эконом
+                       option Минивен бизнес
+                       option Минивен премиум
+                       option Микроавтобус
+                       option Автобус
+              .col-md-4
+                .form-group
+                    label(for='') Откуда
+                    input.form-control(type='text', placeholder='')
+              .col-md-4
+                .form-group
+                    label(for='') Куда
+                    input.form-control(type='text', placeholder='')
+                    
+            #hiddenWithDriver(style="display:none")
+              .col-md-4
+                .form-group
+                   label(for='') Класс авто
+                   select.form-control
+                       option -
+                       option Стандарт
+                       option Бизнес
+                       option Премиум
+                       option Минивен эконом
+                       option Минивен бизнес
+                       option Минивен премиум
+                       option Микроавтобус
+                       option Автобус
+              .col-md-4
+                .form-group
+                    label(for='') С
+                    input.form-control(type='text', placeholder='')
+              .col-md-4
+                .form-group
+                    label(for='') До
+                    input.form-control(type='text', placeholder='')
+                    
+            #hiddenExcursion(style="display:none")
+              .col-md-6
+                .form-group
+                   label(for='') Куда
+                   input.form-control(type='text', placeholder='')
+              .col-md-6
+                .form-group
+                    label(for='') Кол-во человек
+                    input.form-control(type='text', placeholder='')
+                    
+            #hiddenFood(style="display:none")
+              .col-md-6
+                .form-group
+                   label(for='') Ресторан
+                   input.form-control(type='text', placeholder='')
+              .col-md-6
+                .form-group
+                    label(for='') Название меню
+                    input.form-control(type='text', placeholder='')
