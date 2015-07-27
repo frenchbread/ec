@@ -3,136 +3,183 @@ extends ./layout/base
 block content
     .container(style="margin-top:20px;")
         form
-            .row
-                .col-md-4
+            .jumbotron
+                h3 Header here
 
-                .col-md-4
+            hr
+            h3 Проживание
+
+            .row
+                .col-md-2
                     .form-group
                         label(for='city') Город
-                        select.form-control
-                            option -
+                        select.form-control#city
+                            option Город
                             option(value="spb") Санкт-Петербург
                             option(value="msk") Москва
 
+                .col-md-2
                     .form-group
-                        label(for='city') Количество дней
-                        input.form-control(type='text', placeholder='Например: 10')
-                        p.help-block Example block-level help text here.
+                        label(for='hotel') Гостиница
+                        input.form-control#hotel(type='text', placeholder='Гостиница')
 
-                    hr
-                    h3 Гостиница
-
+                .col-md-2
                     .form-group
-                        label(for='') Название
-                        input.form-control(type='text', placeholder='')
+                        label(for='hotelStart') Дата заселения
+                        input.form-control#hotelStart(type='text', placeholder='Дата заселения')
 
+                .col-md-2
                     .form-group
-                        label(for='') Тип комнаты
-                        input.form-control(type='text', placeholder='')
+                        label(for='hotelEnds') Дата выезда
+                        input.form-control#hotelEnds(type='text', placeholder='Дата выезда')
 
+                .col-md-2
                     .form-group
-                        label(for='') Количество человек
-                        input.form-control(type='text', placeholder='Например: 3')
-
+                        label(for='roomType') Тип комнаты
+                        select.form-control#roomType
+                            option Тип комнаты
+                .col-md-2
                     .form-group
-                        label(for='') Стоимость за номер
-                        input.form-control(type='text', placeholder='')
+                        label(for='roomsAmount') Кол-во номеров
+                        input.form-control#roomsAmount(type='text', placeholder='Кол-во номеров')
 
+            .row
+                .col-md-2
+
+                .col-md-2
+
+                .col-md-2
+
+                .col-md-2
+
+                .col-md-2
+                    a.btn.btn-xs.btn-primary + Добавить тип комнаты
+                .col-md-2
+
+            hr
+
+            button.btn.btn-default(type='submit') + Добавить вариант проживания
+
+
+            hr
+            h3 Программа
+
+            .row
+                .col-md-2
                     .form-group
-                        label(for='') Стоимость на человека
-                        input.form-control(type='text', placeholder='')
+                        h4 День 
+                          b№1
+                .col-md-2
 
-                    button.btn.btn-default(type='submit') Показать другие варианты проживания
+                .col-md-2
 
+                .col-md-2
 
-                    hr
-                    h3 Трансфер
+                .col-md-2
 
+                .col-md-2
+
+            .row
+                .col-md-2
                     .form-group
-                        label(for='') Количество человек
-                        input.form-control(type='text', placeholder='Например: 5')
-
+                        label(for='') Город
+                        select.form-control#city
+                            option Город
+                            option(value="spb") Санкт-Петербург
+                            option(value="msk") Москва
+                .col-md-2
                     .form-group
-                        label(for='') Откуда
-                        input.form-control(type='text', placeholder='')
-
-                    .form-group
-                        label(for='') Куда
-                        input.form-control(type='text', placeholder='')
-
-                    .form-group
-                        label(for='') Класс авто
-                        select.form-control
+                        label(for='') Тип сервиса
+                        select.form-control#service
                             option -
-                            option Стандарт
-                            option Бизнес
-                            option Премиум
-                            option Минивен эконом
-                            option Минивен бизнес
-                            option Минивен премиум
-                            option Микроавтобус
-                            option Автобус
+                            option(value="transfer") Трансфер
+                            option(value="withDriver") Аренда с водителем
+                            option(value="excursion") Экскурсия
+                            option(value="food") Питание
 
-                    .form-group
-                        label(for='') Стоимость за трансфер
-                        input.form-control(type='text', placeholder='')
+                .col-md-8#dynamicPlace
+                
 
-                    .form-group
-                        label(for='') Стоимость на человека
-                        input.form-control(type='text', placeholder='')
+            .row
+                .col-md-2
+                .col-md-2
+                    a.btn.btn-xs.btn-primary + Добавить сервис
+                .col-md-2
 
-                    .form-group
-                        label(for='') Количество человек
-                        input.form-control(type='text', placeholder='')
+                .col-md-2
 
-                    .form-group
-                        label(for='') Аренда с водителем
-                        br
-                        input(type='checkbox', name='vehicle', value='Bike')
+                .col-md-2
 
-                    hr
-                    h3 Экскурсии
+                .col-md-2
 
-                    .form-group
-                        label(for='') Музей
-                        input.form-control(type='text', placeholder='')
+            hr
 
-                    .form-group
-                        label(for='') Гид (язык)
-                        input.form-control(type='text', placeholder='')
+            button.btn.btn-default(type='submit') + Добавить день
 
-                    .form-group
-                        label(for='') Длительность экскурсии (часы)
-                        input.form-control(type='text', placeholder='')
-
-                    .form-group
-                        label(for='') Стоимость музея на человека
-                        input.form-control(type='text', placeholder='')
-
-                    .form-group
-                        label(for='') Количество человек
-                        input.form-control(type='text', placeholder='')
-
-                    button.btn.btn-default(type='submit') Добавить экскурсию
-                    a &nbsp;
-                    button.btn.btn-default(type='submit') Добавить день
-
-                    hr
-                    h3 Питание
-
-                    .form-group
-                        label(for='') Завтрак
-                        textarea.form-control
-
-                    .form-group
-                        label(for='') Обед
-                        textarea.form-control
-
-                    .form-group
-                        label(for='') Ужин
-                        textarea.form-control
-
-                    button.btn.btn-default(type='submit') Посчитать
-
-
-                .col-md-4
+            // hidden fields that are reused
+            
+            #hiddenTransfer(style="display:none")
+              .col-md-4
+                .form-group
+                   label(for='') Класс авто
+                   select.form-control
+                       option -
+                       option Стандарт
+                       option Бизнес
+                       option Премиум
+                       option Минивен эконом
+                       option Минивен бизнес
+                       option Минивен премиум
+                       option Микроавтобус
+                       option Автобус
+              .col-md-4
+                .form-group
+                    label(for='') Откуда
+                    input.form-control(type='text', placeholder='')
+              .col-md-4
+                .form-group
+                    label(for='') Куда
+                    input.form-control(type='text', placeholder='')
+                    
+            #hiddenWithDriver(style="display:none")
+              .col-md-4
+                .form-group
+                   label(for='') Класс авто
+                   select.form-control
+                       option -
+                       option Стандарт
+                       option Бизнес
+                       option Премиум
+                       option Минивен эконом
+                       option Минивен бизнес
+                       option Минивен премиум
+                       option Микроавтобус
+                       option Автобус
+              .col-md-4
+                .form-group
+                    label(for='') С
+                    input.form-control(type='text', placeholder='')
+              .col-md-4
+                .form-group
+                    label(for='') До
+                    input.form-control(type='text', placeholder='')
+                    
+            #hiddenExcursion(style="display:none")
+              .col-md-6
+                .form-group
+                   label(for='') Куда
+                   input.form-control(type='text', placeholder='')
+              .col-md-6
+                .form-group
+                    label(for='') Кол-во человек
+                    input.form-control(type='text', placeholder='')
+                    
+            #hiddenFood(style="display:none")
+              .col-md-6
+                .form-group
+                   label(for='') Ресторан
+                   input.form-control(type='text', placeholder='')
+              .col-md-6
+                .form-group
+                    label(for='') Название меню
+                    input.form-control(type='text', placeholder='')
