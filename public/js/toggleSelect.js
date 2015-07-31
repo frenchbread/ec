@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
   $('#service').on('change', function() {
     switch (this.value) {
       case "transfer":
@@ -15,4 +16,9 @@ $(document).ready(function() {
         break;
     }
   });
+
+  $('#addService').on('click', function() {
+    alert('clicked!')
+  })
+
 });

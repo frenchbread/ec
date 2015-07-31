@@ -2,184 +2,166 @@ extends ./layout/base
 
 block content
     .container(style="margin-top:20px;")
-        form
+        form.form-inline
             .jumbotron
                 h3 Header here
 
             hr
             h3 Проживание
 
-            .row
-                .col-md-2
-                    .form-group
-                        label(for='city') Город
-                        select.form-control#city
-                            option Город
-                            option(value="spb") Санкт-Петербург
-                            option(value="msk") Москва
+            .form-group
+                label(for='city') Город
+                br
+                select.form-control#city
+                    option Город
+                    option(value="spb") Санкт-Петербург
+                    option(value="msk") Москва
 
-                .col-md-2
-                    .form-group
-                        label(for='hotel') Гостиница
-                        input.form-control#hotel(type='text', placeholder='Гостиница')
+            .form-group
+                label(for='hotel') Гостиница
+                br
+                input.form-control#hotel(type='text', placeholder='Гостиница')
 
-                .col-md-2
-                    .form-group
-                        label(for='hotelStart') Дата заселения
-                        input.form-control#hotelStart(type='text', placeholder='Дата заселения')
+            .form-group
+                label(for='hotelStart') Дата заселения
+                br
+                input.form-control#hotelStart(type='text', placeholder='Дата заселения')
 
-                .col-md-2
-                    .form-group
-                        label(for='hotelEnds') Дата выезда
-                        input.form-control#hotelEnds(type='text', placeholder='Дата выезда')
+            .form-group
+                label(for='hotelEnds') Дата выезда
+                br
+                input.form-control#hotelEnds(type='text', placeholder='Дата выезда')
 
-                .col-md-2
-                    .form-group
+            br
+
+            #rooms
+
+                div.roomForm №1
+                    #roomType.form-group
                         label(for='roomType') Тип комнаты
-                        select.form-control#roomType
+                        br
+                        select.form-control#roomType(name="roomType")
                             option Тип комнаты
-                .col-md-2
-                    .form-group
+
+                    #roomAmount.form-group
                         label(for='roomsAmount') Кол-во номеров
-                        input.form-control#roomsAmount(type='text', placeholder='Кол-во номеров')
+                        br
+                        input.form-control#roomsAmount(type='text', placeholder='Кол-во номеров', name="roomAmount")
 
-            .row
-                .col-md-2
-
-                .col-md-2
-
-                .col-md-2
-
-                .col-md-2
-
-                .col-md-2
-                    a.btn.btn-xs.btn-primary + Добавить тип комнаты
-                .col-md-2
+            a.btn.btn-xs.btn-primary#addRoom(onclick="addRoom()") + Добавить тип комнаты
 
             hr
 
-            button.btn.btn-default(type='submit') + Добавить вариант проживания
+            button.btn.btn-default#fuck + Добавить вариант проживания
 
 
             hr
-            h3 Программа
-
-            .row
-                .col-md-2
-                    .form-group
-                        h4 День 
-                          b№1
-                .col-md-2
-
-                .col-md-2
-
-                .col-md-2
-
-                .col-md-2
-
-                .col-md-2
-
-            .row
-                .col-md-2
-                    .form-group
-                        label(for='') Город
-                        select.form-control#city
-                            option Город
-                            option(value="spb") Санкт-Петербург
-                            option(value="msk") Москва
-                .col-md-2
-                    .form-group
-                        label(for='') Тип сервиса
-                        select.form-control#service
-                            option -
-                            option(value="transfer") Трансфер
-                            option(value="withDriver") Аренда с водителем
-                            option(value="excursion") Экскурсия
-                            option(value="food") Питание
-
-                .col-md-8#dynamicPlace
-                
-
-            .row
-                .col-md-2
-                .col-md-2
-                    a.btn.btn-xs.btn-primary + Добавить сервис
-                .col-md-2
-
-                .col-md-2
-
-                .col-md-2
-
-                .col-md-2
-
-            hr
-
-            button.btn.btn-default(type='submit') + Добавить день
-
-            // hidden fields that are reused
-            
-            #hiddenTransfer(style="display:none")
-              .col-md-4
-                .form-group
-                   label(for='') Класс авто
-                   select.form-control
-                       option -
-                       option Стандарт
-                       option Бизнес
-                       option Премиум
-                       option Минивен эконом
-                       option Минивен бизнес
-                       option Минивен премиум
-                       option Микроавтобус
-                       option Автобус
-              .col-md-4
-                .form-group
-                    label(for='') Откуда
-                    input.form-control(type='text', placeholder='')
-              .col-md-4
-                .form-group
-                    label(for='') Куда
-                    input.form-control(type='text', placeholder='')
-                    
-            #hiddenWithDriver(style="display:none")
-              .col-md-4
-                .form-group
-                   label(for='') Класс авто
-                   select.form-control
-                       option -
-                       option Стандарт
-                       option Бизнес
-                       option Премиум
-                       option Минивен эконом
-                       option Минивен бизнес
-                       option Минивен премиум
-                       option Микроавтобус
-                       option Автобус
-              .col-md-4
-                .form-group
-                    label(for='') С
-                    input.form-control(type='text', placeholder='')
-              .col-md-4
-                .form-group
-                    label(for='') До
-                    input.form-control(type='text', placeholder='')
-                    
-            #hiddenExcursion(style="display:none")
-              .col-md-6
-                .form-group
-                   label(for='') Куда
-                   input.form-control(type='text', placeholder='')
-              .col-md-6
-                .form-group
-                    label(for='') Кол-во человек
-                    input.form-control(type='text', placeholder='')
-                    
-            #hiddenFood(style="display:none")
-              .col-md-6
-                .form-group
-                   label(for='') Ресторан
-                   input.form-control(type='text', placeholder='')
-              .col-md-6
-                .form-group
-                    label(for='') Название меню
-                    input.form-control(type='text', placeholder='')
+            //h3 Программа
+            //
+            //.row
+            //    .col-md-2
+            //        .form-group
+            //            h4 День
+            //              b №1
+            //    .col-md-10
+            //
+            //.row
+            //    .col-md-2
+            //        .form-group
+            //            label(for='') Город
+            //            select.form-control#city
+            //                option Город
+            //                option(value="spb") Санкт-Петербург
+            //                option(value="msk") Москва
+            //    .col-md-2
+            //        .form-group
+            //            label(for='') Тип сервиса
+            //            select.form-control#service
+            //                option -
+            //                option(value="transfer") Трансфер
+            //                option(value="withDriver") Аренда с водителем
+            //                option(value="excursion") Экскурсия
+            //                option(value="food") Питание
+            //
+            //    .col-md-8#dynamicPlace
+            //
+            //
+            //#placeForServices
+            //
+            //.row
+            //    .col-md-2
+            //    .col-md-2
+            //        a.btn.btn-xs.btn-primary#addService + Добавить сервис
+            //    .col-md-10
+            //
+            //hr
+            //
+            //button.btn.btn-default(type='submit') + Добавить день
+            //
+            //// hidden fields that are reused
+            //
+            //#hiddenTransfer(style="display:none")
+            //  .col-md-4
+            //    .form-group
+            //       label(for='') Класс авто
+            //       select.form-control
+            //           option -
+            //           option Стандарт
+            //           option Бизнес
+            //           option Премиум
+            //           option Минивен эконом
+            //           option Минивен бизнес
+            //           option Минивен премиум
+            //           option Микроавтобус
+            //           option Автобус
+            //  .col-md-4
+            //    .form-group
+            //        label(for='') Откуда
+            //        input.form-control(type='text', placeholder='')
+            //  .col-md-4
+            //    .form-group
+            //        label(for='') Куда
+            //        input.form-control(type='text', placeholder='')
+            //
+            //#hiddenWithDriver(style="display:none")
+            //  .col-md-4
+            //    .form-group
+            //       label(for='') Класс авто
+            //       select.form-control
+            //           option -
+            //           option Стандарт
+            //           option Бизнес
+            //           option Премиум
+            //           option Минивен эконом
+            //           option Минивен бизнес
+            //           option Минивен премиум
+            //           option Микроавтобус
+            //           option Автобус
+            //  .col-md-4
+            //    .form-group
+            //        label(for='') С
+            //        input.form-control(type='text', placeholder='')
+            //  .col-md-4
+            //    .form-group
+            //        label(for='') До
+            //        input.form-control(type='text', placeholder='')
+            //
+            //#hiddenExcursion(style="display:none")
+            //  .col-md-6
+            //    .form-group
+            //       label(for='') Куда
+            //       input.form-control(type='text', placeholder='')
+            //  .col-md-6
+            //    .form-group
+            //        label(for='') Кол-во человек
+            //        input.form-control(type='text', placeholder='')
+            //
+            //#hiddenFood(style="display:none")
+            //  .col-md-6
+            //    .form-group
+            //       label(for='') Ресторан
+            //       input.form-control(type='text', placeholder='')
+            //  .col-md-6
+            //    .form-group
+            //        label(for='') Название меню
+            //        input.form-control(type='text', placeholder='')
