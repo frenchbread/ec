@@ -9,46 +9,48 @@ block content
             hr
             h3 Проживание
 
-            .form-group
-                label(for='city') Город
-                br
-                select.form-control#city
-                    option Город
-                    option(value="spb") Санкт-Петербург
-                    option(value="msk") Москва
-
-            .form-group
-                label(for='hotel') Гостиница
-                br
-                input.form-control#hotel(type='text', placeholder='Гостиница')
-
-            .form-group
-                label(for='hotelStart') Дата заселения
-                br
-                input.form-control#hotelStart(type='text', placeholder='Дата заселения')
-
-            .form-group
-                label(for='hotelEnds') Дата выезда
-                br
-                input.form-control#hotelEnds(type='text', placeholder='Дата выезда')
-
-            br
-
-            #rooms
-
-                div.roomForm №1
-                    #roomType.form-group
-                        label(for='roomType') Тип комнаты
+            .row
+                .col-md-8
+                    .form-group
+                        label(for='city') Город
                         br
-                        select.form-control#roomType(name="roomType")
-                            option Тип комнаты
+                        select.form-control#city
+                            option Город
+                            option(value="spb") Санкт-Петербург
+                            option(value="msk") Москва
 
-                    #roomAmount.form-group
-                        label(for='roomsAmount') Кол-во номеров
+                    .form-group
+                        label(for='hotel') Гостиница
                         br
-                        input.form-control#roomsAmount(type='text', placeholder='Кол-во номеров', name="roomAmount")
+                        input.form-control#hotel(type='text', placeholder='Гостиница')
 
-            a.btn.btn-xs.btn-primary#addRoom(onclick="addRoom()") + Добавить тип комнаты
+                    .form-group
+                        label(for='hotelStart') Дата заселения
+                        br
+                        input.form-control#hotelStart(type='text', placeholder='Дата заселения')
+
+                    .form-group
+                        label(for='hotelEnds') Дата выезда
+                        br
+                        input.form-control#hotelEnds(type='text', placeholder='Дата выезда')
+
+                .col-md-4
+
+                    #rooms
+
+                        div.roomForm
+                            #roomType.form-group
+                                label(for='roomType') Тип комнаты
+                                br
+                                select.form-control#roomType(name="roomType")
+                                    option Тип комнаты
+
+                            #roomAmount.form-group
+                                label(for='roomsAmount') Кол-во номеров
+                                br
+                                input.form-control#roomsAmount(type='text', placeholder='Кол-во номеров', name="roomAmount")
+
+                    a.btn.btn-xs.btn-primary#addRoom(onclick="addRoom()") + Добавить тип комнаты
 
             hr
 

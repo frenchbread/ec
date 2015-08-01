@@ -1,19 +1,18 @@
 $(document).ready(function () {
+
+    var ids = [];
     var rooms = $('#rooms');
     var id = $('#rooms>.roomForm').size();
 
-    var ids = [];
-
     ids.push(id);
-
 
     addRoom = function () {
 
         id++;
 
+        // TODO: fill up options for room types dynamically
         var form = [
             '<div class="roomForm">' +
-                '№' + id +
                 '<div id="roomType" class="form-group">' +
                     '<label for="roomType_'+id+'">Тип комнаты</label><br/>' +
                     '<select id="roomType_'+id+'" name="roomType_'+id+'" class="form-control">' +
@@ -24,8 +23,8 @@ $(document).ready(function () {
                     '<label for="roomsAmount">Кол-во номеров</label><br/>' +
                     '<input id="roomsAmount_'+id+'" type="text" placeholder="Кол-во номеров" name="roomAmount+'+id+'" class="form-control"/>' +
                 '</div>' +
-                '<div>' +
-                    '<a href="#" onclick="removeRoom('+id+')">Remove</a>' +
+                '<div class="form-group" style="padding:2px;padding-top:30px;">' +
+                    '<a href="#" class="btn btn-xs btn-danger" onclick="removeRoom('+id+')">x</a>' +
                 '</div>' +
             '</div>'
         ].join();
@@ -33,8 +32,6 @@ $(document).ready(function () {
         $(form).appendTo(rooms);
 
         ids.push(id);
-
-        console.log(ids);
 
         return false;
     };
@@ -46,11 +43,8 @@ $(document).ready(function () {
         var index = ids.indexOf(idd);
 
         var inList = index > -1;
-        console.log(index);
 
         if(inList) ids.splice(index, 1);
-
-        console.log(ids)
 
         return false;
     }
