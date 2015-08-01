@@ -11,7 +11,7 @@ block content
 
             #accommodations
 
-                .row.accommodationForm
+                .row.accommodationForm#accommodationForm_1
                     .col-md-8
                         .form-group
                             label(for='city') Город
@@ -29,7 +29,7 @@ block content
                         .form-group
                             label(for='hotelStart') Дата заселения
                             br
-                            input.form-control#hotelStart(type='text', placeholder='Дата заселения')
+                            input.form-control#hotelStarts(type='text', placeholder='Дата заселения')
 
                         .form-group
                             label(for='hotelEnds') Дата выезда
@@ -52,7 +52,7 @@ block content
                                     br
                                     input.form-control#roomsAmount(type='text', placeholder='Кол-во номеров', name="roomAmount")
 
-                        a.btn.btn-xs.btn-primary#addRoom(onclick="addRoom()") + Добавить тип комнаты
+                        a.btn.btn-xs.btn-primary#addRoom(onclick="addRoom(1)") + Добавить тип комнаты
 
             hr
 

@@ -11,14 +11,14 @@ $(document).ready(function () {
     roomIds.push(roomId);
     accommodationIds.push(accommodationId);
 
-    addRoom = function () {
+    addRoom = function (accId) {
 
         roomId++;
 
         // TODO: fill up options for room types dynamically
         var form = [
-            '<div class="roomForm">' +
-                '<div id="roomType_"'+roomId+' class="form-group">' +
+            '<div class="roomForm" id="roomForm_'+roomId+'">' +
+                '<div id="roomType_'+roomId+'" class="form-group">' +
                     '<label for="roomType_'+roomId+'">Тип комнаты</label><br/>' +
                     '<select id="roomType_'+roomId+'" name="roomType_'+roomId+'" class="form-control">' +
                         '<option>Тип комнаты</option>' +
@@ -34,7 +34,7 @@ $(document).ready(function () {
             '</div>'
         ].join();
 
-        $(form).appendTo(rooms);
+        $(form).appendTo($('#accommodationForm_'+accId+' #rooms'));
         roomIds.push(roomId);
 
         return false;
@@ -54,7 +54,67 @@ $(document).ready(function () {
 
         accommodationId++;
 
-        var form = '<div class="alert-danger row accommodationForm"><div id="accommodationField_'+accommodationId+'">Hello</div> '+ accommodationId +' <a href="#" class="btn btn-xs btn-danger" onclick="removeAccommodation('+accommodationId+')">x</a></div>';
+        //var form = '<div class="alert-danger row accommodationForm"><div id="accommodationField_'+accommodationId+'">Hello</div> '+ accommodationId +' <a href="#" class="btn btn-xs btn-danger" onclick="removeAccommodation('+accommodationId+')">x</a></div>';
+
+
+        var col1 = [
+            '<div class="form-group">' +
+                '<label for="city">Город</label>' +
+                '<br/>' +
+                '<select id="city" class="form-control">' +
+                    '<option>Город</option>' +
+                    '<option value="spb">Санкт-Петербург</option>' +
+                    '<option value="msk">Москва</option>' +
+                '</select>' +
+            '</div>' +
+            '<div class="form-group">' +
+                '<label for="hotel">Гостиница</label>' +
+                '<br/>' +
+                '<input id="hotel" type="text" placeholder="Гостиница" class="form-control"/>' +
+            '</div>' +
+            '<div class="form-group">' +
+                '<label for="hotelStart">Дата заселения</label>' +
+                '<br/>' +
+                '<input id="hotelStarts" type="text" placeholder="Дата заселения" class="form-control"/>' +
+            '</div>' +
+            '<div class="form-group">' +
+                '<label for="hotelEnds">Дата выезда</label>' +
+                '<br/>' +
+                '<input id="hotelEnds" type="text" placeholder="Дата выезда" class="form-control"/>' +
+            '</div>'
+        ].join();
+
+        var col2 = [
+            '<div id="rooms">' +
+                '<div class="roomForm">' +
+                    '<div id="roomType" class="form-group">' +
+                        '<label for="roomType">Тип комнаты</label>' +
+                        '<br/>' +
+                        '<select id="roomType" name="roomType" class="form-control">' +
+                            '<option>Тип комнаты</option>' +
+                        '</select>' +
+                    '</div>' +
+                    '<div id="roomAmount" class="form-group">' +
+                        '<label for="roomsAmount">Кол-во номеров</label>' +
+                        '<br/>' +
+                        '<input id="roomsAmount" type="text" placeholder="Кол-во номеров" name="roomAmount" class="form-control"/>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+            '<a id="addRoom" onclick="addRoom('+accommodationId+')" class="btn btn-xs btn-primary">+ Добавить тип комнаты</a>'
+        ].join();
+
+        var form = [
+            '<hr />' +
+            '<div class="row accommodationForm" id="accommodationForm_'+accommodationId+'">' +
+                '<div class="col-md-8">' +
+                    col1 +
+                '</div>' +
+                '<div class="col-md-4">' +
+                    col2 +
+                '</div>' +
+            '</div>'
+        ].join();
 
         $(form).appendTo(accommodations);
         accommodationIds.push(accommodationId);
