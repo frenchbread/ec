@@ -9,52 +9,54 @@ block content
             hr
             h3 Проживание
 
-            .row
-                .col-md-8
-                    .form-group
-                        label(for='city') Город
-                        br
-                        select.form-control#city
-                            option Город
-                            option(value="spb") Санкт-Петербург
-                            option(value="msk") Москва
+            #accommodations
 
-                    .form-group
-                        label(for='hotel') Гостиница
-                        br
-                        input.form-control#hotel(type='text', placeholder='Гостиница')
+                .row.accommodationForm
+                    .col-md-8
+                        .form-group
+                            label(for='city') Город
+                            br
+                            select.form-control#city
+                                option Город
+                                option(value="spb") Санкт-Петербург
+                                option(value="msk") Москва
 
-                    .form-group
-                        label(for='hotelStart') Дата заселения
-                        br
-                        input.form-control#hotelStart(type='text', placeholder='Дата заселения')
+                        .form-group
+                            label(for='hotel') Гостиница
+                            br
+                            input.form-control#hotel(type='text', placeholder='Гостиница')
 
-                    .form-group
-                        label(for='hotelEnds') Дата выезда
-                        br
-                        input.form-control#hotelEnds(type='text', placeholder='Дата выезда')
+                        .form-group
+                            label(for='hotelStart') Дата заселения
+                            br
+                            input.form-control#hotelStart(type='text', placeholder='Дата заселения')
 
-                .col-md-4
+                        .form-group
+                            label(for='hotelEnds') Дата выезда
+                            br
+                            input.form-control#hotelEnds(type='text', placeholder='Дата выезда')
 
-                    #rooms
+                    .col-md-4
 
-                        div.roomForm
-                            #roomType.form-group
-                                label(for='roomType') Тип комнаты
-                                br
-                                select.form-control#roomType(name="roomType")
-                                    option Тип комнаты
+                        #rooms
 
-                            #roomAmount.form-group
-                                label(for='roomsAmount') Кол-во номеров
-                                br
-                                input.form-control#roomsAmount(type='text', placeholder='Кол-во номеров', name="roomAmount")
+                            div.roomForm
+                                #roomType.form-group
+                                    label(for='roomType') Тип комнаты
+                                    br
+                                    select.form-control#roomType(name="roomType")
+                                        option Тип комнаты
 
-                    a.btn.btn-xs.btn-primary#addRoom(onclick="addRoom()") + Добавить тип комнаты
+                                #roomAmount.form-group
+                                    label(for='roomsAmount') Кол-во номеров
+                                    br
+                                    input.form-control#roomsAmount(type='text', placeholder='Кол-во номеров', name="roomAmount")
+
+                        a.btn.btn-xs.btn-primary#addRoom(onclick="addRoom()") + Добавить тип комнаты
 
             hr
 
-            button.btn.btn-default#fuck + Добавить вариант проживания
+            a.btn.btn-default(onclick="addAccommodation()") + Добавить вариант проживания
 
 
             hr
