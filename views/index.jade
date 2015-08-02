@@ -3,8 +3,21 @@ extends ./layout/base
 block content
     .container(style="margin-top:20px;")
         form.form-inline
-            .jumbotron
-                h3 Header here
+            .jumbotron(style="padding:7px")
+                .form-group
+                    label Квотация подготовленя для :
+                    input.form-control(type='text', placeholder='...')
+                br
+                .form-group
+                    label Даты пребывания С :
+                    input.form-control(type='text', placeholder='...')
+                .form-group
+                    label До :
+                    input.form-control(type='text', placeholder='...')
+                br
+                .form-group
+                    label Количество гостей :
+                    input.form-control(type='text', placeholder='...')
 
             hr
             h3 Проживание
@@ -93,7 +106,7 @@ block content
 
             hr
 
-            a.btn.btn-default(type='submit') + Добавить день
+            a.btn.btn-default#addDay(type='submit') + Добавить день
 
             // hidden fields that are reused
 
