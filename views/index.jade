@@ -60,112 +60,105 @@ block content
 
 
             hr
-            //h3 Программа
-            //
-            //.row
-            //    .col-md-2
-            //        .form-group
-            //            h4 День
-            //              b №1
-            //    .col-md-10
-            //
-            //.row
-            //    .col-md-2
-            //        .form-group
-            //            label(for='') Город
-            //            select.form-control#city
-            //                option Город
-            //                option(value="spb") Санкт-Петербург
-            //                option(value="msk") Москва
-            //    .col-md-2
-            //        .form-group
-            //            label(for='') Тип сервиса
-            //            select.form-control#service
-            //                option -
-            //                option(value="transfer") Трансфер
-            //                option(value="withDriver") Аренда с водителем
-            //                option(value="excursion") Экскурсия
-            //                option(value="food") Питание
-            //
-            //    .col-md-8#dynamicPlace
-            //
-            //
-            //#placeForServices
-            //
-            //.row
-            //    .col-md-2
-            //    .col-md-2
-            //        a.btn.btn-xs.btn-primary#addService + Добавить сервис
-            //    .col-md-10
-            //
-            //hr
-            //
-            //button.btn.btn-default(type='submit') + Добавить день
-            //
-            //// hidden fields that are reused
-            //
-            //#hiddenTransfer(style="display:none")
-            //  .col-md-4
-            //    .form-group
-            //       label(for='') Класс авто
-            //       select.form-control
-            //           option -
-            //           option Стандарт
-            //           option Бизнес
-            //           option Премиум
-            //           option Минивен эконом
-            //           option Минивен бизнес
-            //           option Минивен премиум
-            //           option Микроавтобус
-            //           option Автобус
-            //  .col-md-4
-            //    .form-group
-            //        label(for='') Откуда
-            //        input.form-control(type='text', placeholder='')
-            //  .col-md-4
-            //    .form-group
-            //        label(for='') Куда
-            //        input.form-control(type='text', placeholder='')
-            //
-            //#hiddenWithDriver(style="display:none")
-            //  .col-md-4
-            //    .form-group
-            //       label(for='') Класс авто
-            //       select.form-control
-            //           option -
-            //           option Стандарт
-            //           option Бизнес
-            //           option Премиум
-            //           option Минивен эконом
-            //           option Минивен бизнес
-            //           option Минивен премиум
-            //           option Микроавтобус
-            //           option Автобус
-            //  .col-md-4
-            //    .form-group
-            //        label(for='') С
-            //        input.form-control(type='text', placeholder='')
-            //  .col-md-4
-            //    .form-group
-            //        label(for='') До
-            //        input.form-control(type='text', placeholder='')
-            //
-            //#hiddenExcursion(style="display:none")
-            //  .col-md-6
-            //    .form-group
-            //       label(for='') Куда
-            //       input.form-control(type='text', placeholder='')
-            //  .col-md-6
-            //    .form-group
-            //        label(for='') Кол-во человек
-            //        input.form-control(type='text', placeholder='')
-            //
-            //#hiddenFood(style="display:none")
-            //  .col-md-6
-            //    .form-group
-            //       label(for='') Ресторан
-            //       input.form-control(type='text', placeholder='')
-            //  .col-md-6
-            //    .form-group
-            //        label(for='') Название меню
-            //        input.form-control(type='text', placeholder='')
+            h3 Программа
+
+            .row
+                .col-md-2
+                    .form-group
+                        h4 День
+                          b №1
+                .col-md-10
+
+            .row
+                .col-md-2
+                    .form-group
+                        label(for='') Город
+                        select.form-control#city
+                            option Город
+                            option(value="spb") Санкт-Петербург
+                            option(value="msk") Москва
+                .col-md-2
+                    .form-group
+                        label(for='') Тип сервиса
+                        select.form-control#service
+                            option -
+                            option(value="transfer") Трансфер
+                            option(value="withDriver") Аренда с водителем
+                            option(value="excursion") Экскурсия
+                            option(value="food") Питание
+                    a.btn.btn-xs.btn-primary#addService + Добавить сервис
+
+                .col-md-8#dynamicPlace
+
+
+            hr
+
+            a.btn.btn-default(type='submit') + Добавить день
+
+            // hidden fields that are reused
+
+            #hiddenTransfer(style="display:none")
+                .form-group
+                    label(for='') Класс авто
+                    br
+                    select.form-control
+                        option -
+                        option Стандарт
+                        option Бизнес
+                        option Премиум
+                        option Минивен эконом
+                        option Минивен бизнес
+                        option Минивен премиум
+                        option Микроавтобус
+                        option Автобус
+                .form-group
+                    label(for='') Откуда
+                    br
+                    input.form-control(type='text', placeholder='')
+                .form-group
+                    label(for='') Куда
+                    br
+                    input.form-control(type='text', placeholder='')
+
+            #hiddenWithDriver(style="display:none")
+                .form-group
+                    label(for='') Класс авто
+                    br
+                    select.form-control
+                        option -
+                        option Стандарт
+                        option Бизнес
+                        option Премиум
+                        option Минивен эконом
+                        option Минивен бизнес
+                        option Минивен премиум
+                        option Микроавтобус
+                        option Автобус
+                .form-group
+                    label(for='') С
+                    br
+                    input.form-control(type='text', placeholder='')
+                .form-group
+                    label(for='') До
+                    br
+                    input.form-control(type='text', placeholder='')
+
+            #hiddenExcursion(style="display:none")
+                .form-group
+                    label(for='') Куда
+                    br
+                    input.form-control(type='text', placeholder='')
+                .form-group
+                    label(for='') Кол-во человек
+                    br
+                    input.form-control(type='text', placeholder='')
+
+            #hiddenFood(style="display:none")
+                .form-group
+                    label(for='') Ресторан
+                    br
+                    input.form-control(type='text', placeholder='')
+                .form-group
+                    label(for='') Название меню
+                    br
+                    input.form-control(type='text', placeholder='')
