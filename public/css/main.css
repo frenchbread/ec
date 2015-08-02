@@ -27,3 +27,6 @@ p {
     vertical-align: middle;
     display: table-cell;
 }
+.form-group{
+    padding:10px;
+}

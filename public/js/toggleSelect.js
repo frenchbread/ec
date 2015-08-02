@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
   $('#service').on('change', function() {
     switch (this.value) {
       case "transfer":
@@ -15,4 +16,13 @@ $(document).ready(function() {
         break;
     }
   });
+
+  $('#addService').on('click', function() {
+    alert('В разработке.. Добавление сервиса будет похоже на добавоение типа комнаты!')
+  });
+
+  $('#addDay').on('click', function () {
+     alert('В разработке.. Добавление дня будет похоже на добавление варианта проживания!')
+  });
+
 });
