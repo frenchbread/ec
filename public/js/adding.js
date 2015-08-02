@@ -105,14 +105,15 @@ $(document).ready(function () {
         ].join();
 
         var form = [
-            '<hr />' +
             '<div class="row accommodationForm" id="accommodationForm_'+accommodationId+'">' +
+                '<hr />' +
                 '<div class="col-md-8">' +
                     col1 +
                 '</div>' +
                 '<div class="col-md-4">' +
                     col2 +
                 '</div>' +
+                '<a href="#" class="btn btn-xs btn-danger" onclick="removeAccommodation('+accommodationId+')">x Убрать вариант проживания</a>' +
             '</div>'
         ].join();
 
@@ -124,7 +125,7 @@ $(document).ready(function () {
 
     removeAccommodation = function (accommodationIdd) {
 
-        $('#accommodationField_'+accommodationIdd).closest('.accommodationForm').remove();
+        $('#accommodationForm_'+accommodationIdd).remove();
 
         var index   = accommodationIds.indexOf(accommodationIdd);
         var inList  = index > -1;
