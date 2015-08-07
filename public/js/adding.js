@@ -72,6 +72,9 @@ $(document).ready(function () {
 
         $(form).appendTo(accommodations);
         accommodationIds.push(accommodationId);
+        
+        $('#' + moveIn).datepicker();
+        $('#' + moveOut).datepicker();
 
         console.log("added " + accommodationId)
 
@@ -103,7 +106,6 @@ $(document).ready(function () {
         roomAmount  = "roomAmount_" + anAccommodationId + "_" + roomId ;
 
 
-        // TODO: fill up options for room types dynamically
         var form = [
             '<div class="roomForm" id="roomForm_'+roomId+'">' +
                 '<div class="form-group">' +
@@ -117,7 +119,7 @@ $(document).ready(function () {
                     '<input id="'+roomAmount+'" type="text" placeholder="Кол-во номеров" class="form-control"/>' +
                 '</div>' +
                 '<div class="form-group" style="padding:2px;padding-top:30px;">' +
-                    '<a href="#" class="btn btn-xs btn-danger" onclick="removeRoom('+roomId+')">x</a>' +
+                    '<a href="#" class="btn btn-xs btn-danger" onclick="removeRoom('+anAccommodationId+', '+roomId+')">x</a>' +
                 '</div>' +
             '</div>'
         ].join();
@@ -130,10 +132,10 @@ $(document).ready(function () {
         return false;
     };
 
-    removeRoom  = function (RoomIdd) {
+    removeRoom  = function (accIdd, roomIdd) {
 
-        $('#roomType_'+RoomIdd).closest('.roomForm').remove();
-        var index   = roomIds.indexOf(RoomIdd);
+        $('#roomType_'+accIdd+'_'+roomIdd).closest('.roomForm').remove();
+        var index   = roomIds.indexOf(roomIdd);
         var inList  = index > -1;
         if (inList) roomIds.splice(index, 1);
 
