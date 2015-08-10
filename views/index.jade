@@ -5,19 +5,19 @@ block content
         form.form-inline
             .jumbotron(style="padding:7px")
                 .form-group
-                    label Квотация подготовленя для :
-                    input.form-control(type='text', placeholder='...')
+                    label Квотация подготовленя для &nbsp;
+                    input.form-control#documentFor(type='text', placeholder='...')
                 br
                 .form-group
-                    label Даты пребывания С :
-                    input.form-control(type='text', placeholder='...')
+                    label Даты пребывания: С &nbsp;
+                    input.form-control#tripStarts(type='text', placeholder='dd-mm-yyyy')
                 .form-group
-                    label До :
-                    input.form-control(type='text', placeholder='...')
+                    label До &nbsp;
+                    input.form-control#tripEnds(type='text', placeholder='dd-mm-yyyy')
                 br
                 .form-group
-                    label Количество гостей :
-                    input.form-control(type='text', placeholder='...')
+                    label Количество гостей &nbsp;
+                    input.form-control#guestsCount(type='text', placeholder='...')
 
             hr
             h3 Проживание

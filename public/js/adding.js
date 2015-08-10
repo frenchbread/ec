@@ -12,6 +12,11 @@ $(document).ready(function () {
     roomIds.push(roomId);
 
 
+    var timeFormat = {
+        format : "dd-mm-yyyy"
+    };
+
+
     addAccommodation = function () {
 
         accommodationId++;
@@ -44,12 +49,12 @@ $(document).ready(function () {
             '<div class="form-group">' +
                 '<label >Дата заселения</label>' +
                 '<br/>' +
-                '<input id="'+ moveIn +'" type="text" placeholder="Дата заселения" class="form-control"/>' +
+                '<input id="'+ moveIn +'" type="text" placeholder="dd-mm-yyyy" class="form-control"/>' +
             '</div>' +
             '<div class="form-group">' +
                 '<label>Дата выезда</label>' +
                 '<br/>' +
-                '<input id="'+ moveOut +'" type="text" placeholder="Дата выезда" class="form-control"/>' +
+                '<input id="'+ moveOut +'" type="text" placeholder="dd-mm-yyyy" class="form-control"/>' +
             '</div>'
         ].join();
 
@@ -65,6 +70,7 @@ $(document).ready(function () {
                     '<a id="addRoom" onclick="addRoom('+accommodationId+')" class="btn btn-xs btn-primary">+ Добавить тип комнаты</a>' +
                 '</div>' +
                 '<div class="col-lg-12">' +
+                    '<hr/>' +
                     '<a href="#" class="btn btn-xs btn-danger" onclick="removeAccommodation('+accommodationId+')">x Убрать вариант проживания</a>' +
                 '</div>' +
             '</div>'
@@ -73,10 +79,10 @@ $(document).ready(function () {
         $(form).appendTo(accommodations);
         accommodationIds.push(accommodationId);
         
-        $('#' + moveIn).datepicker();
-        $('#' + moveOut).datepicker();
+        $('#' + moveIn).datepicker(timeFormat);
+        $('#' + moveOut).datepicker(timeFormat);
 
-        console.log("added " + accommodationId)
+        console.log("added " + accommodationId);
 
         return false;
     };
@@ -110,12 +116,10 @@ $(document).ready(function () {
             '<div class="roomForm" id="roomForm_'+roomId+'">' +
                 '<div class="form-group">' +
                     '<label>Тип комнаты</label><br/>' +
-                    '<select id="'+ roomType +'" class="form-control">' +
-                        '<option>Тип комнаты</option>' +
-                    '</select>' +
+                    '<input id="'+roomType+'" type="text" placeholder="Тип комнаты" class="form-control"/>' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="roomsAmount">Кол-во номеров</label><br/>' +
+                    '<label>Кол-во номеров</label><br/>' +
                     '<input id="'+roomAmount+'" type="text" placeholder="Кол-во номеров" class="form-control"/>' +
                 '</div>' +
                 '<div class="form-group" style="padding:2px;padding-top:30px;">' +
