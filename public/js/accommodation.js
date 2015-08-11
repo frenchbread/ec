@@ -1,5 +1,8 @@
 $(document).ready(function () {
 
+    var labelAcc    = "accommodation";
+    var labelRoom   = "room";
+
     var accommodationIds    = [];
     var accommodations      = $('#accommodations');
     var accommodationId     = $('#accommodations>.accommodationForm').size();
@@ -26,10 +29,10 @@ $(document).ready(function () {
         var moveIn;
         var moveOut;
 
-        city        = "city_" + accommodationId;
-        hotel       = "hotel_" + accommodationId;
-        moveIn      = "moveIn_" + accommodationId;
-        moveOut     = "moveOut_" + accommodationId;
+        city        = labelAcc + "_city_" + accommodationId;
+        hotel       = labelAcc + "_hotel_" + accommodationId;
+        moveIn      = labelAcc + "_moveIn_" + accommodationId;
+        moveOut     = labelAcc + "_moveOut_" + accommodationId;
 
         var col1 = [
             '<div class="form-group">' +
@@ -78,7 +81,7 @@ $(document).ready(function () {
 
         $(form).appendTo(accommodations);
         accommodationIds.push(accommodationId);
-        
+
         $('#' + moveIn).datepicker(timeFormat);
         $('#' + moveOut).datepicker(timeFormat);
 
@@ -108,8 +111,8 @@ $(document).ready(function () {
 
         roomId++;
 
-        roomType    = "roomType_" + anAccommodationId + "_" +roomId;
-        roomAmount  = "roomAmount_" + anAccommodationId + "_" + roomId ;
+        roomType    = labelRoom + "_roomType_" + anAccommodationId + "_" +roomId;
+        roomAmount  = labelRoom + "_roomAmount_" + anAccommodationId + "_" + roomId ;
 
 
         var form = [
@@ -138,7 +141,7 @@ $(document).ready(function () {
 
     removeRoom  = function (accIdd, roomIdd) {
 
-        $('#roomType_'+accIdd+'_'+roomIdd).closest('.roomForm').remove();
+        $('#'+labelRoom+'_roomType_'+accIdd+'_'+roomIdd).closest('.roomForm').remove();
         var index   = roomIds.indexOf(roomIdd);
         var inList  = index > -1;
         if (inList) roomIds.splice(index, 1);
