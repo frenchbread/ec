@@ -46,7 +46,7 @@ $(document).ready(function() {
                 '</div>' +
                 '<div class="col-lg-12">' +
                     '<hr/>' +
-                    '<a href="#" class="btn btn-xs btn-danger" onclick="removeProgram('+programId+')">x Убрать день</a>' +
+                    '<a class="btn btn-xs btn-danger" onclick="removeProgram('+programId+')">x Убрать день</a>' +
                 '</div>' +
             '</div>'
         ].join();
@@ -115,7 +115,7 @@ $(document).ready(function() {
 
     removeService  = function (progId, serviceIdd) {
 
-        $('#'+labelService+'_service_serviceType_'+progId+'_'+serviceIdd).closest('.serviceForm').remove();
+        $('#'+labelService+'_serviceType_'+progId+'_'+serviceIdd).closest('.serviceForm').remove();
         var index   = serviceIds.indexOf(serviceIdd);
         var inList  = index > -1;
         if (inList) serviceIds.splice(index, 1);
