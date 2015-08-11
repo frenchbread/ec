@@ -1,4 +1,9 @@
 $(document).ready(function () {
-    $('#hotelStarts').datepicker();
-    $('#hotelEnds').datepicker();
+
+    var timeFormat = {
+        format : "dd-mm-yyyy"
+    };
+
+    $('#tripStarts').datepicker(timeFormat);
+    $('#tripEnds').datepicker(timeFormat);
 });

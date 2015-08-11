@@ -1,5 +1,8 @@
 $(document).ready(function () {
 
+    var labelAcc    = "accommodation";
+    var labelRoom   = "room";
+
     var accommodationIds    = [];
     var accommodations      = $('#accommodations');
     var accommodationId     = $('#accommodations>.accommodationForm').size();
@@ -12,6 +15,11 @@ $(document).ready(function () {
     roomIds.push(roomId);
 
 
+    var timeFormat = {
+        format : "dd-mm-yyyy"
+    };
+
+
     addAccommodation = function () {
 
         accommodationId++;
@@ -21,10 +29,10 @@ $(document).ready(function () {
         var moveIn;
         var moveOut;
 
-        city        = "city_" + accommodationId;
-        hotel       = "hotel_" + accommodationId;
-        moveIn      = "moveIn_" + accommodationId;
-        moveOut     = "moveOut_" + accommodationId;
+        city        = labelAcc + "_city_" + accommodationId;
+        hotel       = labelAcc + "_hotel_" + accommodationId;
+        moveIn      = labelAcc + "_moveIn_" + accommodationId;
+        moveOut     = labelAcc + "_moveOut_" + accommodationId;
 
         var col1 = [
             '<div class="form-group">' +
@@ -44,12 +52,12 @@ $(document).ready(function () {
             '<div class="form-group">' +
                 '<label >Дата заселения</label>' +
                 '<br/>' +
-                '<input id="'+ moveIn +'" type="text" placeholder="Дата заселения" class="form-control"/>' +
+                '<input id="'+ moveIn +'" type="text" placeholder="dd-mm-yyyy" class="form-control"/>' +
             '</div>' +
             '<div class="form-group">' +
                 '<label>Дата выезда</label>' +
                 '<br/>' +
-                '<input id="'+ moveOut +'" type="text" placeholder="Дата выезда" class="form-control"/>' +
+                '<input id="'+ moveOut +'" type="text" placeholder="dd-mm-yyyy" class="form-control"/>' +
             '</div>'
         ].join();
 
@@ -65,6 +73,7 @@ $(document).ready(function () {
                     '<a id="addRoom" onclick="addRoom('+accommodationId+')" class="btn btn-xs btn-primary">+ Добавить тип комнаты</a>' +
                 '</div>' +
                 '<div class="col-lg-12">' +
+                    '<hr/>' +
                     '<a href="#" class="btn btn-xs btn-danger" onclick="removeAccommodation('+accommodationId+')">x Убрать вариант проживания</a>' +
                 '</div>' +
             '</div>'
@@ -73,7 +82,10 @@ $(document).ready(function () {
         $(form).appendTo(accommodations);
         accommodationIds.push(accommodationId);
 
-        console.log("added " + accommodationId)
+        $('#' + moveIn).datepicker(timeFormat);
+        $('#' + moveOut).datepicker(timeFormat);
+
+        console.log("added " + accommodationId);
 
         return false;
     };
@@ -99,25 +111,22 @@ $(document).ready(function () {
 
         roomId++;
 
-        roomType    = "roomType_" + anAccommodationId + "_" +roomId;
-        roomAmount  = "roomAmount_" + anAccommodationId + "_" + roomId ;
+        roomType    = labelRoom + "_roomType_" + anAccommodationId + "_" +roomId;
+        roomAmount  = labelRoom + "_roomAmount_" + anAccommodationId + "_" + roomId ;
 
 
-        // TODO: fill up options for room types dynamically
         var form = [
             '<div class="roomForm" id="roomForm_'+roomId+'">' +
                 '<div class="form-group">' +
                     '<label>Тип комнаты</label><br/>' +
-                    '<select id="'+ roomType +'" class="form-control">' +
-                        '<option>Тип комнаты</option>' +
-                    '</select>' +
+                    '<input id="'+roomType+'" type="text" placeholder="Тип комнаты" class="form-control"/>' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label for="roomsAmount">Кол-во номеров</label><br/>' +
+                    '<label>Кол-во номеров</label><br/>' +
                     '<input id="'+roomAmount+'" type="text" placeholder="Кол-во номеров" class="form-control"/>' +
                 '</div>' +
                 '<div class="form-group" style="padding:2px;padding-top:30px;">' +
-                    '<a href="#" class="btn btn-xs btn-danger" onclick="removeRoom('+roomId+')">x</a>' +
+                    '<a href="#" class="btn btn-xs btn-danger" onclick="removeRoom('+anAccommodationId+', '+roomId+')">x</a>' +
                 '</div>' +
             '</div>'
         ].join();
@@ -130,10 +139,10 @@ $(document).ready(function () {
         return false;
     };
 
-    removeRoom  = function (RoomIdd) {
+    removeRoom  = function (accIdd, roomIdd) {
 
-        $('#roomType_'+RoomIdd).closest('.roomForm').remove();
-        var index   = roomIds.indexOf(RoomIdd);
+        $('#'+labelRoom+'_roomType_'+accIdd+'_'+roomIdd).closest('.roomForm').remove();
+        var index   = roomIds.indexOf(roomIdd);
         var inList  = index > -1;
         if (inList) roomIds.splice(index, 1);
 

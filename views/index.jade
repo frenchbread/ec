@@ -1,23 +1,23 @@
 extends ./layout/base
 
 block content
-    .container(style="margin-top:20px;")
+    .container-fluid(style="margin-top:20px;")
         form.form-inline
             .jumbotron(style="padding:7px")
                 .form-group
-                    label Квотация подготовленя для :
-                    input.form-control(type='text', placeholder='...')
+                    label Квотация подготовленя для &nbsp;
+                    input.form-control#documentFor(type='text', placeholder='...')
                 br
                 .form-group
-                    label Даты пребывания С :
-                    input.form-control(type='text', placeholder='...')
+                    label Даты пребывания: С &nbsp;
+                    input.form-control#tripStarts(type='text', placeholder='dd-mm-yyyy')
                 .form-group
-                    label До :
-                    input.form-control(type='text', placeholder='...')
+                    label До &nbsp;
+                    input.form-control#tripEnds(type='text', placeholder='dd-mm-yyyy')
                 br
                 .form-group
-                    label Количество гостей :
-                    input.form-control(type='text', placeholder='...')
+                    label Количество гостей &nbsp;
+                    input.form-control#guestsCount(type='text', placeholder='...')
 
             hr
             h3 Проживание
@@ -32,38 +32,46 @@ block content
             hr
             h3 Программа
 
-            .row
-                .col-md-2
-                    .form-group
-                        h4 День
-                          b №1
-                .col-md-10
-
-            .row
-                .col-md-2
-                    .form-group
-                        label(for='') Город
-                        select.form-control#city
-                            option Город
-                            option(value="spb") Санкт-Петербург
-                            option(value="msk") Москва
-                .col-md-2
-                    .form-group
-                        label(for='') Тип сервиса
-                        select.form-control#service
-                            option -
-                            option(value="transfer") Трансфер
-                            option(value="withDriver") Аренда с водителем
-                            option(value="excursion") Экскурсия
-                            option(value="food") Питание
-                    a.btn.btn-xs.btn-primary#addService + Добавить сервис
-
-                .col-md-8#dynamicPlace
-
-
+            #programs
+            
             hr
+            
+            a.btn.btn-default(onclick="addProgram()") + Добавить день
+            
+            
+            
+            //.row
+            //    .col-md-2
+            //        .form-group
+            //            h4 День
+            //              b №1
+            //    .col-md-10
+            //
+            //.row
+            //    .col-md-2
+            //        .form-group
+            //            label(for='') Город
+            //            select.form-control#city
+            //                option Город
+            //                option(value="spb") Санкт-Петербург
+            //                option(value="msk") Москва
+            //    .col-md-2
+            //        .form-group
+            //            label(for='') Тип сервиса
+            //            select.form-control#service
+            //                option -
+            //                option(value="transfer") Трансфер
+            //                option(value="withDriver") Аренда с водителем
+            //                option(value="excursion") Экскурсия
+            //                option(value="food") Питание
+            //        a.btn.btn-xs.btn-primary#addService + Добавить сервис
+            //
+            //    .col-md-8#dynamicPlace
+            //
+            //
+            //hr
 
-            a.btn.btn-default#addDay(type='submit') + Добавить день
+            
 
             // hidden fields that are reused
 
