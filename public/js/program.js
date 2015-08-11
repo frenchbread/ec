@@ -14,12 +14,6 @@ $(document).ready(function() {
     programIds.push(programId);
     serviceIds.push(serviceId);
 
-
-    var timeFormat = {
-        format : "dd-mm-yyyy"
-    };
-
-
     addProgram = function () {
 
         programId++;
