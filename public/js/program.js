@@ -91,7 +91,7 @@ $(document).ready(function() {
                 '<div class="form-group">' +
                     '<label>Тип сервиса</label>' +
                     '<br/>' +
-                    '<select id="'+ serviceType +'" class="form-control">' +
+                    '<select id="'+ serviceType +'" class="serviceTypee form-control">' +
                         '<option>-</option>' +
                         '<option value="transfer">Трансфер</option>' +
                         '<option value="withDriver">Аренда с водителем</option>' +
@@ -99,6 +99,7 @@ $(document).ready(function() {
                         '<option value="food">Питание</option>' +
                     '</select>' +
                 '</div>' +
+                '<span id="dynamicPlace"></span>' +
                 '<div class="form-group" style="padding:2px;padding-top:30px;">' +
                     '<a href="#" class="btn btn-xs btn-danger" onclick="removeService('+progId+', '+serviceId+')">x</a>' +
                 '</div>' +
@@ -122,32 +123,5 @@ $(document).ready(function() {
 
         return false;
     };
-
-    // -----------------------------------
-
-    $('#service').on('change', function() {
-        switch (this.value) {
-            case "transfer":
-                $('#dynamicPlace').html($('#hiddenTransfer').html());
-                break;
-            case "withDriver":
-                $('#dynamicPlace').html($('#hiddenWithDriver').html());
-                break;
-            case "excursion":
-                $('#dynamicPlace').html($('#hiddenExcursion').html());
-                break;
-            case "food":
-                $('#dynamicPlace').html($('#hiddenFood').html());
-                break;
-        }
-    });
-
-    $('#addService').on('click', function() {
-        alert('В разработке.. Добавление сервиса будет похоже на добавоение типа комнаты!')
-    });
-
-    $('#addDay').on('click', function () {
-        alert('В разработке.. Добавление дня будет похоже на добавление варианта проживания!')
-    });
 
 });
