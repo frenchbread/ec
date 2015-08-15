@@ -79,7 +79,7 @@ block content
                 .form-group
                     label(for='') Класс авто
                     br
-                    select.form-control
+                    select.form-control.transferCarType
                         option -
                         option Стандарт
                         option Бизнес
@@ -92,11 +92,11 @@ block content
                 .form-group
                     label(for='') Откуда
                     br
-                    input.form-control(type='text', placeholder='')
+                    input.form-control.transferFrom(type='text', placeholder='')
                 .form-group
                     label(for='') Куда
                     br
-                    input.form-control(type='text', placeholder='')
+                    input.form-control.transferTo(type='text', placeholder='')
 
             #hiddenWithDriver(style="display:none")
                 .form-group

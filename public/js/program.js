@@ -14,6 +14,11 @@ $(document).ready(function() {
     programIds.push(programId);
     serviceIds.push(serviceId);
 
+    var timeFormat = {
+        format : "dd-mm-yyyy"
+    };
+
+
     addProgram = function () {
 
         programId++;
@@ -91,7 +96,7 @@ $(document).ready(function() {
                 '<div class="form-group">' +
                     '<label>Тип сервиса</label>' +
                     '<br/>' +
-                    '<select id="'+ serviceType +'" class="serviceTypee form-control" onchange="switchServiceType('+serviceType+','+serviceId+')">' +
+                    '<select id="'+ serviceType +'" class="serviceTypee form-control" onchange="switchServiceType('+progId+','+serviceId+')">' +
                         '<option>-</option>' +
                         '<option value="transfer">Трансфер</option>' +
                         '<option value="withDriver">Аренда с водителем</option>' +
@@ -125,25 +130,36 @@ $(document).ready(function() {
         return false;
     };
 
-    switchServiceType = function (serviceTypee, serviceIdd) {
+    switchServiceType = function (progIdd, serviceIdd) {
 
-        var value = serviceTypee.value;
+        var serviceType   = labelService + "_serviceType_" + progIdd + "_" +serviceIdd;
+        var value = $('#'+serviceType).val();
 
-        var dynamicPlace = $('#dynamicPlace_'+serviceIdd);
+        var dynamicPlace = '#dynamicPlace_'+serviceIdd;
 
         switch (value) {
 
             case "transfer":
-                dynamicPlace.html($('#hiddenTransfer').html());
+                $(dynamicPlace).html($('#hiddenTransfer').html());
+                $(dynamicPlace+' .transferCarType').attr('id', 'transferCarType_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .transferFrom').attr('id', 'transferFrom_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .transferTo').attr('id', 'transferTo_'+progIdd+'_'+serviceIdd);
+
+                $('#transferFrom_'+progIdd+'_'+serviceIdd).datepicker(timeFormat);
+                $('#transferTo_'+progIdd+'_'+serviceIdd).datepicker(timeFormat);
+
                 break;
             case "withDriver":
-                dynamicPlace.html($('#hiddenWithDriver').html());
+                $(dynamicPlace).html($('#hiddenWithDriver').html());
+
                 break;
             case "excursion":
-                dynamicPlace.html($('#hiddenExcursion').html());
+                $(dynamicPlace).html($('#hiddenExcursion').html());
+
                 break;
             case "food":
-                dynamicPlace.html($('#hiddenFood').html());
+                $(dynamicPlace).html($('#hiddenFood').html());
+
                 break;
         }
 
