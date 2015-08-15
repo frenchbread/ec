@@ -152,14 +152,25 @@ $(document).ready(function() {
             case "withDriver":
                 $(dynamicPlace).html($('#hiddenWithDriver').html());
 
+                $(dynamicPlace+' .driverCarType').attr('id', 'driverCarType_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .driverFrom').attr('id', 'driverFrom_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .driverTo').attr('id', 'driverTo_'+progIdd+'_'+serviceIdd);
+
+                $('#driverFrom_'+progIdd+'_'+serviceIdd).datepicker(timeFormat);
+                $('#driverTo_'+progIdd+'_'+serviceIdd).datepicker(timeFormat);
                 break;
             case "excursion":
                 $(dynamicPlace).html($('#hiddenExcursion').html());
+
+                $(dynamicPlace+' .goingPlace').attr('id', 'goingPlace_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .pplAmount').attr('id', 'pplAmount_'+progIdd+'_'+serviceIdd);
 
                 break;
             case "food":
                 $(dynamicPlace).html($('#hiddenFood').html());
 
+                $(dynamicPlace+' .restaurant').attr('id', 'restaurant_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .menuTitle').attr('id', 'menuTitle_'+progIdd+'_'+serviceIdd);
                 break;
         }
 
