@@ -14,6 +14,11 @@ $(document).ready(function() {
     programIds.push(programId);
     serviceIds.push(serviceId);
 
+    var timeFormat = {
+        format : "dd-mm-yyyy"
+    };
+
+
     addProgram = function () {
 
         programId++;
@@ -91,7 +96,7 @@ $(document).ready(function() {
                 '<div class="form-group">' +
                     '<label>Тип сервиса</label>' +
                     '<br/>' +
-                    '<select id="'+ serviceType +'" class="form-control">' +
+                    '<select id="'+ serviceType +'" class="serviceTypee form-control" onchange="switchServiceType('+progId+','+serviceId+')">' +
                         '<option>-</option>' +
                         '<option value="transfer">Трансфер</option>' +
                         '<option value="withDriver">Аренда с водителем</option>' +
@@ -99,6 +104,7 @@ $(document).ready(function() {
                         '<option value="food">Питание</option>' +
                     '</select>' +
                 '</div>' +
+                '<span id="dynamicPlace_'+ serviceId +'"></span>' +
                 '<div class="form-group" style="padding:2px;padding-top:30px;">' +
                     '<a href="#" class="btn btn-xs btn-danger" onclick="removeService('+progId+', '+serviceId+')">x</a>' +
                 '</div>' +
@@ -109,6 +115,7 @@ $(document).ready(function() {
         serviceIds.push(serviceId);
 
         console.log("added " + progId + " and " + serviceId);
+
 
         return false;
     };
@@ -123,31 +130,52 @@ $(document).ready(function() {
         return false;
     };
 
-    // -----------------------------------
+    switchServiceType = function (progIdd, serviceIdd) {
 
-    $('#service').on('change', function() {
-        switch (this.value) {
+        var serviceType   = labelService + "_serviceType_" + progIdd + "_" +serviceIdd;
+        var value = $('#'+serviceType).val();
+
+        var dynamicPlace = '#dynamicPlace_'+serviceIdd;
+
+        switch (value) {
+
             case "transfer":
-                $('#dynamicPlace').html($('#hiddenTransfer').html());
+                $(dynamicPlace).html($('#hiddenTransfer').html());
+                $(dynamicPlace+' .transferCarType').attr('id', 'transferCarType_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .transferFrom').attr('id', 'transferFrom_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .transferTo').attr('id', 'transferTo_'+progIdd+'_'+serviceIdd);
+
+                $('#transferFrom_'+progIdd+'_'+serviceIdd).datepicker(timeFormat);
+                $('#transferTo_'+progIdd+'_'+serviceIdd).datepicker(timeFormat);
+
                 break;
             case "withDriver":
-                $('#dynamicPlace').html($('#hiddenWithDriver').html());
+                $(dynamicPlace).html($('#hiddenWithDriver').html());
+
+                $(dynamicPlace+' .driverCarType').attr('id', 'driverCarType_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .driverFrom').attr('id', 'driverFrom_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .driverTo').attr('id', 'driverTo_'+progIdd+'_'+serviceIdd);
+
+                $('#driverFrom_'+progIdd+'_'+serviceIdd).datepicker(timeFormat);
+                $('#driverTo_'+progIdd+'_'+serviceIdd).datepicker(timeFormat);
                 break;
             case "excursion":
-                $('#dynamicPlace').html($('#hiddenExcursion').html());
+                $(dynamicPlace).html($('#hiddenExcursion').html());
+
+                $(dynamicPlace+' .goingPlace').attr('id', 'goingPlace_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .pplAmount').attr('id', 'pplAmount_'+progIdd+'_'+serviceIdd);
+
                 break;
             case "food":
-                $('#dynamicPlace').html($('#hiddenFood').html());
+                $(dynamicPlace).html($('#hiddenFood').html());
+
+                $(dynamicPlace+' .restaurant').attr('id', 'restaurant_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .menuTitle').attr('id', 'menuTitle_'+progIdd+'_'+serviceIdd);
                 break;
         }
-    });
 
-    $('#addService').on('click', function() {
-        alert('В разработке.. Добавление сервиса будет похоже на добавоение типа комнаты!')
-    });
+    }
 
-    $('#addDay').on('click', function () {
-        alert('В разработке.. Добавление дня будет похоже на добавление варианта проживания!')
-    });
+
 
 });

@@ -79,7 +79,7 @@ block content
                 .form-group
                     label(for='') Класс авто
                     br
-                    select.form-control
+                    select.form-control.transferCarType
                         option -
                         option Стандарт
                         option Бизнес
@@ -92,17 +92,17 @@ block content
                 .form-group
                     label(for='') Откуда
                     br
-                    input.form-control(type='text', placeholder='')
+                    input.form-control.transferFrom(type='text', placeholder='')
                 .form-group
                     label(for='') Куда
                     br
-                    input.form-control(type='text', placeholder='')
+                    input.form-control.transferTo(type='text', placeholder='')
 
             #hiddenWithDriver(style="display:none")
                 .form-group
                     label(for='') Класс авто
                     br
-                    select.form-control
+                    select.form-control.driverCarType
                         option -
                         option Стандарт
                         option Бизнес
@@ -115,28 +115,28 @@ block content
                 .form-group
                     label(for='') С
                     br
-                    input.form-control(type='text', placeholder='')
+                    input.form-control.driverFrom(type='text', placeholder='')
                 .form-group
                     label(for='') До
                     br
-                    input.form-control(type='text', placeholder='')
+                    input.form-control.driverTo(type='text', placeholder='')
 
             #hiddenExcursion(style="display:none")
                 .form-group
                     label(for='') Куда
                     br
-                    input.form-control(type='text', placeholder='')
+                    input.form-control.goingPlace(type='text', placeholder='')
                 .form-group
                     label(for='') Кол-во человек
                     br
-                    input.form-control(type='text', placeholder='')
+                    input.form-control.pplAmout(type='text', placeholder='')
 
             #hiddenFood(style="display:none")
                 .form-group
                     label(for='') Ресторан
                     br
-                    input.form-control(type='text', placeholder='')
+                    input.form-control.restaurant(type='text', placeholder='')
                 .form-group
                     label(for='') Название меню
                     br
-                    input.form-control(type='text', placeholder='')
+                    input.form-control.menuTitle(type='text', placeholder='')
