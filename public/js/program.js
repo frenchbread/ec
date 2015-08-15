@@ -91,7 +91,7 @@ $(document).ready(function() {
                 '<div class="form-group">' +
                     '<label>Тип сервиса</label>' +
                     '<br/>' +
-                    '<select id="'+ serviceType +'" class="serviceTypee form-control">' +
+                    '<select id="'+ serviceType +'" class="serviceTypee form-control" onchange="switchServiceType('+serviceType+','+serviceId+')">' +
                         '<option>-</option>' +
                         '<option value="transfer">Трансфер</option>' +
                         '<option value="withDriver">Аренда с водителем</option>' +
@@ -99,7 +99,7 @@ $(document).ready(function() {
                         '<option value="food">Питание</option>' +
                     '</select>' +
                 '</div>' +
-                '<span id="dynamicPlace"></span>' +
+                '<span id="dynamicPlace_'+ serviceId +'"></span>' +
                 '<div class="form-group" style="padding:2px;padding-top:30px;">' +
                     '<a href="#" class="btn btn-xs btn-danger" onclick="removeService('+progId+', '+serviceId+')">x</a>' +
                 '</div>' +
@@ -110,6 +110,7 @@ $(document).ready(function() {
         serviceIds.push(serviceId);
 
         console.log("added " + progId + " and " + serviceId);
+
 
         return false;
     };
@@ -123,5 +124,31 @@ $(document).ready(function() {
 
         return false;
     };
+
+    switchServiceType = function (serviceTypee, serviceIdd) {
+
+        var value = serviceTypee.value;
+
+        var dynamicPlace = $('#dynamicPlace_'+serviceIdd);
+
+        switch (value) {
+
+            case "transfer":
+                dynamicPlace.html($('#hiddenTransfer').html());
+                break;
+            case "withDriver":
+                dynamicPlace.html($('#hiddenWithDriver').html());
+                break;
+            case "excursion":
+                dynamicPlace.html($('#hiddenExcursion').html());
+                break;
+            case "food":
+                dynamicPlace.html($('#hiddenFood').html());
+                break;
+        }
+
+    }
+
+
 
 });
