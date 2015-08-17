@@ -1,19 +1,14 @@
 var mongoose = require('../lib/mongoose'),
     Schema = mongoose.Schema;
 
-var schema = new Schema({
+var carType = new Schema({
     title: {
         type: String,
         required: true
     },
-    details: {
+    value: {
         type: String,
-    },
-    time:{
-        type: String
-    },
-    date:{
-        type: Date
+        required: true
     },
     created: {
         type: Date,
@@ -21,4 +16,4 @@ var schema = new Schema({
     }
 });
 
-exports.Sample = mongoose.model('Sample', schema);
+exports.CarType = mongoose.model('carType', carType);

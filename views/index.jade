@@ -81,14 +81,8 @@ block content
                     br
                     select.form-control.transferCarType
                         option -
-                        option Стандарт
-                        option Бизнес
-                        option Премиум
-                        option Минивен эконом
-                        option Минивен бизнес
-                        option Минивен премиум
-                        option Микроавтобус
-                        option Автобус
+                        each car in cars
+                            option=car.value
                 .form-group
                     label(for='') Откуда
                     br
@@ -104,14 +98,8 @@ block content
                     br
                     select.form-control.driverCarType
                         option -
-                        option Стандарт
-                        option Бизнес
-                        option Премиум
-                        option Минивен эконом
-                        option Минивен бизнес
-                        option Минивен премиум
-                        option Микроавтобус
-                        option Автобус
+                        each car in cars
+                            option=car.value
                 .form-group
                     label(for='') С
                     br
@@ -129,7 +117,7 @@ block content
                 .form-group
                     label(for='') Кол-во человек
                     br
-                    input.form-control.pplAmout(type='text', placeholder='')
+                    input.form-control.pplAmount(type='text', placeholder='')
 
             #hiddenFood(style="display:none")
                 .form-group
