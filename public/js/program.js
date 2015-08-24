@@ -113,7 +113,7 @@ $(document).ready(function() {
         //$('#hiddenServiceForm a').attr('onclick', "removeService("+progId+", "+serviceId+")");
 
 
-        var form = $('#hiddenServiceForm').html();
+        //var form = $('#hiddenServiceForm').html();
 
         $(form).appendTo($('#programForm_'+progId+' #services'));
 
