@@ -2,6 +2,7 @@ extends ./layout/base
 
 block content
     .container-fluid(style="margin-top:20px;")
+
         form.form-inline
             .jumbotron(style="padding:7px")
                 .form-group
@@ -37,43 +38,29 @@ block content
             hr
             
             a.btn.btn-default(onclick="addProgram()") + Добавить день
-            
-            
-            
-            //.row
-            //    .col-md-2
-            //        .form-group
-            //            h4 День
-            //              b №1
-            //    .col-md-10
-            //
-            //.row
-            //    .col-md-2
-            //        .form-group
-            //            label(for='') Город
-            //            select.form-control#city
-            //                option Город
-            //                option(value="spb") Санкт-Петербург
-            //                option(value="msk") Москва
-            //    .col-md-2
-            //        .form-group
-            //            label(for='') Тип сервиса
-            //            select.form-control#service
-            //                option -
-            //                option(value="transfer") Трансфер
-            //                option(value="withDriver") Аренда с водителем
-            //                option(value="excursion") Экскурсия
-            //                option(value="food") Питание
-            //        a.btn.btn-xs.btn-primary#addService + Добавить сервис
-            //
-            //    .col-md-8#dynamicPlace
-            //
-            //
-            //hr
 
-            
 
-            // hidden fields that are reused
+
+            // ACCOMMODATION - hodden fields
+
+
+
+            // DAYS - hidden fields
+
+            #hiddenServiceForm(style="display:none")
+                .serviceForm
+                    .form-group
+                        label Тип сервиса
+                        br
+                        select.serviceTypee.form-control
+                            option -
+                            option(value="transfer") Трансфер
+                            option(value="withDriver") Аренда с водителем
+                            option(value="excursion") Экскурсия
+                            option(value="food") Питание
+                    span
+                    .form-group(style="padding:2px;padding-top:30px;")
+                        a.btn.btn-xs.btn-danger x
 
             #hiddenTransfer(style="display:none")
                 .form-group

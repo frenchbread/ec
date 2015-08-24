@@ -56,6 +56,8 @@ $(document).ready(function() {
             '</div>'
         ].join();
 
+
+
         $(form).appendTo(programs);
         programIds.push(programId);
 
@@ -80,18 +82,12 @@ $(document).ready(function() {
     addService = function (progId) {
 
         var serviceType;
-        var carType;
-        var from;
-        var to;
 
         serviceId++;
 
         serviceType   = labelService + "_serviceType_" + progId + "_" +serviceId;
-        carType       = labelService + "_carType_" + progId + "_" + serviceId ;
-        from          = labelService + "_from_" + progId + "_" + serviceId;
-        to            = labelService + "_to_" + progId + "_" + serviceId;
 
-        var form = [
+        var q = [
             '<div class="serviceForm" id="serviceForm_'+serviceId+'">' +
                 '<div class="form-group">' +
                     '<label>Тип сервиса</label>' +
@@ -111,7 +107,16 @@ $(document).ready(function() {
             '</div>'
         ].join();
 
+        $('#hiddenServiceForm .serviceForm').attr('id', "serviceForm_"+serviceId);
+        $('#hiddenServiceForm .serviceTypee').attr('id', serviceType).attr('oncnahge', "switchServiceType("+progId+","+serviceId+")");
+        $('#hiddenServiceForm span').attr('id', "dynamicPlace_"+ serviceId);
+        $('#hiddenServiceForm a').attr('onclick', "removeService("+progId+", "+serviceId+")");
+
+
+        var form = $('#hiddenServiceForm').html();
+
         $(form).appendTo($('#programForm_'+progId+' #services'));
+
         serviceIds.push(serviceId);
 
         console.log("added " + progId + " and " + serviceId);
@@ -140,7 +145,9 @@ $(document).ready(function() {
         switch (value) {
 
             case "transfer":
+
                 $(dynamicPlace).html($('#hiddenTransfer').html());
+
                 $(dynamicPlace+' .transferCarType').attr('id', 'transferCarType_'+progIdd+'_'+serviceIdd);
                 $(dynamicPlace+' .transferFrom').attr('id', 'transferFrom_'+progIdd+'_'+serviceIdd);
                 $(dynamicPlace+' .transferTo').attr('id', 'transferTo_'+progIdd+'_'+serviceIdd);
@@ -149,7 +156,9 @@ $(document).ready(function() {
                 $('#transferTo_'+progIdd+'_'+serviceIdd).datepicker(timeFormat);
 
                 break;
+
             case "withDriver":
+
                 $(dynamicPlace).html($('#hiddenWithDriver').html());
 
                 $(dynamicPlace+' .driverCarType').attr('id', 'driverCarType_'+progIdd+'_'+serviceIdd);
@@ -159,18 +168,23 @@ $(document).ready(function() {
                 $('#driverFrom_'+progIdd+'_'+serviceIdd).datepicker(timeFormat);
                 $('#driverTo_'+progIdd+'_'+serviceIdd).datepicker(timeFormat);
                 break;
+
             case "excursion":
+
                 $(dynamicPlace).html($('#hiddenExcursion').html());
 
                 $(dynamicPlace+' .goingPlace').attr('id', 'goingPlace_'+progIdd+'_'+serviceIdd);
                 $(dynamicPlace+' .pplAmount').attr('id', 'pplAmount_'+progIdd+'_'+serviceIdd);
 
                 break;
+
             case "food":
+
                 $(dynamicPlace).html($('#hiddenFood').html());
 
                 $(dynamicPlace+' .restaurant').attr('id', 'restaurant_'+progIdd+'_'+serviceIdd);
                 $(dynamicPlace+' .menuTitle').attr('id', 'menuTitle_'+progIdd+'_'+serviceIdd);
+
                 break;
         }
 
