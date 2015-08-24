@@ -1,25 +1,82 @@
 var express = require('express');
 var router = express.Router();
 
-var CarType = require('../models/carType').CarType;
-var City    = require('../models/city').City;
-
 //home
 router.get('/', function(req, res) {
 
+    var cars = [
 
-    CarType.find({}, { _id: 0, created: 0}, function (err, cars) {
+        {
 
-        City.find({}, { _id: 0, created: 0}, function (err, cities) {
+            "value": "Стандарт",
+            "title": "Standart"
 
-            res.render('index', {
-                title   : 'Initial Express app',
-                cars    : cars,
-                cities  : cities
-            });
-        });
-    })
+        },
+        {
 
+            "value": "Бизнес",
+            "title": "Business"
+
+        },
+        {
+
+            "value": "Премиум",
+            "title": "Premium"
+
+        },
+        {
+
+            "value": "Минивен эконом",
+            "title": "Miniven eco"
+
+        },
+        {
+
+            "value": "Минивен бизнес",
+            "title": "Minivan business"
+
+        },
+        {
+
+            "value": "Минивен премиум",
+            "title": "Minivan premium"
+
+        },
+        {
+
+            "value": "Микроавтобус",
+            "title": "Microbus"
+
+        },
+
+        {
+            "value": "Автобус",
+            "title": "Autobus"
+        }
+
+    ];
+
+    var cities = [
+
+        {
+
+            "value": "Санкт-Петербург",
+            "key": "spb"
+
+        },
+
+        {
+            "value": "Москва",
+            "key": "msk"
+        }
+
+    ];
+
+
+    res.render('index', {
+        cars    : cars,
+        cities  : cities
+    });
 
 });
 
