@@ -18,6 +18,8 @@ $(document).ready(function() {
         format : "dd-mm-yyyy"
     };
 
+    var cars    = $('#cars').html();
+    var cities  = $('#cities').html();
 
     addProgram = function () {
 
@@ -31,9 +33,7 @@ $(document).ready(function() {
                 '<label>Город</label>' +
                 '<br/>' +
                 '<select id="'+ city +'" class="form-control">' +
-                    '<option>Город</option>' +
-                    '<option value="spb">Санкт-Петербург</option>' +
-                    '<option value="msk">Москва</option>' +
+                    cities +
                 '</select>' +
             '</div>'
         ].join();
@@ -148,7 +148,7 @@ $(document).ready(function() {
 
                 $(dynamicPlace).html($('#hiddenTransfer').html());
 
-                $(dynamicPlace+' .transferCarType').attr('id', 'transferCarType_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .transferCarType').attr('id', 'transferCarType_'+progIdd+'_'+serviceIdd).html(cars);
                 $(dynamicPlace+' .transferFrom').attr('id', 'transferFrom_'+progIdd+'_'+serviceIdd);
                 $(dynamicPlace+' .transferTo').attr('id', 'transferTo_'+progIdd+'_'+serviceIdd);
 
@@ -161,7 +161,7 @@ $(document).ready(function() {
 
                 $(dynamicPlace).html($('#hiddenWithDriver').html());
 
-                $(dynamicPlace+' .driverCarType').attr('id', 'driverCarType_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .driverCarType').attr('id', 'driverCarType_'+progIdd+'_'+serviceIdd).html(cars);
                 $(dynamicPlace+' .driverFrom').attr('id', 'driverFrom_'+progIdd+'_'+serviceIdd);
                 $(dynamicPlace+' .driverTo').attr('id', 'driverTo_'+progIdd+'_'+serviceIdd);
 

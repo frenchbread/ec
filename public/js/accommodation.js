@@ -19,6 +19,8 @@ $(document).ready(function () {
         format : "dd-mm-yyyy"
     };
 
+    var cities  = $('#cities').html();
+
 
     addAccommodation = function () {
 
@@ -39,9 +41,7 @@ $(document).ready(function () {
                 '<label>Город</label>' +
                 '<br/>' +
                 '<select id="'+ city +'" class="form-control">' +
-                    '<option>Город</option>' +
-                    '<option value="spb">Санкт-Петербург</option>' +
-                    '<option value="msk">Москва</option>' +
+                    cities +
                 '</select>' +
             '</div>' +
             '<div class="form-group">' +

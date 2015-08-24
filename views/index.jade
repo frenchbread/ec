@@ -41,35 +41,26 @@ block content
 
 
 
-            // ACCOMMODATION - hodden fields
+            // data
 
+            #cars(style="display:none")
+                option -
+                    each car in cars
+                        option=car.value
+
+            #cities(style="display:none")
+                option -
+                    each city in cities
+                        option=city.value
 
 
             // DAYS - hidden fields
-
-            #hiddenServiceForm(style="display:none")
-                .serviceForm
-                    .form-group
-                        label Тип сервиса
-                        br
-                        select.serviceTypee.form-control
-                            option -
-                            option(value="transfer") Трансфер
-                            option(value="withDriver") Аренда с водителем
-                            option(value="excursion") Экскурсия
-                            option(value="food") Питание
-                    span
-                    .form-group(style="padding:2px;padding-top:30px;")
-                        a.btn.btn-xs.btn-danger x
 
             #hiddenTransfer(style="display:none")
                 .form-group
                     label(for='') Класс авто
                     br
                     select.form-control.transferCarType
-                        option -
-                        each car in cars
-                            option=car.value
                 .form-group
                     label(for='') Откуда
                     br
@@ -84,9 +75,6 @@ block content
                     label(for='') Класс авто
                     br
                     select.form-control.driverCarType
-                        option -
-                        each car in cars
-                            option=car.value
                 .form-group
                     label(for='') С
                     br
