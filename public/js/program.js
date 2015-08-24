@@ -87,7 +87,7 @@ $(document).ready(function() {
 
         serviceType   = labelService + "_serviceType_" + progId + "_" +serviceId;
 
-        var q = [
+        var form = [
             '<div class="serviceForm" id="serviceForm_'+serviceId+'">' +
                 '<div class="form-group">' +
                     '<label>Тип сервиса</label>' +
@@ -107,10 +107,10 @@ $(document).ready(function() {
             '</div>'
         ].join();
 
-        $('#hiddenServiceForm .serviceForm').attr('id', "serviceForm_"+serviceId);
-        $('#hiddenServiceForm .serviceTypee').attr('id', serviceType).attr('oncnahge', "switchServiceType("+progId+","+serviceId+")");
-        $('#hiddenServiceForm span').attr('id', "dynamicPlace_"+ serviceId);
-        $('#hiddenServiceForm a').attr('onclick', "removeService("+progId+", "+serviceId+")");
+        //$('#hiddenServiceForm .serviceForm').attr('id', "serviceForm_"+serviceId);
+        //$('#hiddenServiceForm .serviceTypee').attr('id', serviceType).attr('oncnahge', "switchServiceType("+progId+","+serviceId+")");
+        //$('#hiddenServiceForm span').attr('id', "dynamicPlace_"+ serviceId);
+        //$('#hiddenServiceForm a').attr('onclick', "removeService("+progId+", "+serviceId+")");
 
 
         var form = $('#hiddenServiceForm').html();
