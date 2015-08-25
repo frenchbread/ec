@@ -253,9 +253,6 @@ router.post('/', function (req, res) {
     }
 
     //calculation
-
-    console.log(accommodations);
-
     var accommodationsCount = accommodations.length;
     var fullCost            = 0;
 
@@ -271,9 +268,8 @@ router.post('/', function (req, res) {
         }
 
     }
-
-    console.log(fullCost);
-
+    
+    console.log(fullCost)
 
     var program = [
         {
@@ -358,8 +354,8 @@ router.post('/', function (req, res) {
                         case "withDriver" :
 
                             driverCarType = submittedData["driverCarType_"+m+"_"+n];
-                            driverFrom    = submittedData["driverFrom_"+m+"_"+n];
-                            driverTo      = submittedData["driverTo_"+m+"_"+n];
+                            driverFrom    = moment(submittedData["driverFrom_"+m+"_"+n], "DD-MM-YYYY");
+                            driverTo      = moment(submittedData["driverTo_"+m+"_"+n], "DD-MM-YYYY");
                             driverPrice   = submittedData["driverPrice_"+m+"_"+n];
 
                             services.push({
@@ -416,7 +412,27 @@ router.post('/', function (req, res) {
 
     }
 
-    console.log(programs);
+    // calculations
+
+    var programsCount = programs.length;
+    var secondCost = 0;
+
+    for (var p=0; p<programsCount; p++){
+
+        //var days = accommodations[k].moveOut.diff(accommodations[k].moveIn, 'days');
+
+        for (var o=0; o<programs[p].services.length; o++) {
+
+            secondCost += parseInt(programs[p].services[o].price);
+
+        }
+
+    }
+
+    console.log(secondCost);
+
+    fullCost += secondCost;
+
 
     var trip = {
         daysTotal       : 0,
