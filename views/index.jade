@@ -3,7 +3,7 @@ extends ./layout/base
 block content
     .container-fluid(style="margin-top:20px;")
 
-        form.form-inline
+        form.form-inline(action="", method="post")
             .jumbotron(style="padding:7px")
                 .form-group
                     label Квотация подготовленя для &nbsp;
@@ -46,12 +46,16 @@ block content
             #cars(style="display:none")
                 option -
                     each car in cars
-                        option=car.value
+                        option(value=car.title)=car.value
 
             #cities(style="display:none")
                 option -
                     each city in cities
-                        option=city.value
+                        option(value=city.key)=city.value
+
+            hr
+
+            button(type="submit") Посчитать
 
 
             // DAYS - hidden fields

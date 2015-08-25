@@ -80,4 +80,11 @@ router.get('/', function(req, res) {
 
 });
 
+router.post('/', function (req, res) {
+    console.log("Processing data..");
+    console.log(req.body);
+
+    res.redirect('/');
+});
+
 module.exports = router;
