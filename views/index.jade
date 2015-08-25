@@ -72,7 +72,7 @@ block content
                 .form-group
                     label Цена
                     br
-                    input.form-control.transferPrice(type="text" placeholder="Цена за номер")
+                    input.form-control.transferPrice(type="text" placeholder="Цена")
 
             #hiddenWithDriver(style="display:none")
                 .form-group
@@ -87,6 +87,10 @@ block content
                     label(for='') До
                     br
                     input.form-control.driverTo(type='text', placeholder='')
+                .form-group
+                    label Цена
+                    br
+                    input.form-control.driverPrice(type="text" placeholder="Цена")
 
             #hiddenExcursion(style="display:none")
                 .form-group
@@ -97,6 +101,10 @@ block content
                     label(for='') Кол-во человек
                     br
                     input.form-control.pplAmount(type='text', placeholder='')
+                .form-group
+                    label Цена
+                    br
+                    input.form-control.excusrionPrice(type="text" placeholder="Цена")
 
             #hiddenFood(style="display:none")
                 .form-group
@@ -107,3 +115,7 @@ block content
                     label(for='') Название меню
                     br
                     input.form-control.menuTitle(type='text', placeholder='')
+                .form-group
+                    label Цена
+                    br
+                    input.form-control.foodPrice(type="text" placeholder="Цена")
