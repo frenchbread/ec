@@ -145,7 +145,9 @@ router.post('/', function (req, res) {
 
     var submittedData = req.body;
 
-    var test = {
+    console.log(submittedData);
+
+    var acc = {
         daysTotal: 0,
         accommodations : [
             {
@@ -166,13 +168,11 @@ router.post('/', function (req, res) {
         ]
     };
 
-    var trip = {};
     var accommodations = [];
 
     for (var i=0; i<=10; i++) {
 
         //accommodation
-
 
         var city = "accommodation_city_" + i;
 
@@ -274,7 +274,159 @@ router.post('/', function (req, res) {
 
     console.log(fullCost);
 
-    res.redirect('/');
+
+    var program = [
+        {
+            day  : 0,
+            city : "",
+            services: [
+                {
+                    type        : "",
+                    // driver & transfer
+                    carType     : "",
+                    from        : "",
+                    to          : "",
+                    //rest
+                    restaurant  : "",
+                    menu        : "",
+                    //excursion
+                    goingPlace  : "",
+                    pplAmount   : "",
+
+                    price       : 0
+                }
+            ]
+        }
+    ];
+
+    var programs = [];
+    var services = [];
+
+    for (var m=0; m<=10; m++) {
+
+        var day = "day_city_" + m;
+
+        if (submittedData.hasOwnProperty(day)) {
+
+            for (var n=0; n<=50; n++) {
+
+                var serviceType = "service_serviceType_"+m+"_"+n;
+
+                if (submittedData.hasOwnProperty(serviceType)) {
+
+                    var serviceTypeVal = submittedData[serviceType];
+
+                    //transfer
+                    var transferCarType = "";
+                    var transferFrom    = "";
+                    var transferTo      = "";
+                    var transferPrice   = 0;
+
+                    //driver
+                    var driverCarType   = "";
+                    var driverFrom      = "";
+                    var driverTo        = "";
+                    var driverPrice     = 0;
+
+                    //excursion
+                    var goingPlace      = "";
+                    var pplAmount       = "";
+                    var excursionPrice  = 0;
+
+                    //food
+                    var restaurant      = "";
+                    var menu            = "";
+                    var foodPrice       = "";
+
+                    switch (serviceTypeVal) {
+                        case "transfer" :
+
+                            transferCarType = submittedData["transferCarType_"+m+"_"+n];
+                            transferFrom    = submittedData["transferFrom_"+m+"_"+n];
+                            transferTo      = submittedData["transferTo_"+m+"_"+n];
+                            transferPrice   = submittedData["transferPrice_"+m+"_"+n];
+
+                            services.push({
+                                type    : serviceTypeVal,
+                                carType : transferCarType,
+                                from    : transferFrom,
+                                to      : transferTo,
+                                price   : transferPrice
+                            });
+
+                            break;
+                        case "withDriver" :
+
+                            driverCarType = submittedData["driverCarType_"+m+"_"+n];
+                            driverFrom    = submittedData["driverFrom_"+m+"_"+n];
+                            driverTo      = submittedData["driverTo_"+m+"_"+n];
+                            driverPrice   = submittedData["driverPrice_"+m+"_"+n];
+
+                            services.push({
+                                type    : serviceTypeVal,
+                                carType : driverCarType,
+                                from    : driverFrom,
+                                to      : driverTo,
+                                price   : driverPrice
+                            });
+
+                            break;
+                        case "excursion" :
+
+                            goingPlace      = submittedData["goingPlace_"+m+"_"+n];
+                            pplAmount       = submittedData["pplAmount_"+m+"_"+n];
+                            excursionPrice  = submittedData["excusrionPrice_"+m+"_"+n];
+
+                            services.push({
+                                type        : serviceTypeVal,
+                                goingPlace  : goingPlace,
+                                pplAmonut   : pplAmount,
+                                price       : excursionPrice
+                            });
+
+                            break;
+                        case "food" :
+
+                            restaurant      = submittedData["restaurant_"+m+"_"+n];
+                            menu            = submittedData["menuTitle_"+m+"_"+n];
+                            foodPrice       = submittedData["foodPrice_"+m+"_"+n];
+
+                            services.push({
+                                type        : serviceTypeVal,
+                                restaurant  : restaurant,
+                                memu        : menu,
+                                price       : foodPrice
+                            });
+
+                            break;
+                    }
+
+                }
+
+            }
+
+            programs.push({
+                day         : m,
+                city        : submittedData[day],
+                services    : services
+            });
+
+        }
+
+
+    }
+
+    console.log(programs);
+
+    var trip = {
+        daysTotal       : 0,
+        accommodation   : accommodations,
+        program         : programs,
+        price           : fullCost
+    };
+
+
+    res.json(trip);
 });
 
 module.exports = router;
