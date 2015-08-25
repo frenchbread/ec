@@ -268,7 +268,7 @@ router.post('/', function (req, res) {
         }
 
     }
-    
+
     console.log(fullCost)
 
     var program = [
@@ -435,7 +435,10 @@ router.post('/', function (req, res) {
 
 
     var trip = {
-        daysTotal       : 0,
+        documentFor     : req.body.documentFor,
+        tripStarts      : req.body.tripStarts,
+        tripEnds        : req.body.tripEnds,
+        totalGuests     : req.body.guestsCount,
         accommodation   : accommodations,
         program         : programs,
         price           : fullCost
