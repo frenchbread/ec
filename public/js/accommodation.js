@@ -20,6 +20,8 @@ $(document).ready(function () {
     };
 
     var cities  = $('#cities').html();
+    var hotels  = $('#hotels').html();
+    var roomList  = $('#roomList').html();
 
 
     addAccommodation = function () {
@@ -47,7 +49,9 @@ $(document).ready(function () {
             '<div class="form-group">' +
                 '<label>Гостиница</label>' +
                 '<br/>' +
-                '<input id="'+ hotel +'" name="'+ hotel +'" type="text" placeholder="Гостиница" class="form-control"/>' +
+                '<select id="'+ hotel +'" name="'+ hotel +'"" class="form-control">' +
+                    hotels +
+                '</select>' +
             '</div>' +
             '<div class="form-group">' +
                 '<label >Дата заселения</label>' +
@@ -121,7 +125,9 @@ $(document).ready(function () {
             '<div class="roomForm" id="roomForm_'+roomId+'">' +
                 '<div class="form-group">' +
                     '<label>Тип комнаты</label><br/>' +
-                    '<input id="'+roomType+'" name="'+roomType+'" type="text" placeholder="Тип комнаты" class="form-control"/>' +
+                    '<select id="'+ roomType +'" name="'+ roomType +'"" class="form-control">' +
+                        roomList +
+                    '</select>' +
                 '</div>' +
                 '<div class="form-group">' +
                     '<label>Кол-во номеров</label><br/>' +

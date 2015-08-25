@@ -53,6 +53,16 @@ block content
                     each city in cities
                         option(value=city.key)=city.value
 
+            #hotels(style="display:none")
+                option -
+                    each hotel in hotels
+                        option(value=hotel.title)=hotel.title
+
+            #roomList(style="display:none")
+                option -
+                    each room in rooms
+                        option(value=room.title)=room.title
+
             hr
 
             button(type="submit") Посчитать
