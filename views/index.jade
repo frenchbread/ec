@@ -2,6 +2,7 @@ extends ./layout/base
 
 block content
     .container-fluid(style="margin-top:20px;")
+
         form.form-inline
             .jumbotron(style="padding:7px")
                 .form-group
@@ -37,58 +38,29 @@ block content
             hr
             
             a.btn.btn-default(onclick="addProgram()") + Добавить день
-            
-            
-            
-            //.row
-            //    .col-md-2
-            //        .form-group
-            //            h4 День
-            //              b №1
-            //    .col-md-10
-            //
-            //.row
-            //    .col-md-2
-            //        .form-group
-            //            label(for='') Город
-            //            select.form-control#city
-            //                option Город
-            //                option(value="spb") Санкт-Петербург
-            //                option(value="msk") Москва
-            //    .col-md-2
-            //        .form-group
-            //            label(for='') Тип сервиса
-            //            select.form-control#service
-            //                option -
-            //                option(value="transfer") Трансфер
-            //                option(value="withDriver") Аренда с водителем
-            //                option(value="excursion") Экскурсия
-            //                option(value="food") Питание
-            //        a.btn.btn-xs.btn-primary#addService + Добавить сервис
-            //
-            //    .col-md-8#dynamicPlace
-            //
-            //
-            //hr
 
-            
 
-            // hidden fields that are reused
+
+            // data
+
+            #cars(style="display:none")
+                option -
+                    each car in cars
+                        option=car.value
+
+            #cities(style="display:none")
+                option -
+                    each city in cities
+                        option=city.value
+
+
+            // DAYS - hidden fields
 
             #hiddenTransfer(style="display:none")
                 .form-group
                     label(for='') Класс авто
                     br
                     select.form-control.transferCarType
-                        option -
-                        option Стандарт
-                        option Бизнес
-                        option Премиум
-                        option Минивен эконом
-                        option Минивен бизнес
-                        option Минивен премиум
-                        option Микроавтобус
-                        option Автобус
                 .form-group
                     label(for='') Откуда
                     br
@@ -97,21 +69,16 @@ block content
                     label(for='') Куда
                     br
                     input.form-control.transferTo(type='text', placeholder='')
+                .form-group
+                    label Цена
+                    br
+                    input.form-control.transferPrice(type="text" placeholder="Цена")
 
             #hiddenWithDriver(style="display:none")
                 .form-group
                     label(for='') Класс авто
                     br
                     select.form-control.driverCarType
-                        option -
-                        option Стандарт
-                        option Бизнес
-                        option Премиум
-                        option Минивен эконом
-                        option Минивен бизнес
-                        option Минивен премиум
-                        option Микроавтобус
-                        option Автобус
                 .form-group
                     label(for='') С
                     br
@@ -120,6 +87,10 @@ block content
                     label(for='') До
                     br
                     input.form-control.driverTo(type='text', placeholder='')
+                .form-group
+                    label Цена
+                    br
+                    input.form-control.driverPrice(type="text" placeholder="Цена")
 
             #hiddenExcursion(style="display:none")
                 .form-group
@@ -129,7 +100,11 @@ block content
                 .form-group
                     label(for='') Кол-во человек
                     br
-                    input.form-control.pplAmout(type='text', placeholder='')
+                    input.form-control.pplAmount(type='text', placeholder='')
+                .form-group
+                    label Цена
+                    br
+                    input.form-control.excusrionPrice(type="text" placeholder="Цена")
 
             #hiddenFood(style="display:none")
                 .form-group
@@ -140,3 +115,7 @@ block content
                     label(for='') Название меню
                     br
                     input.form-control.menuTitle(type='text', placeholder='')
+                .form-group
+                    label Цена
+                    br
+                    input.form-control.foodPrice(type="text" placeholder="Цена")

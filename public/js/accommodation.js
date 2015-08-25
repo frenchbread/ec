@@ -19,6 +19,8 @@ $(document).ready(function () {
         format : "dd-mm-yyyy"
     };
 
+    var cities  = $('#cities').html();
+
 
     addAccommodation = function () {
 
@@ -39,9 +41,7 @@ $(document).ready(function () {
                 '<label>Город</label>' +
                 '<br/>' +
                 '<select id="'+ city +'" class="form-control">' +
-                    '<option>Город</option>' +
-                    '<option value="spb">Санкт-Петербург</option>' +
-                    '<option value="msk">Москва</option>' +
+                    cities +
                 '</select>' +
             '</div>' +
             '<div class="form-group">' +
@@ -107,12 +107,14 @@ $(document).ready(function () {
 
         var roomType;
         var roomAmount;
+        var roomPrice;
         var anAccommodationId = accId;
 
         roomId++;
 
         roomType    = labelRoom + "_roomType_" + anAccommodationId + "_" +roomId;
         roomAmount  = labelRoom + "_roomAmount_" + anAccommodationId + "_" + roomId ;
+        roomPrice   = labelRoom + "_roomPrice_" + anAccommodationId + "_" + roomId ;
 
 
         var form = [
@@ -124,6 +126,10 @@ $(document).ready(function () {
                 '<div class="form-group">' +
                     '<label>Кол-во номеров</label><br/>' +
                     '<input id="'+roomAmount+'" type="text" placeholder="Кол-во номеров" class="form-control"/>' +
+                '</div>' +
+                '<div class="form-group">' +
+                    '<label>Цена</label><br/>' +
+                    '<input id="'+roomPrice+'" type="text" placeholder="Цена за номер" class="form-control"/>' +
                 '</div>' +
                 '<div class="form-group" style="padding:2px;padding-top:30px;">' +
                     '<a href="#" class="btn btn-xs btn-danger" onclick="removeRoom('+anAccommodationId+', '+roomId+')">x</a>' +
