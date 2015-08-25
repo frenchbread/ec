@@ -20,6 +20,8 @@ $(document).ready(function () {
     };
 
     var cities  = $('#cities').html();
+    var hotels  = $('#hotels').html();
+    var roomList  = $('#roomList').html();
 
 
     addAccommodation = function () {
@@ -40,24 +42,26 @@ $(document).ready(function () {
             '<div class="form-group">' +
                 '<label>Город</label>' +
                 '<br/>' +
-                '<select id="'+ city +'" class="form-control">' +
+                '<select id="'+ city +'" name="'+ city +'" class="form-control">' +
                     cities +
                 '</select>' +
             '</div>' +
             '<div class="form-group">' +
                 '<label>Гостиница</label>' +
                 '<br/>' +
-                '<input id="'+ hotel +'" type="text" placeholder="Гостиница" class="form-control"/>' +
+                '<select id="'+ hotel +'" name="'+ hotel +'"" class="form-control">' +
+                    hotels +
+                '</select>' +
             '</div>' +
             '<div class="form-group">' +
                 '<label >Дата заселения</label>' +
                 '<br/>' +
-                '<input id="'+ moveIn +'" type="text" placeholder="dd-mm-yyyy" class="form-control"/>' +
+                '<input id="'+ moveIn +'" name="'+ moveIn +'" type="text" placeholder="dd-mm-yyyy" class="form-control"/>' +
             '</div>' +
             '<div class="form-group">' +
                 '<label>Дата выезда</label>' +
                 '<br/>' +
-                '<input id="'+ moveOut +'" type="text" placeholder="dd-mm-yyyy" class="form-control"/>' +
+                '<input id="'+ moveOut +'" name="'+ moveOut +'" type="text" placeholder="dd-mm-yyyy" class="form-control"/>' +
             '</div>'
         ].join();
 
@@ -121,15 +125,17 @@ $(document).ready(function () {
             '<div class="roomForm" id="roomForm_'+roomId+'">' +
                 '<div class="form-group">' +
                     '<label>Тип комнаты</label><br/>' +
-                    '<input id="'+roomType+'" type="text" placeholder="Тип комнаты" class="form-control"/>' +
+                    '<select id="'+ roomType +'" name="'+ roomType +'"" class="form-control">' +
+                        roomList +
+                    '</select>' +
                 '</div>' +
                 '<div class="form-group">' +
                     '<label>Кол-во номеров</label><br/>' +
-                    '<input id="'+roomAmount+'" type="text" placeholder="Кол-во номеров" class="form-control"/>' +
+                    '<input id="'+roomAmount+'" name="'+roomAmount+'" type="text" placeholder="Кол-во номеров" class="form-control"/>' +
                 '</div>' +
                 '<div class="form-group">' +
                     '<label>Цена</label><br/>' +
-                    '<input id="'+roomPrice+'" type="text" placeholder="Цена за номер" class="form-control"/>' +
+                    '<input id="'+roomPrice+'" name="'+roomPrice+'" type="text" placeholder="Цена за номер" class="form-control"/>' +
                 '</div>' +
                 '<div class="form-group" style="padding:2px;padding-top:30px;">' +
                     '<a href="#" class="btn btn-xs btn-danger" onclick="removeRoom('+anAccommodationId+', '+roomId+')">x</a>' +
