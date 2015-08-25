@@ -30,3 +30,22 @@ p {
 .form-group{
     padding:10px;
 }
+
+.accommodationForm, .programForm {
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    background: #f7f7f7;
+    border:1px solid #eee;
+    margin:5px;
+    padding:5px;
+}
+
+.roomForm, .serviceForm{
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    background: #ececec;
+    border:1px solid #ccc;
+    margin-bottom:5px;
+}

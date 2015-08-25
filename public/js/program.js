@@ -32,7 +32,7 @@ $(document).ready(function() {
             '<div class="form-group">' +
                 '<label>Город</label>' +
                 '<br/>' +
-                '<select id="'+ city +'" class="form-control">' +
+                '<select id="'+ city +'" name="'+ city +'" class="form-control">' +
                     cities +
                 '</select>' +
             '</div>'
@@ -92,7 +92,7 @@ $(document).ready(function() {
                 '<div class="form-group">' +
                     '<label>Тип сервиса</label>' +
                     '<br/>' +
-                    '<select id="'+ serviceType +'" class="serviceTypee form-control" onchange="switchServiceType('+progId+','+serviceId+')">' +
+                    '<select id="'+ serviceType +'" name="'+ serviceType +'" class="serviceTypee form-control" onchange="switchServiceType('+progId+','+serviceId+')">' +
                         '<option>-</option>' +
                         '<option value="transfer">Трансфер</option>' +
                         '<option value="withDriver">Аренда с водителем</option>' +
@@ -148,10 +148,10 @@ $(document).ready(function() {
 
                 $(dynamicPlace).html($('#hiddenTransfer').html());
 
-                $(dynamicPlace+' .transferCarType').attr('id', 'transferCarType_'+progIdd+'_'+serviceIdd).html(cars);
-                $(dynamicPlace+' .transferFrom').attr('id', 'transferFrom_'+progIdd+'_'+serviceIdd);
-                $(dynamicPlace+' .transferTo').attr('id', 'transferTo_'+progIdd+'_'+serviceIdd);
-                $(dynamicPlace+' .transferPrice').attr('id', 'transferPrice_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .transferCarType').attr('name', 'transferCarType_'+progIdd+'_'+serviceIdd).html(cars);
+                $(dynamicPlace+' .transferFrom').attr('name', 'transferFrom_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .transferTo').attr('name', 'transferTo_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .transferPrice').attr('name', 'transferPrice_'+progIdd+'_'+serviceIdd);
 
                 //$('#transferFrom_'+progIdd+'_'+serviceIdd).datepicker(timeFormat);
                 //$('#transferTo_'+progIdd+'_'+serviceIdd).datepicker(timeFormat);
@@ -162,10 +162,10 @@ $(document).ready(function() {
 
                 $(dynamicPlace).html($('#hiddenWithDriver').html());
 
-                $(dynamicPlace+' .driverCarType').attr('id', 'driverCarType_'+progIdd+'_'+serviceIdd).html(cars);
-                $(dynamicPlace+' .driverFrom').attr('id', 'driverFrom_'+progIdd+'_'+serviceIdd);
-                $(dynamicPlace+' .driverTo').attr('id', 'driverTo_'+progIdd+'_'+serviceIdd);
-                $(dynamicPlace+' .driverPrice').attr('id', 'driverPrice_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .driverCarType').attr('name', 'driverCarType_'+progIdd+'_'+serviceIdd).html(cars);
+                $(dynamicPlace+' .driverFrom').attr('name', 'driverFrom_'+progIdd+'_'+serviceIdd).attr('id', 'driverFrom_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .driverTo').attr('name', 'driverTo_'+progIdd+'_'+serviceIdd).attr('id', 'driverTo_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .driverPrice').attr('name', 'driverPrice_'+progIdd+'_'+serviceIdd);
 
                 $('#driverFrom_'+progIdd+'_'+serviceIdd).datepicker(timeFormat);
                 $('#driverTo_'+progIdd+'_'+serviceIdd).datepicker(timeFormat);
@@ -175,9 +175,9 @@ $(document).ready(function() {
 
                 $(dynamicPlace).html($('#hiddenExcursion').html());
 
-                $(dynamicPlace+' .goingPlace').attr('id', 'goingPlace_'+progIdd+'_'+serviceIdd);
-                $(dynamicPlace+' .pplAmount').attr('id', 'pplAmount_'+progIdd+'_'+serviceIdd);
-                $(dynamicPlace+' .excusrionPrice').attr('id', 'excusrionPrice_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .goingPlace').attr('name', 'goingPlace_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .pplAmount').attr('name', 'pplAmount_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .excusrionPrice').attr('name', 'excusrionPrice_'+progIdd+'_'+serviceIdd);
 
                 break;
 
@@ -185,9 +185,9 @@ $(document).ready(function() {
 
                 $(dynamicPlace).html($('#hiddenFood').html());
 
-                $(dynamicPlace+' .restaurant').attr('id', 'restaurant_'+progIdd+'_'+serviceIdd);
-                $(dynamicPlace+' .menuTitle').attr('id', 'menuTitle_'+progIdd+'_'+serviceIdd);
-                $(dynamicPlace+' .foodPrice').attr('id', 'foodPrice_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .restaurant').attr('name', 'restaurant_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .menuTitle').attr('name', 'menuTitle_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .foodPrice').attr('name', 'foodPrice_'+progIdd+'_'+serviceIdd);
 
                 break;
         }

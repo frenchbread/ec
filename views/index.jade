@@ -7,18 +7,18 @@ block content
             .jumbotron(style="padding:7px")
                 .form-group
                     label Квотация подготовленя для &nbsp;
-                    input.form-control#documentFor(type='text', placeholder='...')
+                    input.form-control#documentFor(type='text', placeholder='...' name="documentFor")
                 br
                 .form-group
                     label Даты пребывания: С &nbsp;
-                    input.form-control#tripStarts(type='text', placeholder='dd-mm-yyyy')
+                    input.form-control#tripStarts(type='text', placeholder='dd-mm-yyyy', name="tripStarts")
                 .form-group
                     label До &nbsp;
-                    input.form-control#tripEnds(type='text', placeholder='dd-mm-yyyy')
+                    input.form-control#tripEnds(type='text', placeholder='dd-mm-yyyy', name="tripEnds")
                 br
                 .form-group
                     label Количество гостей &nbsp;
-                    input.form-control#guestsCount(type='text', placeholder='...')
+                    input.form-control#guestsCount(type='text', placeholder='...', name="guestsCount")
 
             hr
             h3 Проживание
@@ -51,7 +51,7 @@ block content
             #cities(style="display:none")
                 option -
                     each city in cities
-                        option(value=city.key)=city.value
+                        option(value=city.value)=city.value
 
             #hotels(style="display:none")
                 option -
@@ -65,7 +65,7 @@ block content
 
             hr
 
-            button(type="submit") Посчитать
+            button.btn.btn-success(type="submit") Посчитать
 
 
             // DAYS - hidden fields

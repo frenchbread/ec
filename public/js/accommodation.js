@@ -67,7 +67,6 @@ $(document).ready(function () {
 
         var form = [
             '<div class="row accommodationForm" id="accommodationForm_'+accommodationId+'">' +
-                '<hr />' +
                 '<div class="col-md-8">' +
                     col1 +
                 '</div>' +
