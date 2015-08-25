@@ -445,7 +445,9 @@ router.post('/', function (req, res) {
     };
 
 
-    res.json(trip);
+    res.render('checkout', {
+        trip: trip
+    });
 });
 
 module.exports = router;
