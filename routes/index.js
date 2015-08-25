@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var moment = require('moment');
+
 //home
 router.get('/', function(req, res) {
 
@@ -138,12 +140,10 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function (req, res) {
+
     console.log("Processing data..");
-    console.log(req.body);
 
     var submittedData = req.body;
-
-    var accommodationsList = [];
 
     var test = {
         daysTotal: 0,
@@ -169,11 +169,7 @@ router.post('/', function (req, res) {
     var trip = {};
     var accommodations = [];
 
-    //for (var key in req.body){
-    //
-    //}
-
-    for (var i = 1; i<=10; i++){
+    for (var i=0; i<=10; i++) {
 
         //accommodation
 
@@ -200,14 +196,14 @@ router.post('/', function (req, res) {
             }
 
             if (submittedData.hasOwnProperty(moveIn)) {
-                moveInVal = submittedData[moveIn];
+                moveInVal = moment(submittedData[moveIn], "DD-MM-YYYY");
             }
 
             if (submittedData.hasOwnProperty(moveOut)) {
-                moveOutVal = submittedData[moveOut];
+                moveOutVal = moment(submittedData[moveOut], "DD-MM-YYYY");
             }
 
-            for (var j =1; j<=50; j++) {
+            for (var j=0; j<=50; j++) {
 
                 var roomType    = "room_roomType_"+i+"_"+j;
 
@@ -217,23 +213,25 @@ router.post('/', function (req, res) {
                     var roomPrice   = "room_roomPrice_"+i+"_"+j;
 
                     var roomTypeVal     = "";
-                    var roomAmountVal   = "";
+                    var roomAmountVal   = 0;
                     var roomPriceVal    = 0;
 
-                    roomTypeVal = submittedData[roomType];
+                    roomTypeVal     = submittedData[roomType];
+                    roomAmountVal   = submittedData[roomAmount];
+                    roomPriceVal    = submittedData[roomPrice];
 
-                    if (submittedData.hasOwnProperty[roomAmount]) {
-                        roomAmountVal = submittedData[roomAmount];
-                    }
-
-                    if (submittedData.hasOwnProperty[roomPrice]) {
-                        roomPriceVal = submittedData[roomPrice];
-                    }
+                    //if (submittedData.hasOwnProperty[roomAmount]) {
+                    //    roomAmountVal = submittedData[roomAmount];
+                    //}
+                    //
+                    //if (submittedData.hasOwnProperty[roomPrice]) {
+                    //    roomPriceVal = submittedData[roomPrice];
+                    //}
 
                     rooms.push({
                         roomId      : j,
                         roomType    : roomTypeVal,
-                        roomsAmount : roomAmountVal,
+                        roomAmount  : roomAmountVal,
                         roomPrice   : roomPriceVal
 
                     });
@@ -248,13 +246,33 @@ router.post('/', function (req, res) {
                 city            : cityVal,
                 hotel           : hotelVal,
                 moveIn          : moveInVal,
-                moveout         : moveOutVal,
+                moveOut         : moveOutVal,
                 rooms           : rooms
             });
         }
     }
 
+    //calculation
+
     console.log(accommodations);
+
+    var accommodationsCount = accommodations.length;
+    var fullCost            = 0;
+
+
+    for (var k=0; k<accommodationsCount; k++){
+
+        var days = accommodations[k].moveOut.diff(accommodations[k].moveIn, 'days');
+
+        for (var l=0; l<accommodations[k].rooms.length; l++) {
+
+            fullCost += parseInt(accommodations[k].rooms[l].roomPrice) * parseInt(accommodations[k].rooms[l].roomAmount) * days;
+
+        }
+
+    }
+
+    console.log(fullCost);
 
     res.redirect('/');
 });
