@@ -269,7 +269,7 @@ router.post('/', function (req, res) {
 
     }
 
-    console.log(fullCost)
+    console.log(fullCost);
 
     var program = [
         {
@@ -319,10 +319,10 @@ router.post('/', function (req, res) {
                     var transferPrice   = 0;
 
                     //driver
-                    var driverCarType   = "";
-                    var driverFrom      = "";
-                    var driverTo        = "";
-                    var driverPrice     = 0;
+                    var driverCarType       = "";
+                    var driverHours         = "";
+                    var driverCarsAmount    = 0;
+                    var driverPrice         = 0;
 
                     //excursion
                     var goingPlace      = "";
@@ -353,16 +353,16 @@ router.post('/', function (req, res) {
                             break;
                         case "withDriver" :
 
-                            driverCarType = submittedData["driverCarType_"+m+"_"+n];
-                            driverFrom    = moment(submittedData["driverFrom_"+m+"_"+n], "DD-MM-YYYY");
-                            driverTo      = moment(submittedData["driverTo_"+m+"_"+n], "DD-MM-YYYY");
-                            driverPrice   = submittedData["driverPrice_"+m+"_"+n];
+                            driverCarType       = submittedData["driverCarType_"+m+"_"+n];
+                            driverHours         = submittedData["driverHours_"+m+"_"+n];
+                            driverCarsAmount    = submittedData["driverCarsAmount_"+m+"_"+n];
+                            driverPrice         = submittedData["driverPrice_"+m+"_"+n];
 
                             services.push({
                                 type    : serviceTypeVal,
                                 carType : driverCarType,
-                                from    : driverFrom,
-                                to      : driverTo,
+                                hours   : driverHours,
+                                cars    : driverCarsAmount,
                                 price   : driverPrice
                             });
 

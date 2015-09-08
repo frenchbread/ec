@@ -163,12 +163,10 @@ $(document).ready(function() {
                 $(dynamicPlace).html($('#hiddenWithDriver').html());
 
                 $(dynamicPlace+' .driverCarType').attr('name', 'driverCarType_'+progIdd+'_'+serviceIdd).html(cars);
-                $(dynamicPlace+' .driverFrom').attr('name', 'driverFrom_'+progIdd+'_'+serviceIdd).attr('id', 'driverFrom_'+progIdd+'_'+serviceIdd);
-                $(dynamicPlace+' .driverTo').attr('name', 'driverTo_'+progIdd+'_'+serviceIdd).attr('id', 'driverTo_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .driverHours').attr('name', 'driverHours_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .driverCarsAmount').attr('name', 'driverCarsAmount_'+progIdd+'_'+serviceIdd);
                 $(dynamicPlace+' .driverPrice').attr('name', 'driverPrice_'+progIdd+'_'+serviceIdd);
 
-                $('#driverFrom_'+progIdd+'_'+serviceIdd).datepicker(timeFormat);
-                $('#driverTo_'+progIdd+'_'+serviceIdd).datepicker(timeFormat);
                 break;
 
             case "excursion":
