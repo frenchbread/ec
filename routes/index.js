@@ -145,8 +145,6 @@ router.post('/', function (req, res) {
 
     var submittedData = req.body;
 
-    console.log(submittedData);
-
     var acc = {
         daysTotal: 0,
         accommodations : [
@@ -269,7 +267,6 @@ router.post('/', function (req, res) {
 
     }
 
-    console.log(fullCost);
 
     var program = [
         {
@@ -432,7 +429,6 @@ router.post('/', function (req, res) {
 
     }
 
-    console.log(secondCost);
 
     fullCost += secondCost;
 
@@ -447,6 +443,7 @@ router.post('/', function (req, res) {
         price           : fullCost
     };
 
+    console.log(trip);
 
     res.render('checkout', {
         trip: trip
