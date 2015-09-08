@@ -313,16 +313,17 @@ router.post('/', function (req, res) {
                     var serviceTypeVal = submittedData[serviceType];
 
                     //transfer
-                    var transferCarType = "";
-                    var transferFrom    = "";
-                    var transferTo      = "";
-                    var transferPrice   = 0;
+                    var transferCarType   = "";
+                    var transferCarAmount = 0;
+                    var transferFrom      = "";
+                    var transferTo        = "";
+                    var transferPrice     = 0;
 
                     //driver
-                    var driverCarType       = "";
-                    var driverHours         = "";
-                    var driverCarsAmount    = 0;
-                    var driverPrice         = 0;
+                    var driverCarType    = "";
+                    var driverHours      = "";
+                    var driverCarsAmount = 0;
+                    var driverPrice      = 0;
 
                     //excursion
                     var goingPlace      = "";
@@ -338,12 +339,14 @@ router.post('/', function (req, res) {
                         case "transfer" :
 
                             transferCarType = submittedData["transferCarType_"+m+"_"+n];
+                            transferCarAmount = submittedData["transferCarAmount_"+m+"_"+n];
                             transferFrom    = submittedData["transferFrom_"+m+"_"+n];
                             transferTo      = submittedData["transferTo_"+m+"_"+n];
                             transferPrice   = submittedData["transferPrice_"+m+"_"+n];
 
                             services.push({
                                 type    : serviceTypeVal,
+                                cars    : transferCarAmount,
                                 carType : transferCarType,
                                 from    : transferFrom,
                                 to      : transferTo,
