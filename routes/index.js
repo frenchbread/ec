@@ -3,132 +3,15 @@ var router = express.Router();
 
 var moment = require('moment');
 
+var cars = require('../data/cars');
+var cities = require('../data/cities');
+var hotels = require('../data/hotels');
+var rooms = require('../data/rooms');
+
+
+
 //home
 router.get('/', function(req, res) {
-
-    var cars = [
-
-        {
-
-            "value": "Стандарт",
-            "title": "Standart"
-
-        },
-        {
-
-            "value": "Бизнес",
-            "title": "Business"
-
-        },
-        {
-
-            "value": "Премиум",
-            "title": "Premium"
-
-        },
-        {
-
-            "value": "Минивен эконом",
-            "title": "Miniven eco"
-
-        },
-        {
-
-            "value": "Минивен бизнес",
-            "title": "Minivan business"
-
-        },
-        {
-
-            "value": "Минивен премиум",
-            "title": "Minivan premium"
-
-        },
-        {
-
-            "value": "Микроавтобус",
-            "title": "Microbus"
-
-        },
-
-        {
-            "value": "Автобус",
-            "title": "Autobus"
-        }
-
-    ];
-
-    var cities = [
-
-        {
-
-            "value": "Санкт-Петербург",
-            "key": "spb"
-
-        },
-
-        {
-            "value": "Москва",
-            "key": "msk"
-        }
-
-    ];
-
-    var hotels = [
-        {
-            "title": "Grand Hotel Europe 5*",
-            "value": ""
-        },{
-            "title": "W ST.PETERSBURG 5*",
-            "value": ""
-        },{
-            "title": "Astoria 5*",
-            "value": ""
-        },{
-            "title": "Angleterre 4*",
-            "value": ""
-        },{
-            "title": "CROWNE PLAZA LIGOVSKY 4*",
-            "value": ""
-        },{
-            "title": "Dostoevsky 3*",
-            "value": ""
-        },{
-            "title": "Novotel St.-Petersburg Centre 4*",
-            "value": ""
-        },{
-            "title": "MOIKA 22 Kempinski 5*",
-            "value": ""
-        },{
-            "title": "COURTYARD by Marriott St.Petersburg Vasilievsky 4*",
-            "value": ""
-        },{
-            "title": "SOKOS PALACE BRIDGE 5*",
-            "value": ""
-        },{
-            "title": "SOKOS  Olimpia Garden 5*",
-            "value": ""
-        },{
-            "title": "Sokos Hotel Vasilievsky 4*",
-            "value": ""
-        },{
-            "title": " Corinthia Nevsky Palace 5*",
-            "value": ""
-        }
-    ];
-
-    var rooms = [
-        {
-            "title" : "Single"
-        },
-        {
-            "title" : "Double"
-        },
-        {
-            "title" : "Triple"
-        }
-    ];
-
 
     res.render('index', {
         cars    : cars,
@@ -136,6 +19,12 @@ router.get('/', function(req, res) {
         hotels  : hotels,
         rooms   : rooms
     });
+
+});
+
+router.get('/test', function (req, res) {
+
+    res.render('test');
 
 });
 
