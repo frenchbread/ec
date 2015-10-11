@@ -4,4 +4,22 @@ block content
 
     .container-fluid(style="margin-top:20px;")
 
-        h1 Hello
+        h1 Play Ground
+
+        #cities(style="display:none")
+            option -
+                each city in cities
+                    option(value=city.value)=city.value
+
+        #hotels(style="display:none")
+            option -
+                each hotel in hotels
+                    option(value=hotel.title)=hotel.title
+
+        form.form-inline(action="", method="post")
+
+            #playground
+
+
+            hr
+            a.btn.btn-primary(onclick="addAcc();") Добавить вариант проживания

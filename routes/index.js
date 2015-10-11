@@ -8,8 +8,6 @@ var cities = require('../data/cities');
 var hotels = require('../data/hotels');
 var rooms = require('../data/rooms');
 
-
-
 //home
 router.get('/', function(req, res) {
 
@@ -24,7 +22,10 @@ router.get('/', function(req, res) {
 
 router.get('/test', function (req, res) {
 
-    res.render('test');
+    res.render('test', {
+        hotels: hotels,
+        cities: cities
+    });
 
 });
 
