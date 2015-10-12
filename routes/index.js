@@ -24,7 +24,8 @@ router.get('/test', function (req, res) {
 
     res.render('test', {
         hotels: hotels,
-        cities: cities
+        cities: cities,
+        rooms : rooms
     });
 
 });

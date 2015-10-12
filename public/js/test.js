@@ -7,7 +7,7 @@ $(document).ready(function () {
             '<div class="col-md-4">' +
                 '<div id="rooms"></div>' +
                 '<hr/>' +
-                '<a id="addRoom" class="btn btn-xs btn-primary">+ Добавить тип комнаты</a>' +
+                '<a id="addRoom" class="btn btn-xs btn-primary addRoom">+ Добавить тип комнаты</a>' +
             '</div>' +
             '<div class="col-lg-12">' +
                 '<hr/>' +
@@ -41,11 +41,32 @@ $(document).ready(function () {
         '</div>'
     ].join();
 
+    var room = [
+        '<div class="roomForm" >' +
+            '<div class="form-group">' +
+                '<label>Тип комнаты</label><br/>' +
+                '<select class="form-control roomType">' +
+                '</select>' +
+            '</div>' +
+            '<div class="form-group">' +
+                '<label>Кол-во номеров</label><br/>' +
+                '<input type="text" placeholder="Кол-во номеров" class="form-control roomsAmount"/>' +
+            '</div>' +
+            '<div class="form-group" style="padding:2px;padding-top:30px;">' +
+                '<a href="#" class="btn btn-xs btn-danger removeRoom">x</a>' +
+            '</div>' +
+        '</div>'
+    ].join();
+
+
     var labelAcc    = 'accommodation';
     var labelRoom   = 'room';
 
     var accIds = [];
     var accId = $('#playground>.accommodationForm').size();
+
+    var roomIds = [];
+    var roomId  = $('#rooms>.roomForm').size();
 
     addAcc = function () {
 
@@ -71,6 +92,8 @@ $(document).ready(function () {
         $('.hotel', col).attr('id', hotel);
         $('.moveIn', col).attr('id', moveIn).datepicker({format : "dd-mm-yyyy"});
         $('.moveOut', col).attr('id', moveOut).datepicker({format : "dd-mm-yyyy"});
+
+        $('.addRoom', form).attr('onclick', 'addRoom('+accId+');');
 
         $('.removeAcc', form).attr('onclick', 'removeAcc('+accId+');');
 
@@ -106,6 +129,40 @@ $(document).ready(function () {
         console.log(accIds);
 
         return false;
+    };
+
+    addRoom = function(accId) {
+
+        var rm = $(room);
+
+        var roomType;
+        var roomsAmount;
+
+        roomId++;
+
+        roomType    = labelRoom + "_roomType_" + accId + "_" +roomId;
+        roomsAmount = labelRoom + "_roomAmount_" + accId + "_" + roomId ;
+
+        var roomList = $('#roomList').html();
+        $('.roomType', rm).html(roomList);
+
+        rm.attr('id', 'roomForm_'+roomId);
+
+        $('.roomType', rm).attr('id', roomType);
+        $('.roomsAmount', rm).attr('id', roomsAmount);
+
+
+        $('.removeRoom', rm).attr('onlick', 'removeRoom('+accId+', '+roomId+');');
+
+        $('#rooms', '#accommodationForm_'+accId).append(rm);
+
+        roomIds.push(roomId);
+
+        return false;
+    };
+
+    removeRoom = function (accId, roomId) {
+
     }
 
 });

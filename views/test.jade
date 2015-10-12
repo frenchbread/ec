@@ -16,6 +16,11 @@ block content
                 each hotel in hotels
                     option(value=hotel.title)=hotel.title
 
+        #roomList(style="display:none")
+            option -
+                each room in rooms
+                    option(value=room.title)=room.title
+
         form.form-inline(action="", method="post")
 
             #playground
