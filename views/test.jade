@@ -14,7 +14,7 @@ block content
         #hotels(style="display:none")
             option -
                 each hotel in hotels
-                    option(value=hotel.title)=hotel.title
+                    option(value=hotel.hotelCodename)=hotel.hotelName
 
         #roomList(style="display:none")
             option -
@@ -25,4 +25,8 @@ block content
 
             #playground
 
-            a.btn.btn-primary(onclick="addAcc();") Добавить вариант проживания
+            a.btn.btn-primary.btn-sm(onclick="addAcc();") + Добавить отель
+
+            hr
+
+            button.btn.btn-success(type="submit") Checkout
