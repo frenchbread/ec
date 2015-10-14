@@ -7,11 +7,11 @@ $(document).ready(function () {
             '<div class="col-md-4">' +
                 '<div id="rooms"></div>' +
                 '<hr/>' +
-                '<a id="addRoom" class="btn btn-xs btn-primary addRoom">+ Добавить тип комнаты</a>' +
+                '<a class="btn btn-xs btn-primary addRoom">+ Добавить тип комнаты</a>' +
             '</div>' +
             '<div class="col-lg-12">' +
                 '<hr/>' +
-                '<a href="#" class="btn btn-xs btn-danger removeAcc">x Убрать вариант проживания</a>' +
+                '<a class="btn btn-xs btn-danger removeAcc">x Убрать вариант проживания</a>' +
             '</div>' +
         '</div>'
     ].join();
@@ -53,7 +53,7 @@ $(document).ready(function () {
                 '<input type="text" placeholder="Кол-во номеров" class="form-control roomsAmount"/>' +
             '</div>' +
             '<div class="form-group" style="padding:2px;padding-top:30px;">' +
-                '<a href="#" class="btn btn-xs btn-danger removeRoom">x</a>' +
+                '<a class="btn btn-xs btn-danger removeRoom">x</a>' +
             '</div>' +
         '</div>'
     ].join();
@@ -113,8 +113,6 @@ $(document).ready(function () {
 
         accIds.push(accId);
 
-        console.log(accIds);
-
         return false;
     };
 
@@ -125,8 +123,6 @@ $(document).ready(function () {
         var index   = accIds.indexOf(accId);
         var inList  = index > -1;
         if (inList) accIds.splice(index, 1);
-
-        console.log(accIds);
 
         return false;
     };
@@ -158,11 +154,23 @@ $(document).ready(function () {
 
         roomIds.push(roomId);
 
+        console.log(roomIds);
+
         return false;
     };
 
     removeRoom = function (accId, roomId) {
 
-    }
+
+        $('#'+labelRoom+'_roomType_'+accId+'_'+roomId).closest('.roomForm').remove();
+        var index   = roomIds.indexOf(roomId);
+        var inList  = index > -1;
+        if (inList) roomIds.splice(index, 1);
+
+        console.log(roomIds);
+
+        return false;
+
+    };
 
 });
