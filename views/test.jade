@@ -9,7 +9,7 @@ block content
         #cities(style="display:none")
             option -
                 each city in cities
-                    option(value=city.value)=city.value
+                    option(value=city.key)=city.value
 
         #hotels(style="display:none")
             option -
@@ -21,7 +21,7 @@ block content
                 each room in rooms
                     option(value=room.title)=room.title
 
-        form.form-inline(action="", method="post")
+        form.form-inline(action="/test", method="post")
 
             #playground
 
