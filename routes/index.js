@@ -30,6 +30,59 @@ router.get('/test', function (req, res) {
 
 });
 
+router.post('/test', function (req ,res) {
+
+    var data = req.body;
+
+    console.log(data);
+
+    var accommodations = [];
+
+    for (var i = 0; i <= 10; i++) {
+
+        var city = "accommodation_city_" + i;
+        var hotel = "accommodation_hotel_" + i;
+        var moveIn = "accommodation_moveIn_" + i;
+        var moveOut = "accommodation_moveOut_" + i;
+
+        var rooms = [];
+
+        for (var j = 0; j <= 20; j++) {
+
+            var roomType    = "room_roomType_"+i+"_"+j;
+            var roomAmount   = "room_roomAmount_"+i+"_"+j;
+
+            var type = data[roomType];
+            var amount = data[roomAmount];
+
+            if (data.hasOwnProperty(type) || data.hasOwnProperty(amount)) {
+
+                rooms.push({
+                    type: data[roomType],
+                    amount: data[roomAmount]
+                });
+
+            }
+        }
+
+        if (data.hasOwnProperty(city) || data.hasOwnProperty(hotel) || data.hasOwnProperty(moveIn) || data.hasOwnProperty(moveOut)) {
+
+            accommodations.push({
+                city: data[city],
+                hotel: data[hotel],
+                moveIn: data[moveIn],
+                moveOut: data[moveOut],
+                rooms: rooms
+            });
+
+        }
+
+    }
+
+    res.json(accommodations);
+
+});
+
 router.post('/', function (req, res) {
 
     console.log("Processing data..");

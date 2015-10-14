@@ -70,8 +70,6 @@ $(document).ready(function () {
 
     addAcc = function () {
 
-        accId++;
-
         var city;
         var hotel;
         var moveIn;
@@ -88,10 +86,25 @@ $(document).ready(function () {
 
         form.attr('id', 'accommodationForm_'+accId);
 
-        $('.city', col).attr('id', city);
-        $('.hotel', col).attr('id', hotel);
-        $('.moveIn', col).attr('id', moveIn).datepicker({format : "dd-mm-yyyy"});
-        $('.moveOut', col).attr('id', moveOut).datepicker({format : "dd-mm-yyyy"});
+        $('.city', col).attr({
+            'id': city,
+            'name': city
+        });
+
+        $('.hotel', col).attr({
+            'id': hotel,
+            'name': hotel
+        });
+
+        $('.moveIn', col).attr({
+            'id': moveIn,
+            'name': moveIn
+        }).datepicker({format : "dd-mm-yyyy"});
+
+        $('.moveOut', col).attr({
+            'id': moveOut,
+            'name': moveOut
+        }).datepicker({format : "dd-mm-yyyy"});
 
         $('.addRoom', form).attr('onclick', 'addRoom('+accId+');');
 
@@ -112,6 +125,8 @@ $(document).ready(function () {
         $('#playground').append(form);
 
         accIds.push(accId);
+
+        accId++;
 
         return false;
     };
@@ -134,27 +149,33 @@ $(document).ready(function () {
         var roomType;
         var roomsAmount;
 
-        roomId++;
-
         roomType    = labelRoom + "_roomType_" + accId + "_" +roomId;
+
         roomsAmount = labelRoom + "_roomAmount_" + accId + "_" + roomId ;
-
         var roomList = $('#roomList').html();
-        $('.roomType', rm).html(roomList);
 
+        $('.roomType', rm).html(roomList);
         rm.attr('id', 'roomForm_'+roomId);
 
-        $('.roomType', rm).attr('id', roomType);
-        $('.roomsAmount', rm).attr('id', roomsAmount);
+        $('.roomType', rm).attr({
+            'id': roomType,
+            'name': roomType
+        });
 
-
+        $('.roomsAmount', rm).attr({
+            'id': roomsAmount,
+            'name': roomsAmount
+        });
         $('.removeRoom', rm).attr('onlick', 'removeRoom('+accId+', '+roomId+');');
+
 
         $('#rooms', '#accommodationForm_'+accId).append(rm);
 
         roomIds.push(roomId);
 
         console.log(roomIds);
+
+        roomId++;
 
         return false;
     };
