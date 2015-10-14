@@ -149,6 +149,7 @@ $(document).ready(function() {
                 $(dynamicPlace).html($('#hiddenTransfer').html());
 
                 $(dynamicPlace+' .transferCarType').attr('name', 'transferCarType_'+progIdd+'_'+serviceIdd).html(cars);
+                $(dynamicPlace+' .transferCarAmount').attr('name', 'transferCarAmount_'+progIdd+'_'+serviceIdd);
                 $(dynamicPlace+' .transferFrom').attr('name', 'transferFrom_'+progIdd+'_'+serviceIdd);
                 $(dynamicPlace+' .transferTo').attr('name', 'transferTo_'+progIdd+'_'+serviceIdd);
                 $(dynamicPlace+' .transferPrice').attr('name', 'transferPrice_'+progIdd+'_'+serviceIdd);
@@ -163,12 +164,10 @@ $(document).ready(function() {
                 $(dynamicPlace).html($('#hiddenWithDriver').html());
 
                 $(dynamicPlace+' .driverCarType').attr('name', 'driverCarType_'+progIdd+'_'+serviceIdd).html(cars);
-                $(dynamicPlace+' .driverFrom').attr('name', 'driverFrom_'+progIdd+'_'+serviceIdd).attr('id', 'driverFrom_'+progIdd+'_'+serviceIdd);
-                $(dynamicPlace+' .driverTo').attr('name', 'driverTo_'+progIdd+'_'+serviceIdd).attr('id', 'driverTo_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .driverHours').attr('name', 'driverHours_'+progIdd+'_'+serviceIdd);
+                $(dynamicPlace+' .driverCarsAmount').attr('name', 'driverCarsAmount_'+progIdd+'_'+serviceIdd);
                 $(dynamicPlace+' .driverPrice').attr('name', 'driverPrice_'+progIdd+'_'+serviceIdd);
 
-                $('#driverFrom_'+progIdd+'_'+serviceIdd).datepicker(timeFormat);
-                $('#driverTo_'+progIdd+'_'+serviceIdd).datepicker(timeFormat);
                 break;
 
             case "excursion":

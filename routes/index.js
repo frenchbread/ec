@@ -3,132 +3,13 @@ var router = express.Router();
 
 var moment = require('moment');
 
+var cars = require('../data/cars');
+var cities = require('../data/cities');
+var hotels = require('../data/hotelPrises');
+var rooms = require('../data/rooms');
+
 //home
 router.get('/', function(req, res) {
-
-    var cars = [
-
-        {
-
-            "value": "Стандарт",
-            "title": "Standart"
-
-        },
-        {
-
-            "value": "Бизнес",
-            "title": "Business"
-
-        },
-        {
-
-            "value": "Премиум",
-            "title": "Premium"
-
-        },
-        {
-
-            "value": "Минивен эконом",
-            "title": "Miniven eco"
-
-        },
-        {
-
-            "value": "Минивен бизнес",
-            "title": "Minivan business"
-
-        },
-        {
-
-            "value": "Минивен премиум",
-            "title": "Minivan premium"
-
-        },
-        {
-
-            "value": "Микроавтобус",
-            "title": "Microbus"
-
-        },
-
-        {
-            "value": "Автобус",
-            "title": "Autobus"
-        }
-
-    ];
-
-    var cities = [
-
-        {
-
-            "value": "Санкт-Петербург",
-            "key": "spb"
-
-        },
-
-        {
-            "value": "Москва",
-            "key": "msk"
-        }
-
-    ];
-
-    var hotels = [
-        {
-            "title": "Grand Hotel Europe 5*",
-            "value": ""
-        },{
-            "title": "W ST.PETERSBURG 5*",
-            "value": ""
-        },{
-            "title": "Astoria 5*",
-            "value": ""
-        },{
-            "title": "Angleterre 4*",
-            "value": ""
-        },{
-            "title": "CROWNE PLAZA LIGOVSKY 4*",
-            "value": ""
-        },{
-            "title": "Dostoevsky 3*",
-            "value": ""
-        },{
-            "title": "Novotel St.-Petersburg Centre 4*",
-            "value": ""
-        },{
-            "title": "MOIKA 22 Kempinski 5*",
-            "value": ""
-        },{
-            "title": "COURTYARD by Marriott St.Petersburg Vasilievsky 4*",
-            "value": ""
-        },{
-            "title": "SOKOS PALACE BRIDGE 5*",
-            "value": ""
-        },{
-            "title": "SOKOS  Olimpia Garden 5*",
-            "value": ""
-        },{
-            "title": "Sokos Hotel Vasilievsky 4*",
-            "value": ""
-        },{
-            "title": " Corinthia Nevsky Palace 5*",
-            "value": ""
-        }
-    ];
-
-    var rooms = [
-        {
-            "title" : "Single"
-        },
-        {
-            "title" : "Double"
-        },
-        {
-            "title" : "Triple"
-        }
-    ];
-
 
     res.render('index', {
         cars    : cars,
@@ -139,13 +20,74 @@ router.get('/', function(req, res) {
 
 });
 
+router.get('/test', function (req, res) {
+
+    res.render('test', {
+        hotels: hotels,
+        cities: cities,
+        rooms : rooms
+    });
+
+});
+
+router.post('/test', function (req ,res) {
+
+    var data = req.body;
+
+    console.log(data);
+
+    var accommodations = [];
+
+    for (var i = 0; i <= 10; i++) {
+
+        var city = "accommodation_city_" + i;
+        var hotel = "accommodation_hotel_" + i;
+        var moveIn = "accommodation_moveIn_" + i;
+        var moveOut = "accommodation_moveOut_" + i;
+
+        var rooms = [];
+
+        for (var j = 0; j <= 20; j++) {
+
+            var roomType    = "room_roomType_"+i+"_"+j;
+            var roomAmount   = "room_roomAmount_"+i+"_"+j;
+
+            var type = data[roomType];
+            var amount = data[roomAmount];
+
+            if (data.hasOwnProperty(type) || data.hasOwnProperty(amount)) {
+
+                rooms.push({
+                    type: data[roomType],
+                    amount: data[roomAmount]
+                });
+
+            }
+        }
+
+        if (data.hasOwnProperty(city) || data.hasOwnProperty(hotel) || data.hasOwnProperty(moveIn) || data.hasOwnProperty(moveOut)) {
+
+            accommodations.push({
+                city: data[city],
+                hotel: data[hotel],
+                moveIn: data[moveIn],
+                moveOut: data[moveOut],
+                rooms: rooms
+            });
+
+        }
+
+    }
+
+    res.json(accommodations);
+
+});
+
 router.post('/', function (req, res) {
 
     console.log("Processing data..");
 
     var submittedData = req.body;
-
-    console.log(submittedData);
 
     var acc = {
         daysTotal: 0,
@@ -269,7 +211,6 @@ router.post('/', function (req, res) {
 
     }
 
-    console.log(fullCost)
 
     var program = [
         {
@@ -313,16 +254,17 @@ router.post('/', function (req, res) {
                     var serviceTypeVal = submittedData[serviceType];
 
                     //transfer
-                    var transferCarType = "";
-                    var transferFrom    = "";
-                    var transferTo      = "";
-                    var transferPrice   = 0;
+                    var transferCarType   = "";
+                    var transferCarAmount = 0;
+                    var transferFrom      = "";
+                    var transferTo        = "";
+                    var transferPrice     = 0;
 
                     //driver
-                    var driverCarType   = "";
-                    var driverFrom      = "";
-                    var driverTo        = "";
-                    var driverPrice     = 0;
+                    var driverCarType    = "";
+                    var driverHours      = "";
+                    var driverCarsAmount = 0;
+                    var driverPrice      = 0;
 
                     //excursion
                     var goingPlace      = "";
@@ -338,12 +280,14 @@ router.post('/', function (req, res) {
                         case "transfer" :
 
                             transferCarType = submittedData["transferCarType_"+m+"_"+n];
+                            transferCarAmount = submittedData["transferCarAmount_"+m+"_"+n];
                             transferFrom    = submittedData["transferFrom_"+m+"_"+n];
                             transferTo      = submittedData["transferTo_"+m+"_"+n];
                             transferPrice   = submittedData["transferPrice_"+m+"_"+n];
 
                             services.push({
                                 type    : serviceTypeVal,
+                                cars    : transferCarAmount,
                                 carType : transferCarType,
                                 from    : transferFrom,
                                 to      : transferTo,
@@ -353,16 +297,16 @@ router.post('/', function (req, res) {
                             break;
                         case "withDriver" :
 
-                            driverCarType = submittedData["driverCarType_"+m+"_"+n];
-                            driverFrom    = moment(submittedData["driverFrom_"+m+"_"+n], "DD-MM-YYYY");
-                            driverTo      = moment(submittedData["driverTo_"+m+"_"+n], "DD-MM-YYYY");
-                            driverPrice   = submittedData["driverPrice_"+m+"_"+n];
+                            driverCarType       = submittedData["driverCarType_"+m+"_"+n];
+                            driverHours         = submittedData["driverHours_"+m+"_"+n];
+                            driverCarsAmount    = submittedData["driverCarsAmount_"+m+"_"+n];
+                            driverPrice         = submittedData["driverPrice_"+m+"_"+n];
 
                             services.push({
                                 type    : serviceTypeVal,
                                 carType : driverCarType,
-                                from    : driverFrom,
-                                to      : driverTo,
+                                hours   : driverHours,
+                                cars    : driverCarsAmount,
                                 price   : driverPrice
                             });
 
@@ -429,7 +373,6 @@ router.post('/', function (req, res) {
 
     }
 
-    console.log(secondCost);
 
     fullCost += secondCost;
 
@@ -444,6 +387,7 @@ router.post('/', function (req, res) {
         price           : fullCost
     };
 
+    console.log(trip);
 
     res.render('checkout', {
         trip: trip

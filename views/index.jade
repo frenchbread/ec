@@ -34,9 +34,9 @@ block content
             h3 Программа
 
             #programs
-            
+
             hr
-            
+
             a.btn.btn-default(onclick="addProgram()") + Добавить день
 
 
@@ -76,6 +76,10 @@ block content
                     br
                     select.form-control.transferCarType
                 .form-group
+                    label(for='') Кол-во авто
+                    br
+                    input.form-control.transferCarAmount(type='text', placeholder='')
+                .form-group
                     label(for='') Откуда
                     br
                     input.form-control.transferFrom(type='text', placeholder='')
@@ -94,13 +98,13 @@ block content
                     br
                     select.form-control.driverCarType
                 .form-group
-                    label(for='') С
+                    label(for='') Кол-во часов
                     br
-                    input.form-control.driverFrom(type='text', placeholder='')
+                    input.form-control.driverHours(type='text', placeholder='')
                 .form-group
-                    label(for='') До
+                    label(for='') Кол-во  авто
                     br
-                    input.form-control.driverTo(type='text', placeholder='')
+                    input.form-control.driverCarsAmount(type='text', placeholder='')
                 .form-group
                     label Цена
                     br
