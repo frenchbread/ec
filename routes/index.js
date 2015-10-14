@@ -5,7 +5,7 @@ var moment = require('moment');
 
 var cars = require('../data/cars');
 var cities = require('../data/cities');
-var hotels = require('../data/hotels');
+var hotels = require('../data/hotelPrises');
 var rooms = require('../data/rooms');
 
 //home
