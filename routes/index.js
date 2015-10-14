@@ -8,6 +8,10 @@ var cities = require('../data/cities');
 var hotels = require('../data/hotelPrises');
 var rooms = require('../data/rooms');
 
+var parseData = require('../lib/parseData');
+
+var H = require('../models/hotel');
+
 //home
 router.get('/', function(req, res) {
 
@@ -34,48 +38,19 @@ router.post('/test', function (req ,res) {
 
     var data = req.body;
 
-    console.log(data);
+    var accommodations = parseData(data);
 
-    var accommodations = [];
+    // counting total prise
 
-    for (var i = 0; i <= 10; i++) {
+    for (var i = 0; i<=accommodations.length-1; i++) {
 
-        var city = "accommodation_city_" + i;
-        var hotel = "accommodation_hotel_" + i;
-        var moveIn = "accommodation_moveIn_" + i;
-        var moveOut = "accommodation_moveOut_" + i;
+        var acc = accommodations[i];
 
-        var rooms = [];
+        H.find({ hotelCodename: acc.hotel }, {_id: 0}, function (err, h) {
 
-        for (var j = 0; j <= 20; j++) {
+            console.log(h);
 
-            var roomType    = "room_roomType_"+i+"_"+j;
-            var roomAmount   = "room_roomAmount_"+i+"_"+j;
-
-            var type = data[roomType];
-            var amount = data[roomAmount];
-
-            if (data.hasOwnProperty(type) || data.hasOwnProperty(amount)) {
-
-                rooms.push({
-                    type: data[roomType],
-                    amount: data[roomAmount]
-                });
-
-            }
-        }
-
-        if (data.hasOwnProperty(city) || data.hasOwnProperty(hotel) || data.hasOwnProperty(moveIn) || data.hasOwnProperty(moveOut)) {
-
-            accommodations.push({
-                city: data[city],
-                hotel: data[hotel],
-                moveIn: data[moveIn],
-                moveOut: data[moveOut],
-                rooms: rooms
-            });
-
-        }
+        });
 
     }
 
