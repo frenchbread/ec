@@ -78,8 +78,11 @@ router.post('/test', function (req ,res) {
         // TODO: add support for checking dates when selecting from db
         H.findOne({ hotelCodename: acc.hotel }, {roomType:1, hotelName:1, _id:0}, function (err, h) {
 
+            var prisePerRoomPerDay = 0;
+            var prisePerAllRoomsPerDay = 0;
             var prisePerDay = 0;
             var priseTotal = 0;
+
             var rooms = [];
 
             acc.rooms.forEach(function (r) {
@@ -87,17 +90,33 @@ router.post('/test', function (req ,res) {
                 var roomType = r.type;
 
                 // prise per day for current toomType and hotel
-                var prisePerRoomType = h.roomType[0][roomType].eur;
+                prisePerRoomPerDay = h.roomType[0][roomType].eur;
 
                 // prise per all days
-                var prisePerAllRooms = r.amount * prisePerRoomType;
+                prisePerAllRoomsPerDay = r.amount * prisePerRoomPerDay;
 
-                prisePerDay += prisePerAllRooms;
+                prisePerDay += prisePerAllRoomsPerDay;
 
-                r.prisePerDayPerRoom = prisePerRoomType;
-                r.prisePerDayPerAllRooms = prisePerAllRooms;
+                rooms.push({
+                    type: r.type,
+                    hotel: r.amount,
+                    prisePerRoomPerDay: prisePerRoomPerDay,
+                    prisePerAllRoomsPerDay: prisePerAllRoomsPerDay
+                });
 
             });
+
+            priseTotal += prisePerDay;
+
+            accs.push({
+                city: acc.city,
+                hotel: acc.hotel,
+                rooms: rooms,
+                prisePerDay: prisePerDay,
+                priseTotal: priseTotal
+            });
+
+            console.log(accs)
 
         });
     });
