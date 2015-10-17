@@ -6,6 +6,6 @@ module.exports = [
         "title" : "double"
     },
     {
-        "title" : "triple"
+        "title" : "tripple"
     }
 ];
