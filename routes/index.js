@@ -36,33 +36,71 @@ router.get('/test', function (req, res) {
 
 router.post('/test', function (req ,res) {
 
+    var exampple = [
+        {
+            city: "",
+            hotel: "",
+            moveIn: moment,
+            moveOut: moment(),
+            rooms: [
+                {
+                    type: "",
+                    amount: 0,
+                    prisePerOne: 0,
+                    prisePerAll: 0
+                }
+            ],
+            prisePerDay: 0,
+            priseTotal: 0
+        }
+    ];
+
     var data = req.body;
 
     var accommodations = parseData(data);
 
+    var accs = [];
+
     // counting total prise
+    accommodations.forEach(function (acc) {
 
-    for (var i = 0; i<=accommodations.length-1; i++) {
+        // checks if acc has such fuekd and creates moment date obj
+        if (acc.hasOwnProperty("moveIn")) {
+            acc.moveIn = moment(acc.moveIn, "DD-MM-YYYY");
+        }
 
-        var acc = accommodations[i];
+        if (acc.hasOwnProperty("moveOut")) {
+            acc.moveOut = moment(acc.moveOut, "DD-MM-YYYY");
+        }
 
-        H.findOne({ hotelCodename: acc.hotel }, {_id: 0}, function (err, h) {
+        var daysWithinAcc = acc.moveOut.diff(acc.moveIn, 'days');
 
-            var rooms = acc.rooms;
+        // TODO: add support for checking dates when selecting from db
+        H.findOne({ hotelCodename: acc.hotel }, {roomType:1, hotelName:1, _id:0}, function (err, h) {
 
-            for (var j = 0; j <= rooms.length-1; j++){
+            var prisePerDay = 0;
+            var priseTotal = 0;
+            var rooms = [];
 
-                var roomType = rooms[0].type;
+            acc.rooms.forEach(function (r) {
 
+                var roomType = r.type;
 
                 // prise per day for current toomType and hotel
-                var prisePerDay = h.roomType[0][roomType];
+                var prisePerRoomType = h.roomType[0][roomType].eur;
 
-            }
+                // prise per all days
+                var prisePerAllRooms = r.amount * prisePerRoomType;
+
+                prisePerDay += prisePerAllRooms;
+
+                r.prisePerDayPerRoom = prisePerRoomType;
+                r.prisePerDayPerAllRooms = prisePerAllRooms;
+
+            });
 
         });
-
-    }
+    });
 
     res.json(accommodations);
 
