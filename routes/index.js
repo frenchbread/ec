@@ -46,9 +46,19 @@ router.post('/test', function (req ,res) {
 
         var acc = accommodations[i];
 
-        H.find({ hotelCodename: acc.hotel }, {_id: 0}, function (err, h) {
+        H.findOne({ hotelCodename: acc.hotel }, {_id: 0}, function (err, h) {
 
-            console.log(h);
+            var rooms = acc.rooms;
+
+            for (var j = 0; j <= rooms.length-1; j++){
+
+                var roomType = rooms[0].type;
+
+
+                // prise per day for current toomType and hotel
+                var prisePerDay = h.roomType[0][roomType];
+
+            }
 
         });
 
