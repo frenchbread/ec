@@ -1,11 +1,11 @@
 module.exports = [
     {
-        "title" : "Single"
+        "title" : "single"
     },
     {
-        "title" : "Double"
+        "title" : "double"
     },
     {
-        "title" : "Triple"
+        "title" : "triple"
     }
 ];
