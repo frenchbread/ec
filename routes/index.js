@@ -12,6 +12,8 @@ var parseData = require('../lib/parseData');
 
 var H = require('../models/hotel');
 
+var async = require('async');
+
 //home
 router.get('/', function(req, res) {
 
@@ -59,69 +61,75 @@ router.post('/test', function (req ,res) {
 
     var accommodations = parseData(data);
 
-    var accs = [];
+    async.waterfall([
+        function (next) {
+            accommodations.forEach(function (acc) {
+                H.findOne({ hotelCodename: acc.hotel }, {roomType:1, hotelName:1, _id:0}).exec(next);
+            });
+        },
+        function (h, next) {
 
-    // counting total prise
-    accommodations.forEach(function (acc) {
+            var accs = [];
 
-        // checks if acc has such fuekd and creates moment date obj
-        if (acc.hasOwnProperty("moveIn")) {
-            acc.moveIn = moment(acc.moveIn, "DD-MM-YYYY");
-        }
+            accommodations.forEach(function(acc){
 
-        if (acc.hasOwnProperty("moveOut")) {
-            acc.moveOut = moment(acc.moveOut, "DD-MM-YYYY");
-        }
+                // checks if acc has such fuekd and creates moment date obj
+                if (acc.hasOwnProperty("moveIn")) {
+                    acc.moveIn = moment(acc.moveIn, "DD-MM-YYYY");
+                }
 
-        var daysWithinAcc = acc.moveOut.diff(acc.moveIn, 'days');
+                if (acc.hasOwnProperty("moveOut")) {
+                    acc.moveOut = moment(acc.moveOut, "DD-MM-YYYY");
+                }
 
-        // TODO: add support for checking dates when selecting from db
-        H.findOne({ hotelCodename: acc.hotel }, {roomType:1, hotelName:1, _id:0}, function (err, h) {
 
-            var prisePerRoomPerDay = 0;
-            var prisePerAllRoomsPerDay = 0;
-            var prisePerDay = 0;
-            var priseTotal = 0;
+                var daysWithinAcc = acc.moveOut.diff(acc.moveIn, 'days');
 
-            var rooms = [];
+                var prisePerRoomPerDay = 0;
+                var prisePerAllRoomsPerDay = 0;
+                var prisePerDay = 0;
+                var priseTotal = 0;
 
-            acc.rooms.forEach(function (r) {
+                var rooms = [];
 
-                var roomType = r.type;
+                acc.rooms.forEach(function (r) {
 
-                // prise per day for current toomType and hotel
-                prisePerRoomPerDay = h.roomType[0][roomType].eur;
+                    var roomType = r.type;
 
-                // prise per all days
-                prisePerAllRoomsPerDay = r.amount * prisePerRoomPerDay;
+                    // prise per day for current toomType and hotel
+                    prisePerRoomPerDay = h.roomType[0][roomType].eur;
 
-                prisePerDay += prisePerAllRoomsPerDay;
+                    // prise per all days within room
+                    prisePerAllRoomsPerDay = r.amount * prisePerRoomPerDay;
 
-                rooms.push({
-                    type: r.type,
-                    hotel: r.amount,
-                    prisePerRoomPerDay: prisePerRoomPerDay,
-                    prisePerAllRoomsPerDay: prisePerAllRoomsPerDay
+                    // prise per all rooms per one day
+                    prisePerDay += prisePerAllRoomsPerDay;
+
+                    rooms.push({
+                        type: r.type,
+                        hotel: r.amount,
+                        prisePerRoomPerDay: prisePerRoomPerDay,
+                        prisePerAllRoomsPerDay: prisePerAllRoomsPerDay
+                    });
+                });
+
+                priseTotal = prisePerDay * daysWithinAcc;
+
+                accs.push({
+                    city: acc.city,
+                    hotel: acc.hotel,
+                    rooms: rooms,
+                    prisePerDay: prisePerDay,
+                    priseTotal: priseTotal
                 });
 
             });
 
-            priseTotal += prisePerDay;
+            res.json(accs);
+        }
+    ]);
 
-            accs.push({
-                city: acc.city,
-                hotel: acc.hotel,
-                rooms: rooms,
-                prisePerDay: prisePerDay,
-                priseTotal: priseTotal
-            });
-
-            console.log(accs)
-
-        });
-    });
-
-    res.json(accommodations);
+//    res.json(accommodations);
 
 });
 
