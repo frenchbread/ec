@@ -68,6 +68,28 @@ $(document).ready(function () {
     var roomIds = [];
     var roomId  = $('#rooms>.roomForm').size();
 
+    var form = $('#mainForm');
+
+    var exampple = [
+        {
+            city: "",
+            hotel: "",
+            moveIn: moment,
+            moveOut: moment(),
+            rooms: [
+                {
+                    type: "",
+                    amount: 0,
+                    prisePerOne: 0,
+                    prisePerAll: 0
+                }
+            ],
+            prisePerDay: 0,
+            priseTotal: 0
+        }
+    ];
+
+
     addAcc = function () {
 
         var city;
@@ -152,6 +174,7 @@ $(document).ready(function () {
         roomType    = labelRoom + "_roomType_" + accId + "_" +roomId;
 
         roomsAmount = labelRoom + "_roomAmount_" + accId + "_" + roomId ;
+
         var roomList = $('#roomList').html();
 
         $('.roomType', rm).html(roomList);
@@ -166,14 +189,12 @@ $(document).ready(function () {
             'id': roomsAmount,
             'name': roomsAmount
         });
-        $('.removeRoom', rm).attr('onlick', 'removeRoom('+accId+', '+roomId+');');
+        $('.removeRoom', rm).attr('onclick', 'removeRoom('+accId+', '+roomId+');');
 
 
         $('#rooms', '#accommodationForm_'+accId).append(rm);
 
         roomIds.push(roomId);
-
-        console.log(roomIds);
 
         roomId++;
 
@@ -188,10 +209,119 @@ $(document).ready(function () {
         var inList  = index > -1;
         if (inList) roomIds.splice(index, 1);
 
-        console.log(roomIds);
-
         return false;
 
     };
 
+    checkout = function () {
+
+        var data = parseStuff();
+
+        var completeData = countStuff(data);
+
+        console.log(completeData);
+
+
+    };
+
+    function parseStuff () {
+
+        var accs = [];
+
+        accIds.forEach(function (aid) {
+
+            var city        = $("#" + labelAcc + "_city_" + aid);
+            var hotel       = $("#" + labelAcc + "_hotel_" + aid);
+            var moveIn      = $("#" + labelAcc + "_moveIn_" + aid);
+            var moveOut     = $("#" + labelAcc + "_moveOut_" + aid);
+
+            var momentIn, momentOut;
+
+            // checks if acc has such fuekd and creates moment date obj
+            if (moveIn.length) momentIn = moment(moveIn.val(), "DD-MM-YYYY");
+
+            if (moveOut.length) momentOut = moment(moveOut.val(), "DD-MM-YYYY");
+
+            var daysWithinAcc = momentOut.diff(momentIn, 'days');
+
+            var rooms = [];
+
+            roomIds.forEach(function (rid) {
+
+                var roomType    = $("#" + labelRoom + "_roomType_" + aid + "_" + rid);
+                var roomsAmount = $("#" + labelRoom + "_roomAmount_" + aid + "_" + rid);
+
+                if (roomType.length || roomsAmount.length) {
+
+                    rooms.push({
+                        type: roomType.val(),
+                        amount: roomsAmount.val(),
+                        prisePerRoomPerDay: 0,
+                        prisePerAllRoomsPerDay: 0
+                    });
+                }
+            });
+
+            accs.push({
+                city: city.val(),
+                hotel: hotel.val(),
+                days: daysWithinAcc,
+                moveIn: momentIn,
+                moveOut: momentOut,
+                rooms: rooms,
+                prisePerDay: 0,
+                priseTotal: 0
+            });
+
+        });
+
+        return accs;
+    }
+
+    function countStuff (data) {
+
+        var accs = data;
+
+        $.getJSON('/api/hotels', function (prises) {
+
+            accs.forEach(function (acc) {
+
+                var prisePerRoomPerDay = 0;
+                var prisePerAllRoomsPerDay = 0;
+                var prisePerDay = 0;
+                var priseTotal = 0;
+
+
+                acc.rooms.forEach(function (r) {
+
+                    prises.forEach(function (pr) {
+
+                        if (pr.hotelCodename == acc.hotel) {
+
+                            // prise per day for current toomType and hotel
+                            prisePerRoomPerDay = pr.roomType[0][r.type].eur;
+                        }
+                    });
+
+                    // prise per all days within room
+                    prisePerAllRoomsPerDay = r.amount * prisePerRoomPerDay;
+
+                    // prise per all rooms per one day
+                    prisePerDay += prisePerAllRoomsPerDay;
+
+                    r.prisePerRoomPerDay = prisePerRoomPerDay;
+                    r.prisePerAllRoomsPerDay = prisePerAllRoomsPerDay;
+                });
+
+                priseTotal = prisePerDay * acc.days;
+
+                acc.prisePerDay = prisePerDay;
+                acc.priseTotal = priseTotal;
+
+            });
+
+        });
+
+        return accs;
+    }
 });
