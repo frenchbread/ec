@@ -21,7 +21,7 @@ block content
                 each room in rooms
                     option(value=room.title)=room.title
 
-        form.form-inline(action="/test", method="post")
+        form.form-inline(action="/test", method="post")#mainForm
 
             #playground
 
@@ -29,4 +29,4 @@ block content
 
             hr
 
-            button.btn.btn-success(type="submit") Checkout
+            a.btn.btn-success(onclick="checkout();") Checkout
