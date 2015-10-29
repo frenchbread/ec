@@ -36,100 +36,18 @@ router.get('/test', function (req, res) {
 
 });
 
+router.get('/api/hotels/', function (req, res) {
+
+    H.find({}, function (err, hotels) {
+        if (err) throw  err;
+
+        res.json(hotels);
+    })
+
+});
+
 router.post('/test', function (req ,res) {
-
-    var exampple = [
-        {
-            city: "",
-            hotel: "",
-            moveIn: moment,
-            moveOut: moment(),
-            rooms: [
-                {
-                    type: "",
-                    amount: 0,
-                    prisePerOne: 0,
-                    prisePerAll: 0
-                }
-            ],
-            prisePerDay: 0,
-            priseTotal: 0
-        }
-    ];
-
-    var data = req.body;
-
-    var accommodations = parseData(data);
-
-    async.waterfall([
-        function (next) {
-            accommodations.forEach(function (acc) {
-                H.findOne({ hotelCodename: acc.hotel }, {roomType:1, hotelName:1, _id:0}).exec(next);
-            });
-        },
-        function (h, next) {
-
-            var accs = [];
-
-            accommodations.forEach(function(acc){
-
-                // checks if acc has such fuekd and creates moment date obj
-                if (acc.hasOwnProperty("moveIn")) {
-                    acc.moveIn = moment(acc.moveIn, "DD-MM-YYYY");
-                }
-
-                if (acc.hasOwnProperty("moveOut")) {
-                    acc.moveOut = moment(acc.moveOut, "DD-MM-YYYY");
-                }
-
-
-                var daysWithinAcc = acc.moveOut.diff(acc.moveIn, 'days');
-
-                var prisePerRoomPerDay = 0;
-                var prisePerAllRoomsPerDay = 0;
-                var prisePerDay = 0;
-                var priseTotal = 0;
-
-                var rooms = [];
-
-                acc.rooms.forEach(function (r) {
-
-                    var roomType = r.type;
-
-                    // prise per day for current toomType and hotel
-                    prisePerRoomPerDay = h.roomType[0][roomType].eur;
-
-                    // prise per all days within room
-                    prisePerAllRoomsPerDay = r.amount * prisePerRoomPerDay;
-
-                    // prise per all rooms per one day
-                    prisePerDay += prisePerAllRoomsPerDay;
-
-                    rooms.push({
-                        type: r.type,
-                        hotel: r.amount,
-                        prisePerRoomPerDay: prisePerRoomPerDay,
-                        prisePerAllRoomsPerDay: prisePerAllRoomsPerDay
-                    });
-                });
-
-                priseTotal = prisePerDay * daysWithinAcc;
-
-                accs.push({
-                    city: acc.city,
-                    hotel: acc.hotel,
-                    rooms: rooms,
-                    prisePerDay: prisePerDay,
-                    priseTotal: priseTotal
-                });
-
-            });
-
-            res.json(accs);
-        }
-    ]);
-
-//    res.json(accommodations);
+    
 
 });
 
