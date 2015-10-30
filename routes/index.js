@@ -47,7 +47,10 @@ router.get('/api/hotels/', function (req, res) {
 });
 
 router.post('/test', function (req ,res) {
-    
+
+    //console.log(req.body);
+
+    res.json(req.body);
 
 });
 
