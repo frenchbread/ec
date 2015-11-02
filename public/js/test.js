@@ -234,7 +234,8 @@ $(document).ready(function () {
                 success: function(data) {
                     console.log('process sucess');
                     $('#myModal').modal('show');
-                    $('#checkoutData').html(JSON.stringify(data, null, '\t'));
+                    console.log(data);
+                    $('#checkoutData').html(renderStuff(data));
                 },
 
                 error: function(err) {
@@ -317,6 +318,8 @@ $(document).ready(function () {
 
                         // prise per day for current toomType and hotel
                         prisePerRoomPerDay = pr.roomType[0][r.type].eur;
+
+                        acc.displayName = pr.hotelName;
                     }
                 });
 
@@ -342,5 +345,81 @@ $(document).ready(function () {
             totalPriseForAccs: priseTotal,
             accs: accs
         };
+    }
+
+    function renderStuff (trip) {
+
+        var t = "";
+
+        for (var i=0; i<trip.accs.length; i++) {
+
+            var num = i+1;
+
+            t += [
+                '<tr class="info">' +
+                    '<th scope="row">'+num+'</th>'+
+                    '<td>' +
+                        trip.accs[i].displayName +
+                    '</td>'+
+                    '<td>' +
+                        trip.accs[i].days +
+                    '</td>'+
+                    '<td></td>'+
+                    '<td></td>'+
+                    '<td></td>'+
+                '</tr>'
+            ].join();
+
+            for (var j=0; j<trip.accs[i].rooms.length; j++) {
+
+                t += [
+                    '<tr>' +
+                        '<th scope="row"></th>'+
+                        '<td></td>'+
+                        '<td></td>'+
+                        '<td>' +
+                            trip.accs[i].rooms[j].type +
+                        '</td>'+
+                        '<td>' +
+                            trip.accs[i].rooms[j].amount +
+                        '</td>'+
+                        '<td>' +
+                            trip.accs[i].rooms[j].prisePerAllRoomsPerDay +
+                        '</td>'+
+                    '</tr>'
+                ].join();
+
+            }
+
+        }
+
+
+
+        var q = [
+            '<table class="table table-bordered table-hover">' +
+                '<thead>' +
+                    '<tr>' +
+                        '<th>#</th>' +
+                        '<th>Hotel</th>' +
+                        '<th>Nights</th>' +
+                        '<th>Room Type</th>' +
+                        '<th>Amount</th>' +
+                        '<th>Cost</th>' +
+                    '</tr>' +
+                '</thead>' +
+                '<tbody>' +
+                    t +
+                '</tbody>' +
+            '</table>' +
+            '<hr/>' +
+            '<p>' +
+                'Итого:' +
+                '<b class="pull-right">' +
+                    trip.totalPriseForAccs +
+                '</b>' +
+            '</p>'
+        ];
+
+        return q;
     }
 });
