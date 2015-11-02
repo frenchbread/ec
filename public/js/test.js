@@ -276,9 +276,7 @@ $(document).ready(function () {
 
                     rooms.push({
                         type: roomType.val(),
-                        amount: roomsAmount.val(),
-                        prisePerRoomPerDay: 0,
-                        prisePerAllRoomsPerDay: 0
+                        amount: roomsAmount.val()
                     });
                 }
             });
@@ -289,9 +287,7 @@ $(document).ready(function () {
                 days: daysWithinAcc,
                 moveIn: moveIn.val(),
                 moveOut: moveOut.val(),
-                rooms: rooms,
-                prisePerDay: 0,
-                priseTotal: 0
+                rooms: rooms
             });
 
         });
@@ -303,12 +299,14 @@ $(document).ready(function () {
 
         var accs = data;
 
+        var priseTotal = 0;
+
         accs.forEach(function (acc) {
 
             var prisePerRoomPerDay = 0;
             var prisePerAllRoomsPerDay = 0;
             var prisePerDay = 0;
-            var priseTotal = 0;
+            var prisePerAcc = 0;
 
 
             acc.rooms.forEach(function (r) {
@@ -332,13 +330,17 @@ $(document).ready(function () {
                 r.prisePerAllRoomsPerDay = prisePerAllRoomsPerDay;
             });
 
-            priseTotal = prisePerDay * acc.days;
+            prisePerAcc = prisePerDay * acc.days;
+            priseTotal += prisePerAcc;
 
             acc.prisePerDay = prisePerDay;
-            acc.priseTotal = priseTotal;
+            acc.prisePerAcc = prisePerAcc;
 
         });
 
-        return accs;
+        return {
+            totalPriseForAccs: priseTotal,
+            accs: accs
+        };
     }
 });
