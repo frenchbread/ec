@@ -2,16 +2,17 @@ $(document).ready(function () {
 
     var accommodationForm = [
         '<div class="row accommodationForm">' +
-            '<div class="col-md-8 placeForCol1">' +
+            '<div class="col-md-12">' +
+                '<h3>Отель' +
+                    '<a class="btn btn-xs btn-danger removeAcc pull-right">x Убрать отель</a>' +
+                '</h3>' +
+                '<div id="hotelInfo"></div>' +
             '</div>' +
-            '<div class="col-md-4">' +
+            '<div class="col-md-12">' +
+                '<h3>Комнаты</h3>' +
                 '<div id="rooms"></div>' +
                 '<hr/>' +
                 '<a class="btn btn-xs btn-primary addRoom">+ Добавить тип комнаты</a>' +
-            '</div>' +
-            '<div class="col-lg-12">' +
-                '<hr/>' +
-                '<a class="btn btn-xs btn-danger removeAcc">x Убрать вариант проживания</a>' +
             '</div>' +
         '</div>'
     ].join();
@@ -50,14 +51,13 @@ $(document).ready(function () {
             '</div>' +
             '<div class="form-group">' +
                 '<label>Кол-во номеров</label><br/>' +
-                '<input type="text" placeholder="Кол-во номеров" class="form-control roomsAmount"/>' +
+                '<input type="number" class="form-control roomsAmount"/>' +
             '</div>' +
             '<div class="form-group" style="padding:2px;padding-top:30px;">' +
                 '<a class="btn btn-xs btn-danger removeRoom">x</a>' +
             '</div>' +
         '</div>'
     ].join();
-
 
     var labelAcc    = 'accommodation';
     var labelRoom   = 'room';
@@ -138,7 +138,7 @@ $(document).ready(function () {
         $('.hotel', col).html(hotels);
 
         // fields into form
-        $('.placeForCol1', form).html(col);
+        $('#hotelInfo', form).html(col);
 
         // publish
         $('#playground').append(form);
