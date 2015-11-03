@@ -35,20 +35,21 @@ p {
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
-    background: #f7f7f7;
-    border:1px solid #eee;
+    /*background: #f7f7f7;*/
+    border:1px solid #e0e0e0;
     margin:10px 0;
     padding:5px;
+    padding-bottom: 10px;
 }
 
-.roomForm, .serviceForm{
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    background: #ececec;
-    border:1px solid #ccc;
-    margin-bottom:5px;
-}
+/*.roomForm, .serviceForm{*/
+    /*border-radius: 5px;*/
+    /*-moz-border-radius: 5px;*/
+    /*-webkit-border-radius: 5px;*/
+    /*background: #ececec;*/
+    /*border:1px solid #ccc;*/
+    /*margin-bottom:5px;*/
+/*}*/
 .accommodationForm {
 
 }
