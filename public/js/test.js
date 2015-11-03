@@ -210,7 +210,7 @@ $(document).ready(function () {
 
     };
 
-    checkout = function () {
+    preview = function () {
 
         var data = parseStuff();
 
@@ -218,31 +218,35 @@ $(document).ready(function () {
 
             var completeData = countStuff(data, prises);
 
-            $.ajax({
-                url: "/test",
-                type: "POST",
-                dataType: "json",
-                data: JSON.stringify(completeData),
-                contentType: "application/json",
-                cache: false,
-                timeout: 5000,
-                complete: function() {
-                    //called when complete
-                    console.log('process complete');
-                },
+            $('#myModal').modal('show');
+            $('#checkoutData').html(renderStuff(completeData));
+        });
+    };
 
-                success: function(data) {
-                    console.log('process sucess');
-                    $('#myModal').modal('show');
-                    console.log(data);
-                    $('#checkoutData').html(renderStuff(data));
-                },
+    checkout = function () {
 
-                error: function(err) {
-                    console.log('process error');
-                    console.log(err);
-                }
-            });
+        $.ajax({
+            url: "/test",
+            type: "POST",
+            dataType: "json",
+            data: JSON.stringify(completeData),
+            contentType: "application/json",
+            cache: false,
+            timeout: 5000,
+            complete: function() {
+                //called when complete
+                console.log('process complete');
+            },
+
+            success: function(data) {
+                console.log('process sucess');
+
+            },
+
+            error: function(err) {
+                console.log('process error');
+                console.log(err);
+            }
         });
     };
 
