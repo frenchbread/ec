@@ -53,3 +53,16 @@ p {
 .accommodationForm {
 
 }
+
+/* Other */
+
+#head-table td{
+    border: none;
+}
+#head-table {
+    width: auto;
+}
+#head-table tr td:first-child{
+    text-align: right;
+    vertical-align: middle;
+}
