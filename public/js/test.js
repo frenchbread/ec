@@ -254,6 +254,11 @@ $(document).ready(function () {
 
         var accs = [];
 
+        var docFor = $('#documentFor').val();
+        var tripStarts = $('#tripStarts').val();
+        var tripEnds = $('#tripEnds').val();
+        var guestsCount = $('#guestsCount').val();
+
         accIds.forEach(function (aid) {
 
             var city        = $("#" + labelAcc + "_city_" + aid);
@@ -297,12 +302,19 @@ $(document).ready(function () {
 
         });
 
-        return accs;
+        return {
+            documentFor : docFor,
+            tripStarts : tripStarts,
+            tripEnds : tripEnds,
+            guestsCount : guestsCount,
+            totalPriseForAccs : 0,
+            accs : accs
+        };
     }
 
     function countStuff (data, prises) {
 
-        var accs = data;
+        var accs = data.accs;
 
         var priseTotal = 0;
 
@@ -345,10 +357,12 @@ $(document).ready(function () {
 
         });
 
-        return {
-            totalPriseForAccs: priseTotal,
-            accs: accs
-        };
+        data.accs = accs;
+        data.totalPriseForAccs = priseTotal;
+
+        console.log(data);
+
+        return data;
     }
 
     function renderStuff (trip) {
@@ -400,6 +414,18 @@ $(document).ready(function () {
 
 
         var q = [
+            '<p>' +
+                'Для: ' + trip.documentFor +
+            '<p>' +
+            '<p>' +
+                'Начало: ' + trip.tripStarts +
+            '<p>' +
+            '<p>' +
+                'Конец: ' + trip.tripEnds +
+            '<p>' +
+            '<p>' +
+                'Кол-во человек: ' + trip.guestsCount +
+            '<p>' +
             '<table class="table table-bordered table-hover">' +
                 '<thead>' +
                     '<tr>' +
