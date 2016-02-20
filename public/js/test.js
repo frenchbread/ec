@@ -430,11 +430,11 @@ $(document).ready(function () {
                 '<thead>' +
                     '<tr>' +
                         '<th>#</th>' +
-                        '<th>Hotel</th>' +
-                        '<th>Nights</th>' +
-                        '<th>Room Type</th>' +
-                        '<th>Amount</th>' +
-                        '<th>Cost</th>' +
+                        '<th>Отель</th>' +
+                        '<th>Кол-во ночей</th>' +
+                        '<th>Тип комнаты</th>' +
+                        '<th>Кол-во комнат</th>' +
+                        '<th>Стоимость</th>' +
                     '</tr>' +
                 '</thead>' +
                 '<tbody>' +
