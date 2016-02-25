@@ -332,8 +332,10 @@ $(document).ready(function () {
 
                     if (pr.hotelCodename == acc.hotel) {
 
+                        console.log(pr);
+
                         // prise per day for current toomType and hotel
-                        prisePerRoomPerDay = pr.roomType[0][r.type].eur;
+                        prisePerRoomPerDay = pr.roomType[r.type].eur;
 
                         acc.displayName = pr.hotelName;
                     }
