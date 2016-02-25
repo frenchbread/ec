@@ -26,6 +26,12 @@ router.get('/', function(req, res) {
 
 });
 
+router.get('/api/hotels/', function (req, res) {
+
+    res.json(hotels);
+
+});
+
 router.get('/test', function (req, res) {
 
     res.render('test', {
@@ -33,16 +39,6 @@ router.get('/test', function (req, res) {
         cities: cities,
         rooms : rooms
     });
-
-});
-
-router.get('/api/hotels/', function (req, res) {
-
-    H.find({}, function (err, hotels) {
-        if (err) throw  err;
-
-        res.json(hotels);
-    })
 
 });
 
