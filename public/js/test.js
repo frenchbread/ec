@@ -86,82 +86,47 @@ $(document).ready(function () {
                 '<h3>День <b id="programNum"></b>' +
                     '<a class="btn btn-xs btn-danger removeProgram pull-right">x Убрать день</a>' +
                 '</h3>' +
+                '<div class="">' +
+                '<hr/>' +
+                '<label>Город</label>' +
+                '<br/>' +
+                '<button class="btn btn-xs btn-primary addService">+ Добавить сервис</button>' +
+                '<select class="form-control cityProgram input-sm">' +
+                '</select>' +
+                '<hr/>' +
+                '</div>' +
                 '<div id="programInfo">' +
+
                 '</div>' +
             '</div>' +
         '</div>'
     ].join();
 
     var col2 = [
-        '<div class="">' +
-            '<hr/>' +
-            '<label>Город</label>' +
-            '<br/>' +
-            '<select class="form-control cityProgram input-sm">' +
-            '</select>' +
-            '<hr/>' +
-        '</div>' +
-        '<h4>Трансфер</h4>' +
-        '<div class="form-group">' +
-            '<label>Класс авто</label>' +
-            '<br/>' +
-            '<select class="form-control transferAuto input-sm">' +
-            '</select>' +
-        '</div>' +
-        '<div class="form-group">' +
-            '<label >Откуда</label>' +
-            '<br/>' +
-            '<input type="text" class="form-control transferFrom input-sm"/>' +
-        '</div>' +
-        '<div class="form-group">' +
-            '<label>Куда</label>' +
-            '<br/>' +
-            '<input type="text" class="form-control transferTo input-sm"/>' +
-        '</div>' +
-
-        '<h4>Аренда с водителем</h4>' +
-        '<div class="form-group">' +
-            '<label>Класс авто</label>' +
-            '<br/>' +
-            '<select class="form-control withDriverAuto input-sm">' +
-            '</select>' +
-        '</div>' +
-        '<div class="form-group">' +
-            '<label >С</label>' +
-            '<br/>' +
-            '<input type="text" class="form-control withDriverStart input-sm"/>' +
-        '</div>' +
-        '<div class="form-group">' +
-            '<label>До</label>' +
-            '<br/>' +
-            '<input type="text" class="form-control withDriverEnd input-sm"/>' +
-        '</div>' +
-
-        '<h4>Экскурсия</h4>' +
-        '<div class="form-group">' +
-            '<label>Куда</label>' +
-            '<br/>' +
-            '<input type="text" class="form-control excursionTo input-sm" />' +
-            '</select>' +
-        '</div>' +
-        '<div class="form-group">' +
-            '<label >Кол-во человек</label>' +
-            '<br/>' +
-            '<input type="number" class="form-control excursionPeopleAmount input-sm"/>' +
-        '</div>' +
-
-        '<h4>Питание</h4>' +
+        '<div class="serviceForm" >' +
             '<div class="form-group">' +
-            '<label>Ресторан</label>' +
-            '<br/>' +
-            '<input type="text" class="form-control foodRestaurant input-sm" />' +
-        '</div>' +
-        '<div class="form-group">' +
-            '<label >Название меню</label>' +
-            '<br/>' +
-            '<input type="text" class="form-control foodMenu input-sm"/>' +
+                '<label>Тип сервиса</label>' +
+                '<br/>' +
+                '<select class="serviceType form-control">' +
+                    '<option>-</option>' +
+                    '<option value="transfer">Трансфер</option>' +
+                    '<option value="withDriver">Аренда с водителем</option>' +
+                    '<option value="excursion">Экскурсия</option>' +
+                    '<option value="food">Питание</option>' +
+                '</select>' +
+            '</div>' +
+            '<span ></span>' +
+            '<div class="form-group" style="padding:2px;padding-top:30px;">' +
+                '<a href="#" class="btn btn-xs btn-danger">x</a>' +
+            '</div>' +
         '</div>'
     ].join();
+
+    // Service
+
+    var serviceIds = [];
+    var services   = $('#services');
+    var serviceId  = $('#services>.serviceForm').size();
 
     var example = [
         {
@@ -385,6 +350,44 @@ $(document).ready(function () {
         programIds.push(accId);
 
         programId++;
+
+        return false;
+
+    };
+
+    addService = function (programId) {
+
+        var rm = $(col2);
+
+        var roomType;
+        var roomsAmount;
+
+        roomType    = labelRoom + "_roomType_" + accId + "_" +roomId;
+
+        roomsAmount = labelRoom + "_roomAmount_" + accId + "_" + roomId ;
+
+        var roomList = $('#roomList').html();
+
+        $('.roomType', rm).html(roomList);
+        rm.attr('id', 'roomForm_'+roomId);
+
+        $('.roomType', rm).attr({
+            'id': roomType,
+            'name': roomType
+        });
+
+        $('.roomsAmount', rm).attr({
+            'id': roomsAmount,
+            'name': roomsAmount
+        });
+        $('.removeRoom', rm).attr('onclick', 'removeRoom('+accId+', '+roomId+');');
+
+
+        $('#rooms', '#accommodationForm_'+accId).append(rm);
+
+        roomIds.push(roomId);
+
+        roomId++;
 
         return false;
 
