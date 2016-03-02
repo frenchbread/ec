@@ -25,11 +25,19 @@ block content
                         td
                             input.form-control#guestsCount(type='number', placeholder='...', name="guestsCount").input-sm
 
-            #playground
+            #accommodations
 
-            br
+            h1 Проживание
 
             a.btn.btn-primary.btn-sm(onclick="addAcc();") + Добавить отель
+
+            hr
+
+            h1 Программа
+
+            #programs
+
+            a.btn.btn-primary.btn-sm(onclick="addProgram();") + Добавить день
 
             hr
 
@@ -39,6 +47,11 @@ block content
             option -
                 each city in cities
                     option(value=city.key)=city.value
+
+        #cars(style="display:none")
+            option -
+                each car in cars
+                    option(value=car.title)=car.value
 
         #hotels(style="display:none")
             option -
