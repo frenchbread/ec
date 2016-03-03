@@ -135,6 +135,8 @@ $(document).ready(function () {
 
     addAcc = function () {
 
+        accId++;
+
         var city;
         var hotel;
         var moveIn;
@@ -191,12 +193,12 @@ $(document).ready(function () {
 
         accIds.push(accId);
 
-        accId++;
-
         return false;
     };
 
     addRoom = function(accId) {
+
+        roomId++;
 
         var rm = $(room);
 
@@ -228,12 +230,12 @@ $(document).ready(function () {
 
         roomIds.push(roomId);
 
-        roomId++;
-
         return false;
     };
 
     addProgram = function () {
+
+        programId++;
 
         var cityProgram = labelProgram + "_cityProgram_" + programId;
 
@@ -253,7 +255,6 @@ $(document).ready(function () {
         $('.addService', form).attr('onclick', 'addService('+programId+');');
 
         var cities = $('#cities').html();
-        var cars = $('#cars').html();
 
         $('.cityProgram', col).html(cities);
 
@@ -264,8 +265,6 @@ $(document).ready(function () {
         $('#programs').append(form);
 
         programIds.push(accId);
-
-        programId++;
 
         return false;
 
@@ -308,6 +307,64 @@ $(document).ready(function () {
         console.log("added " + programId + " and " + serviceId);
 
 
+
+    };
+
+    switchServiceType = function (programId, serviceId) {
+
+        var serviceType   = labelService + "_serviceType_" + programId + "_" +serviceId;
+        
+        var value = $('#'+serviceType).val();
+
+        var dynamicPlace = '#dynamicPlace_'+serviceId;
+
+        var cars = $('#cars').html();
+
+        switch (value) {
+
+            case "transfer":
+
+                $(dynamicPlace).html($('#hiddenTransfer').html());
+
+                $(dynamicPlace+' .transferCarType').attr('name', 'transferCarType_'+programId+'_'+serviceId).html(cars);
+                $(dynamicPlace+' .transferCarAmount').attr('name', 'transferCarAmount_'+programId+'_'+serviceId);
+                $(dynamicPlace+' .transferFrom').attr('name', 'transferFrom_'+programId+'_'+serviceId);
+                $(dynamicPlace+' .transferTo').attr('name', 'transferTo_'+programId+'_'+serviceId);
+
+                //$('#transferFrom_'+programId+'_'+serviceId).datepicker(timeFormat);
+                //$('#transferTo_'+programId+'_'+serviceId).datepicker(timeFormat);
+
+                break;
+
+            case "withDriver":
+
+                $(dynamicPlace).html($('#hiddenWithDriver').html());
+
+                $(dynamicPlace+' .driverCarType').attr('name', 'driverCarType_'+programId+'_'+serviceId).html(cars);
+                $(dynamicPlace+' .driverCarsAmount').attr('name', 'driverCarsAmount_'+programId+'_'+serviceId);
+                $(dynamicPlace+' .driverHours').attr('name', 'driverHours_'+programId+'_'+serviceId);
+
+                break;
+
+            case "excursion":
+
+                $(dynamicPlace).html($('#hiddenExcursion').html());
+
+                $(dynamicPlace+' .goingPlace').attr('name', 'goingPlace_'+programId+'_'+serviceId);
+                $(dynamicPlace+' .pplAmount').attr('name', 'pplAmount_'+programId+'_'+serviceId);
+
+                break;
+
+            case "food":
+
+                $(dynamicPlace).html($('#hiddenFood').html());
+
+                $(dynamicPlace+' .restaurant').attr('name', 'restaurant_'+programId+'_'+serviceId);
+                $(dynamicPlace+' .menuTitle').attr('name', 'menuTitle_'+programId+'_'+serviceId);
+                $(dynamicPlace+' .restaurantPeopleAmount').attr('name', 'restaurantPeopleAmount_'+programId+'_'+serviceId);
+
+                break;
+        }
 
     };
 

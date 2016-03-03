@@ -63,6 +63,66 @@ block content
                 each room in rooms
                     option(value=room.title)=room.title
 
+        // DAYS - hidden fields
+
+        #hiddenTransfer(style="display:none")
+            .form-group
+                label(for='') Класс авто
+                br
+                select.form-control.transferCarType
+
+            .form-group
+                label(for='') Кол-во авто
+                br
+                input.form-control.transferCarAmount(type='text', placeholder='')
+            .form-group
+                label(for='') Откуда
+                br
+                input.form-control.transferFrom(type='text', placeholder='')
+            .form-group
+                label(for='') Куда
+                br
+                input.form-control.transferTo(type='text', placeholder='')
+
+        #hiddenWithDriver(style="display:none")
+            .form-group
+                label(for='') Класс авто
+                br
+                select.form-control.driverCarType
+
+            .form-group
+                label(for='') Кол-во  авто
+                br
+                input.form-control.driverCarsAmount(type='number', placeholder='')
+            .form-group
+                label(for='') Кол-во часов
+                br
+                input.form-control.driverHours(type='text', placeholder='')
+
+        #hiddenExcursion(style="display:none")
+            .form-group
+                label(for='') Куда
+                br
+                input.form-control.goingPlace(type='text', placeholder='')
+            .form-group
+                label(for='') Кол-во человек
+                br
+                input.form-control.pplAmount(type='number', placeholder='')
+
+            #hiddenFood(style="display:none")
+                .form-group
+                    label(for='') Ресторан
+                    br
+                    input.form-control.restaurant(type='text', placeholder='')
+                .form-group
+                    label(for='') Название меню
+                    br
+                    input.form-control.menuTitle(type='text', placeholder='')
+                .form-group
+                    label(for='') Кол-во человек
+                    br
+                    input.form-control.restaurantPeopleAmount(type='number', placeholder='')
+
         // Button trigger modal
         //button.btn.btn-primary.btn-lg(type='button', data-toggle='modal', data-target='#myModal') Launch demo modal
 
