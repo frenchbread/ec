@@ -86,23 +86,13 @@ $(document).ready(function () {
                 '<h3>День' +
                 '<a class="btn btn-xs btn-danger removeProgram pull-right">x Убрать день</a>' +
                 '</h3>' +
-            '<div id="programInfo"></div>' +
             '</div>' +
             '<div class="col-md-12">' +
                 '<h3>Сервисы</h3>' +
-            '<div id="services"></div>' +
+                '<div id="services"></div>' +
                 '<hr/>' +
                 '<a class="btn btn-xs btn-primary addService">+ Добавить сервис</a>' +
             '</div>' +
-        '</div>'
-    ].join();
-
-    var col2 = [
-        '<div class="form-group">' +
-            '<label>Город</label>' +
-            '<br/>' +
-            '<select class="form-control cityProgram input-sm">' +
-            '</select>' +
         '</div>'
     ].join();
 
@@ -237,28 +227,13 @@ $(document).ready(function () {
 
         programId++;
 
-        var cityProgram = labelProgram + "_cityProgram_" + programId;
-
         var form = $(programForm);
-        var col = $(col2);
 
         form.attr('id', 'programForm_'+programId);
-
-        // city
-        $('.cityProgram', col).attr({
-            'id': cityProgram,
-            'name': cityProgram
-        });
 
         $('.removeProgram', form).attr('onclick', 'removeProgram('+programId+');');
 
         $('.addService', form).attr('onclick', 'addService('+programId+');');
-
-        var cities = $('#cities').html();
-
-        $('.cityProgram', col).html(cities);
-
-        $('#programInfo', form).html(col);
 
         $('#programNum', form).text(programId);
 
@@ -313,7 +288,7 @@ $(document).ready(function () {
     switchServiceType = function (programId, serviceId) {
 
         var serviceType   = labelService + "_serviceType_" + programId + "_" +serviceId;
-        
+
         var value = $('#'+serviceType).val();
 
         var dynamicPlace = '#dynamicPlace_'+serviceId;

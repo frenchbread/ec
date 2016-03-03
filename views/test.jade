@@ -74,7 +74,15 @@ block content
             .form-group
                 label(for='') Кол-во авто
                 br
-                input.form-control.transferCarAmount(type='text', placeholder='')
+                input.form-control.transferCarAmount(type='number', placeholder='')
+            .form-group
+                label(for='') Кол-во часов
+                br
+                input.form-control.transferHours(type='number', placeholder='')
+            .form-group
+                label(for='') Ночной тариф (+50% c 23:00-07:00)
+                br
+                input.transferNightMode(type='checkbox')
             .form-group
                 label(for='') Откуда
                 br
