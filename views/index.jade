@@ -1,0 +1,139 @@
+extends ./layout/base
+
+block content
+    .container-fluid(style="margin-top:20px;")
+
+        form.form-inline(action="", method="post")
+            .jumbotron(style="padding:7px")
+                .form-group
+                    label Квотация подготовленя для &nbsp;
+                    input.form-control#documentFor(type='text', placeholder='...' name="documentFor")
+                br
+                .form-group
+                    label Даты пребывания: С &nbsp;
+                    input.form-control#tripStarts(type='text', placeholder='dd-mm-yyyy', name="tripStarts")
+                .form-group
+                    label До &nbsp;
+                    input.form-control#tripEnds(type='text', placeholder='dd-mm-yyyy', name="tripEnds")
+                br
+                .form-group
+                    label Количество гостей &nbsp;
+                    input.form-control#guestsCount(type='text', placeholder='...', name="guestsCount")
+
+            hr
+            h3 Проживание
+
+            #accommodations
+
+            hr
+
+            a.btn.btn-default(onclick="addAccommodation()") + Добавить вариант проживания
+
+
+            hr
+            h3 Программа
+
+            #programs
+
+            hr
+
+            a.btn.btn-default(onclick="addProgram()") + Добавить день
+
+
+
+            // data
+
+            #cars(style="display:none")
+                option -
+                    each car in cars
+                        option(value=car.title)=car.value
+
+            #cities(style="display:none")
+                option -
+                    each city in cities
+                        option(value=city.value)=city.value
+
+            #hotels(style="display:none")
+                option -
+                    each hotel in hotels
+                        option(value=hotel.title)=hotel.title
+
+            #roomList(style="display:none")
+                option -
+                    each room in rooms
+                        option(value=room.title)=room.title
+
+            hr
+
+            button.btn.btn-success(type="submit") Посчитать
+
+
+            // DAYS - hidden fields
+
+            #hiddenTransfer(style="display:none")
+                .form-group
+                    label(for='') Класс авто
+                    br
+                    select.form-control.transferCarType
+                .form-group
+                    label(for='') Кол-во авто
+                    br
+                    input.form-control.transferCarAmount(type='text', placeholder='')
+                .form-group
+                    label(for='') Откуда
+                    br
+                    input.form-control.transferFrom(type='text', placeholder='')
+                .form-group
+                    label(for='') Куда
+                    br
+                    input.form-control.transferTo(type='text', placeholder='')
+                .form-group
+                    label Цена
+                    br
+                    input.form-control.transferPrice(type="text" placeholder="Цена")
+
+            #hiddenWithDriver(style="display:none")
+                .form-group
+                    label(for='') Класс авто
+                    br
+                    select.form-control.driverCarType
+                .form-group
+                    label(for='') Кол-во часов
+                    br
+                    input.form-control.driverHours(type='text', placeholder='')
+                .form-group
+                    label(for='') Кол-во  авто
+                    br
+                    input.form-control.driverCarsAmount(type='text', placeholder='')
+                .form-group
+                    label Цена
+                    br
+                    input.form-control.driverPrice(type="text" placeholder="Цена")
+
+            #hiddenExcursion(style="display:none")
+                .form-group
+                    label(for='') Куда
+                    br
+                    input.form-control.goingPlace(type='text', placeholder='')
+                .form-group
+                    label(for='') Кол-во человек
+                    br
+                    input.form-control.pplAmount(type='text', placeholder='')
+                .form-group
+                    label Цена
+                    br
+                    input.form-control.excusrionPrice(type="text" placeholder="Цена")
+
+            #hiddenFood(style="display:none")
+                .form-group
+                    label(for='') Ресторан
+                    br
+                    input.form-control.restaurant(type='text', placeholder='')
+                .form-group
+                    label(for='') Название меню
+                    br
+                    input.form-control.menuTitle(type='text', placeholder='')
+                .form-group
+                    label Цена
+                    br
+                    input.form-control.foodPrice(type="text" placeholder="Цена")

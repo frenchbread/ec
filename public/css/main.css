@@ -42,6 +42,18 @@ p {
     padding-bottom: 10px;
 }
 
+/*.roomForm, .serviceForm{*/
+    /*border-radius: 5px;*/
+    /*-moz-border-radius: 5px;*/
+    /*-webkit-border-radius: 5px;*/
+    /*background: #ececec;*/
+    /*border:1px solid #ccc;*/
+    /*margin-bottom:5px;*/
+/*}*/
+.accommodationForm {
+
+}
+
 /* Other */
 
 #head-table td{
