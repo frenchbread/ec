@@ -9,56 +9,6 @@ var hotelValues = [
 
 ];
 
-AccommodationsSchema = new SimpleSchema({
-    accommodations: {
-        type: Array,
-        optional: true,
-        minCount: 0,
-        maxCount: 5
-    },
-    "accommodations.$": {
-        type: Object
-    },
-    "accommodations.$.city": {
-        type: String,
-        autoform: {
-            options: cityValues
-        }
-    },
-    "accommodations.$.hotel": {
-        type: String
-    },
-    "accommodations.$.moveIn": {
-        type: Date,
-        autoform: {
-          type: "bootstrap-datepicker"
-        }
-    },
-    "accommodations.$.MoveOut": {
-        type: Date,
-        autoform: {
-          type: "bootstrap-datepicker"
-        }
-    },
-    "accommodations.$.rooms": {
-        type: Array,
-        optional: true,
-        minCount: 0,
-        maxCount: 5
-    },
-    "accommodations.$.rooms.$": {
-        type: Object
-    },
-    "accommodations.$.rooms.$.type": {
-        type:String
-    },
-    "accommodations.$.rooms.$.amount": {
-        type:String
-    }
-});
-
-Accommodations.attachSchema(AccommodationsSchema);
-
 var hotelPrices = [
     {
         "hotelCodename": "grand",
@@ -162,22 +112,52 @@ var hotelPrices = [
     }
 ];
 
+AccommodationsSchema = new SimpleSchema({
+    accommodations: {
+        type: Array,
+        optional: true,
+        minCount: 0,
+        maxCount: 5
+    },
+    "accommodations.$": {
+        type: Object
+    },
+    "accommodations.$.city": {
+        type: String,
+        autoform: {
+            options: cityValues
+        }
+    },
+    "accommodations.$.hotel": {
+        type: String
+    },
+    "accommodations.$.moveIn": {
+        type: Date,
+        autoform: {
+          type: "bootstrap-datepicker"
+        }
+    },
+    "accommodations.$.MoveOut": {
+        type: Date,
+        autoform: {
+          type: "bootstrap-datepicker"
+        }
+    },
+    "accommodations.$.rooms": {
+        type: Array,
+        optional: true,
+        minCount: 0,
+        maxCount: 5
+    },
+    "accommodations.$.rooms.$": {
+        type: Object
+    },
+    "accommodations.$.rooms.$.type": {
+        type:String
+    },
+    "accommodations.$.rooms.$.amount": {
+        type:String
+    }
+});
 
-// var example = [
-//         {
-//             city: "",
-//             hotel: "",
-//             moveIn: moment,
-//             moveOut: moment(),
-//             rooms: [
-//                 {
-//                     type: "",
-//                     amount: 0,
-//                     prisePerOne: 0,
-//                     prisePerAll: 0
-//                 }
-//             ],
-//             prisePerDay: 0,
-//             priseTotal: 0
-//         }
-//     ];
+Accommodations.attachSchema(AccommodationsSchema);
