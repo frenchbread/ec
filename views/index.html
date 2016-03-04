@@ -1,0 +1,493 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>New wallpapaper every hour.</title>
+    <link rel="stylesheet" href="./vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="./vendor/datepicker.css">
+    <link rel="stylesheet" href="./main.css">
+</head>
+<body>
+<div class="container">
+
+    <div style="margin-top:20px;" class="container">
+        <form id="mainForm" class="form-inline">
+
+            <table id="head-table" class="table tab-content">
+                <tbody>
+                <tr>
+                    <td>
+                        Квотация подготовленя для
+                        <input id="documentFor" type="text" placeholder="..." name="documentFor" class="form-control input-sm"/></td>
+                </tr>
+                <tr>
+                    <td>
+                        Начало пребывания
+                        <input id="tripStarts" type="text" placeholder="dd-mm-yyyy" name="tripStarts" class="form-control input-sm"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Конец пребывания
+                        <input id="tripEnds" type="text" placeholder="dd-mm-yyyy" name="tripEnds" class="form-control input-sm"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Количество гостей
+                        <input id="guestsCount" type="number" placeholder="..." name="guestsCount" class="form-control input-sm"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h1>Проживание</h1>
+
+            <div id="accommodations">
+
+            </div>
+
+            <a onclick="addAcc();" class="btn btn-primary btn-sm">+ Добавить отель</a>
+
+            <hr/>
+
+            <h1>Программа</h1>
+
+            <div id="programs">
+
+            </div>
+
+            <a onclick="addProgram();" class="btn btn-primary btn-sm">+ Добавить день</a>
+
+            <hr/>
+
+            <button class="btn btn-primary pull-right" type="button" data-toggle="modal" data-target="#myModal">Preview</button>
+            <button class="btn btn-success pull-right">Checkout</button>
+        </form>
+
+        <!--Hidden stuff-->
+
+        <div class="row programForm" style="display: none;">
+            <div class="col-md-12">
+                <h3>
+                    День
+                    <b class="programNum"></b>
+                    <a class="btn btn-xs btn-danger removeProgram pull-right">x Убрать день</a>
+                </h3>
+            </div>
+            <div class="col-md-12">
+                <h3>Сервисы</h3>
+                <div id="services"></div>
+                <hr/>
+                <a class="btn btn-xs btn-primary addService">+ Добавить сервис</a>
+            </div>
+        </div>
+
+        <div class="serviceForm" style="display: none">
+            <div class="form-group">
+                <label>Тип сервиса</label>
+                <br/>
+                <select class="serviceType form-control" >
+                    <option>-</option>
+                    <option value="transfer">Трансфер</option>
+                    <option value="driver">Аренда с водителем</option>
+                    <option value="excursion">Экскурсия</option>
+                    <option value="restaurant">Питание</option>
+                </select>
+            </div>
+            <span class="dynamicPlace"></span>
+            <div class="form-group" style="padding:2px;padding-top:30px;">
+                <a class="btn btn-xs btn-danger removeService">x</a>
+            </div>
+        </div>
+
+        <div id="hiddenTransfer" style="display:none">
+            <div class="form-group">
+                <label for="">Класс авто</label><br/>
+                <select class="form-control transferCarType">
+                    <option>-</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="">Кол-во часов</label><br/>
+                <input type="number" placeholder="" class="form-control transferHours"/>
+            </div>
+            <div class="form-group">
+                <label for="">Кол-во авто</label><br/>
+                <input type="number" placeholder="" class="form-control transferCarsAmount"/>
+            </div>
+            <div class="form-group">
+                <label for="">Ночной тариф (+50% c 23:00-07:00)</label><br/>
+                <input type="checkbox" class="transferNightMode"/>
+            </div>
+            <div class="form-group">
+                <label for="">Откуда</label><br/>
+                <input type="text" placeholder="" class="form-control transferFrom"/>
+            </div>
+            <div class="form-group">
+                <label for="">Куда</label><br/>
+                <input type="text" placeholder="" class="form-control transferTo"/>
+            </div>
+        </div>
+
+        <div id="hiddenDriver" style="display:none">
+            <div class="form-group">
+                <label for="">Класс авто</label><br/>
+                <select class="form-control driverCarType">
+                    <option>-</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="">Кол-во часов</label><br/>
+                <input type="number" placeholder="" class="form-control driverHours"/>
+            </div>
+            <div class="form-group">
+                <label for="">Кол-во авто</label><br/>
+                <input type="number" placeholder="" class="form-control driverCarsAmount"/>
+            </div>
+            <div class="form-group">
+                <label for="">Ночной тариф (+50% c 23:00-07:00)</label><br/>
+                <input type="checkbox" class="driverNightMode"/>
+            </div>
+        </div>
+
+        <div id="hiddenExcursion" style="display:none">
+            <div class="form-group">
+                <label for="">Куда</label><br/>
+                <input type="text" placeholder="" class="form-control goingPlace"/>
+            </div>
+            <div class="form-group">
+                <label for="">Кол-во человек</label><br/>
+                <input type="number" placeholder="" class="form-control pplAmount"/>
+            </div>
+            <div id="hiddenRestaurant" style="display:none">
+                <div class="form-group">
+                    <label for="">Ресторан</label><br/>
+                    <input type="text" placeholder="" class="form-control restaurant"/>
+                </div>
+                <div class="form-group">
+                    <label for="">Название меню</label><br/>
+                    <input type="text" placeholder="" class="form-control restaurantMenu"/>
+                </div>
+                <div class="form-group">
+                    <label for="">Кол-во человек</label><br/>
+                    <input type="number" placeholder="" class="form-control restaurantPeopleAmount"/>
+                </div>
+            </div>
+        </div>
+
+        <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" class="modal fade">
+            <div role="document" class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                        <h4 id="myModalLabel" class="modal-title">Проверьте введенные данные</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="checkoutData">
+                            <table class="table table-bordered" id="transferData">
+                                <thead>
+                                    <tr>
+                                        <th>№ День</th>
+                                        <th>Сервис</th>
+                                        <th>Тип авто</th>
+                                        <th>Кол-во часов</th>
+                                        <th>Кол-во авто</th>
+                                        <th>Ночной тариф</th>
+                                        <th>Цена</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <!--button.btn.btn-default(type='button', data-dismiss='modal') Close-->
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        window.$ = window.jQuery = require('./vendor/jquery.min.js');
+
+        var transferData = require('./data/transfer');
+        var driverData = require('./data/driver');
+
+        $(document).ready(function () {
+
+            // Get program form
+            var programForm = $('.programForm');
+
+            var programIds = [];
+            var programId = $('#programs>.programForm').size();
+
+            var serviceForm = $('.serviceForm');
+
+            var serviceIds = [];
+            var serviceId  = $('#services>.serviceForm').size();
+
+            addProgram = function () {
+
+                programId++;
+
+                var form = programForm.clone();
+
+                form.attr('id', 'programForm_'+programId);
+
+                $('.removeProgram', form).attr('onclick', 'removeProgram('+programId+');');
+
+                $('.addService', form).attr('onclick', 'addService('+programId+');');
+
+                $('.programNum', form).text(programId);
+
+                $('#programs').append(form.css('display', 'block'));
+
+                programIds.push(programId);
+
+                return false;
+
+            };
+
+            removeProgram = function(programId) {
+
+                $('#programForm_'+programId).remove();
+
+                var index   = programIds.indexOf(programId);
+                var inList  = index > -1;
+                if (inList) programIds.splice(index, 1);
+
+                return false;
+            };
+
+            addService = function (programId) {
+
+                serviceId++;
+
+                var serviceType = 'service_serviceType_' + programId + '_' +serviceId;
+
+                var form = $(serviceForm).clone();
+
+                form.attr('id', 'serviceForm_'+serviceId);
+
+                $('.serviceType', form).attr({
+                    'id': serviceType,
+                    'name': serviceType,
+                    'onchange': 'switchServiceType('+programId+', '+serviceId+')'
+                });
+
+                $('.dynamicPlace', form).attr('id', 'dynamicPlace_'+ serviceId);
+
+                $('.removeService', form).attr('onclick', 'removeService('+programId+', '+serviceId+')');
+
+                $('#programForm_'+programId+' #services').append(form.css('display', 'block'));
+
+                serviceIds.push(serviceId);
+
+                console.log("added " + programId + " and " + serviceId);
+
+
+
+            };
+
+            removeService  = function (programId, serviceId) {
+
+                $('#service_serviceType_'+programId+'_'+serviceId).closest('.serviceForm').remove();
+                var index   = serviceIds.indexOf(serviceId);
+                var inList  = index > -1;
+                if (inList) serviceIds.splice(index, 1);
+
+                return false;
+            };
+
+            switchServiceType = function (programId, serviceId) {
+
+                var serviceType   = 'service_serviceType_' + programId + '_' +serviceId;
+
+                var value = $('#'+serviceType).val();
+
+                var dynamicPlace = '#dynamicPlace_'+serviceId;
+
+                var transferFields = $('#hiddenTransfer').html();
+                var driverFields = $('#hiddenDriver').html();
+                var excursionFields = $('#hiddenExcursion').html();
+                var restaurantFields = $('#hiddenRestaurant').html();
+
+
+                switch (value) {
+
+                    case "transfer":
+
+                        $(dynamicPlace).html(transferFields);
+
+                        $.each(transferData, function(id, obj) {
+                            $(dynamicPlace+' .transferCarType')
+                                    .append($('<option>', { value : obj.value })
+                                            .text(obj.title));
+                        });
+
+                        $(dynamicPlace+' .transferCarType').attr('id', 'transferCarType_'+programId+'_'+serviceId);
+                        $(dynamicPlace+' .transferHours').attr('id', 'transferHours_'+programId+'_'+serviceId);
+                        $(dynamicPlace+' .transferCarsAmount').attr('id', 'transferCarsAmount_'+programId+'_'+serviceId);
+                        $(dynamicPlace+' .transferNightMode').attr('id', 'transferNightMode_'+programId+'_'+serviceId);
+                        $(dynamicPlace+' .transferFrom').attr('id', 'transferFrom_'+programId+'_'+serviceId);
+                        $(dynamicPlace+' .transferTo').attr('id', 'transferTo_'+programId+'_'+serviceId);
+
+                        break;
+
+                    case "driver":
+
+                        $(dynamicPlace).html(driverFields);
+
+                        $.each(driverData, function(id, obj) {
+                            $(dynamicPlace+' .driverCarType')
+                                    .append($('<option>', { value : obj.value })
+                                            .text(obj.title));
+                        });
+
+                        $(dynamicPlace+' .driverCarType').attr('id', 'driverCarType_'+programId+'_'+serviceId);
+                        $(dynamicPlace+' .driverHours').attr('id', 'driverHours_'+programId+'_'+serviceId);
+                        $(dynamicPlace+' .driverCarsAmount').attr('id', 'driverCarsAmount_'+programId+'_'+serviceId);
+                        $(dynamicPlace+' .driverNightMode').attr('id', 'driverNightMode_'+programId+'_'+serviceId);
+
+                        break;
+
+                    case "excursion":
+
+                        $(dynamicPlace).html(excursionFields);
+
+                        //$(dynamicPlace+' .goingPlace').attr('name', 'goingPlace_'+programId+'_'+serviceId);
+                        //$(dynamicPlace+' .pplAmount').attr('name', 'pplAmount_'+programId+'_'+serviceId);
+
+                        break;
+
+                    case "restaurant":
+
+                        $(dynamicPlace).html(restaurantFields);
+
+                        //$(dynamicPlace+' .restaurant').attr('name', 'restaurant_'+programId+'_'+serviceId);
+                        //$(dynamicPlace+' .menuTitle').attr('name', 'menuTitle_'+programId+'_'+serviceId);
+                        //$(dynamicPlace+' .restaurantPeopleAmount').attr('name', 'restaurantPeopleAmount_'+programId+'_'+serviceId);
+
+                        break;
+                }
+
+            };
+
+            $('form#mainForm').submit(function (event) {
+
+                event.preventDefault();
+
+
+                var maxDays = Math.max.apply(Math, programIds);
+                var maxServices = Math.max.apply(Math, serviceIds);
+
+                var days = [];
+                var services = [];
+
+                var rows = [];
+
+                programIds.forEach(function (programId) {
+
+                    serviceIds.forEach(function (serviceId) {
+
+                        var serviceType = $(event.target['service_serviceType_' + programId + '_' +serviceId]).val();
+
+                        if (serviceType === 'transfer') {
+
+                            var transferCarTypePrice = $(event.target['transferCarType_' + programId + '_' + serviceId]).val();
+                            var transferCarType = $('#' + $(event.target['transferCarType_' + programId + '_' + serviceId]).attr('id') + ' option:selected').text()
+                            var transferHours = $(event.target['transferHours_' + programId + '_' + serviceId]).val();
+                            var transferCarsAmount = $(event.target['transferCarsAmount_' + programId + '_' + serviceId]).val();
+                            var transferIsNightMode = event.target['transferNightMode_' + programId + '_' + serviceId].checked;
+
+                            var discount;
+
+                            if (transferCarsAmount < 1) transferCarsAmount = 1;
+                            if (transferHours < 1) transferHours = 1;
+
+                            if (transferIsNightMode) discount = 1.5; else discount = 1;
+
+                            var total = transferCarTypePrice * transferCarsAmount * transferHours * discount;
+
+                            var isNightMode = (transferIsNightMode) ? 'Да' : 'Нет';
+
+                            var row = [
+                                '<tr>' +
+                                '<th scope="row">' + programId + '</th>' +
+                                '<td>' + serviceType + '</td>' +
+                                '<td>' + transferCarType + '</td>' +
+                                '<td>' + transferHours + '</td>' +
+                                '<td>' + transferCarsAmount + '</td>' +
+                                '<td>' + isNightMode + '</td>' +
+                                '<td>' + total +'</td>' +
+                                '</tr>'
+                            ].join();
+
+
+                            rows.push(row);
+
+                        } else if (serviceType === 'driver') {
+
+
+                            var driverCarTypePrice = $(event.target['driverCarType_' + programId + '_' + serviceId]).val();
+                            var driverCarType = $('#' + $(event.target['driverCarType_' + programId + '_' + serviceId]).attr('id') + ' option:selected').text();
+                            var driverHours = $(event.target['driverHours_' + programId + '_' + serviceId]).val();
+                            var driverCarsAmount = $(event.target['driverCarsAmount_' + programId + '_' + serviceId]).val();
+                            var driverIsNightMode = event.target['driverNightMode_' + programId + '_' + serviceId].checked;
+
+                            var priceArr = driverCarTypePrice.split('/');
+
+                            var discount;
+
+                            if (driverCarsAmount < 1) driverCarsAmount = 1;
+                            if (driverHours < 1) driverHours = 1;
+
+                            if (driverIsNightMode) discount = 1.5; else discount = 1;
+
+                            // todo
+                            var total = (parseInt(priceArr[0]) + parseInt(priceArr[1]) * driverHours) * driverCarsAmount * discount;
+
+                            var isNightMode = (driverIsNightMode) ? 'Да' : 'Нет';
+
+                            var row = [
+                                '<tr>' +
+                                '<th scope="row">' + programId + '</th>' +
+                                '<td>' + serviceType + '</td>' +
+                                '<td>' + driverCarType + '</td>' +
+                                '<td>' + driverHours + '</td>' +
+                                '<td>' + driverCarsAmount + '</td>' +
+                                '<td>' + isNightMode + '</td>' +
+                                '<td>' + total +'</td>' +
+                                '</tr>'
+                            ].join();
+
+
+                            rows.push(row);
+
+                        }
+
+
+
+                    });
+                });
+
+                $('table#transferData tbody').html(rows);
+
+                return false;
+            });
+
+        });
+    </script>
+    <script src="./vendor/bootstrap.min.js"></script>
+    <script src="./vendor/moment.min.js"></script>
+    <script src="./vendor/bootstrap-datepicker.js"></script>
+    <script src="./vendor/datePicker.js"></script>
+    <!--<script src="./core.js"></script>-->
+</div>
+</body>
+</html>
