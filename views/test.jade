@@ -25,9 +25,10 @@ block content
                         td
                             input.form-control#guestsCount(type='number', placeholder='...', name="guestsCount").input-sm
 
-            #accommodations
 
             h1 Проживание
+
+            #accommodations
 
             a.btn.btn-primary.btn-sm(onclick="addAcc();") + Добавить отель
 
@@ -41,17 +42,22 @@ block content
 
             hr
 
-            a.btn.btn-success.pull-right(onclick="preview();") Checkout
+            button.btn.btn-success.pull-right(type="submit") Checkout
 
         #cities(style="display:none")
             option -
                 each city in cities
                     option(value=city.key)=city.value
 
-        #cars(style="display:none")
+        #transferCars(style="display:none")
             option -
-                each car in cars
-                    option(value=car.title)=car.value
+                each car in transferCars
+                    option(value=car._id)=car.title
+
+        #driverCars(style="display:none")
+            option -
+                each car in driverCars
+                    option(value=car._id)=car.title
 
         #hotels(style="display:none")
             option -
@@ -70,15 +76,14 @@ block content
                 label(for='') Класс авто
                 br
                 select.form-control.transferCarType
-
-            .form-group
-                label(for='') Кол-во авто
-                br
-                input.form-control.transferCarAmount(type='number', placeholder='')
             .form-group
                 label(for='') Кол-во часов
                 br
                 input.form-control.transferHours(type='number', placeholder='')
+            .form-group
+                label(for='') Кол-во авто
+                br
+                input.form-control.transferCarAmount(type='number', placeholder='')
             .form-group
                 label(for='') Ночной тариф (+50% c 23:00-07:00)
                 br
@@ -97,15 +102,18 @@ block content
                 label(for='') Класс авто
                 br
                 select.form-control.driverCarType
-
-            .form-group
-                label(for='') Кол-во  авто
-                br
-                input.form-control.driverCarsAmount(type='number', placeholder='')
             .form-group
                 label(for='') Кол-во часов
                 br
-                input.form-control.driverHours(type='text', placeholder='')
+                input.form-control.driverHours(type='number', placeholder='')
+            .form-group
+                label(for='') Ночной тариф (+50% c 23:00-07:00)
+                br
+                input.driverNightMode(type='checkbox')
+            .form-group
+                label(for='') Кол-во авто
+                br
+                input.form-control.driverCarsAmount(type='number', placeholder='')
 
         #hiddenExcursion(style="display:none")
             .form-group

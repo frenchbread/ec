@@ -293,7 +293,8 @@ $(document).ready(function () {
 
         var dynamicPlace = '#dynamicPlace_'+serviceId;
 
-        var cars = $('#cars').html();
+        var transferCars = $('#transferCars').html();
+        var driverCars = $('#driverCars').html();
 
         switch (value) {
 
@@ -301,8 +302,10 @@ $(document).ready(function () {
 
                 $(dynamicPlace).html($('#hiddenTransfer').html());
 
-                $(dynamicPlace+' .transferCarType').attr('name', 'transferCarType_'+programId+'_'+serviceId).html(cars);
+                $(dynamicPlace+' .transferCarType').attr('name', 'transferCarType_'+programId+'_'+serviceId).html(transferCars);
+                $(dynamicPlace+' .transferHours').attr('name', 'transferHours_'+programId+'_'+serviceId);
                 $(dynamicPlace+' .transferCarAmount').attr('name', 'transferCarAmount_'+programId+'_'+serviceId);
+                $(dynamicPlace+' .transferNightMode').attr('name', 'transferNightMode_'+programId+'_'+serviceId);
                 $(dynamicPlace+' .transferFrom').attr('name', 'transferFrom_'+programId+'_'+serviceId);
                 $(dynamicPlace+' .transferTo').attr('name', 'transferTo_'+programId+'_'+serviceId);
 
@@ -315,9 +318,10 @@ $(document).ready(function () {
 
                 $(dynamicPlace).html($('#hiddenWithDriver').html());
 
-                $(dynamicPlace+' .driverCarType').attr('name', 'driverCarType_'+programId+'_'+serviceId).html(cars);
-                $(dynamicPlace+' .driverCarsAmount').attr('name', 'driverCarsAmount_'+programId+'_'+serviceId);
+                $(dynamicPlace+' .driverCarType').attr('name', 'driverCarType_'+programId+'_'+serviceId).html(driverCars);
                 $(dynamicPlace+' .driverHours').attr('name', 'driverHours_'+programId+'_'+serviceId);
+                $(dynamicPlace+' .driverCarsAmount').attr('name', 'driverCarsAmount_'+programId+'_'+serviceId);
+                $(dynamicPlace+' .driverNightMode').attr('name', 'driverNightMode_'+programId+'_'+serviceId);
 
                 break;
 
@@ -325,8 +329,8 @@ $(document).ready(function () {
 
                 $(dynamicPlace).html($('#hiddenExcursion').html());
 
-                $(dynamicPlace+' .goingPlace').attr('name', 'goingPlace_'+programId+'_'+serviceId);
-                $(dynamicPlace+' .pplAmount').attr('name', 'pplAmount_'+programId+'_'+serviceId);
+                //$(dynamicPlace+' .goingPlace').attr('name', 'goingPlace_'+programId+'_'+serviceId);
+                //$(dynamicPlace+' .pplAmount').attr('name', 'pplAmount_'+programId+'_'+serviceId);
 
                 break;
 
@@ -334,9 +338,9 @@ $(document).ready(function () {
 
                 $(dynamicPlace).html($('#hiddenFood').html());
 
-                $(dynamicPlace+' .restaurant').attr('name', 'restaurant_'+programId+'_'+serviceId);
-                $(dynamicPlace+' .menuTitle').attr('name', 'menuTitle_'+programId+'_'+serviceId);
-                $(dynamicPlace+' .restaurantPeopleAmount').attr('name', 'restaurantPeopleAmount_'+programId+'_'+serviceId);
+                //$(dynamicPlace+' .restaurant').attr('name', 'restaurant_'+programId+'_'+serviceId);
+                //$(dynamicPlace+' .menuTitle').attr('name', 'menuTitle_'+programId+'_'+serviceId);
+                //$(dynamicPlace+' .restaurantPeopleAmount').attr('name', 'restaurantPeopleAmount_'+programId+'_'+serviceId);
 
                 break;
         }

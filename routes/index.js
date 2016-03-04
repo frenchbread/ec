@@ -3,7 +3,8 @@ var router = express.Router();
 
 var moment = require('moment');
 
-var cars = require('../data/cars');
+var transferCars = require('../data/transfer');
+var driverCars = require('../data/driver');
 var cities = require('../data/cities');
 var hotels = require('../data/hotelPrises');
 var rooms = require('../data/rooms');
@@ -11,6 +12,9 @@ var rooms = require('../data/rooms');
 var parseData = require('../lib/parseData');
 
 var H = require('../models/hotel');
+
+var transferModel = require('../models/transferModel');
+var driverModel = require('../models/driverModel');
 
 var async = require('async');
 
@@ -38,7 +42,8 @@ router.get('/test', function (req, res) {
         hotels: hotels,
         cities: cities,
         rooms : rooms,
-        cars  : cars
+        transferCars  : transferCars,
+        driverCars  : driverCars
     });
 
 });
@@ -47,7 +52,85 @@ router.post('/test', function (req ,res) {
 
     //console.log(req.body);
 
+    var submittedData = req.body;
+
+    var calculations = {};
+
+    var days = [];
+
+    var services = [];
+
+    for (var day=0; day < 100; day++) {
+
+
+
+        for (var service = 0; service < 100; service++) {
+
+            var transferService = "transferCarType_" + day + "_" + service;
+            var transferHours = "transferHours_" + day + "_" + service;
+            var transferCarAmount = "transferCarAmount_" + day + "_" + service;
+            var transferIsNightMode = "transferNightMode_" + day + "_" + service;
+
+            if (submittedData.hasOwnProperty(transferService) &&
+                submittedData.hasOwnProperty(transferHours) &&
+                submittedData.hasOwnProperty(transferCarAmount)) {
+
+                var isNightMode = false;
+
+                if (submittedData.hasOwnProperty(transferIsNightMode)) {
+
+                    isNightMode = true;
+                }
+
+                transferCars.forEach(function (tr) {
+
+                    if (tr._id === submittedData[transferService]) {
+
+                        var pricePerHourPerCar = tr.value;
+                        var hours = submittedData[transferHours];
+                        var carsAmount = submittedData[transferCarAmount];
+
+                        var total;
+
+                        if ((hours > 0) && (carsAmount > 0)) {
+                            total = hours * pricePerHourPerCar;
+                        }
+
+                        var oneService = {
+                            title: tr.title,
+                            hours: hours,
+                            carsAmount: carsAmount,
+                            pricePerCarPerHour: pricePerHourPerCar,
+                            total: total
+                        };
+
+                        services.push(oneService);
+
+                    }
+
+                });
+            }
+
+            // adasdad
+
+            var driverService = "driverCarType_" + day + "_" + service;
+
+            if (submittedData.hasOwnProperty(driverService)) {
+
+
+            }
+        }
+
+        days.push(services);
+    }
+
+    console.log(services);
+
     res.json(req.body);
+
+    //res.render('test2', {
+    //
+    //})
 
 });
 
