@@ -302,8 +302,8 @@
                 $('.addRoom', form).attr('onclick', 'addRoom('+accommodationId+');');
 
                 $('.hotel', form).attr('id', 'hotel_'+accommodationId);
-                $('.moveIn', form).attr('id', 'moveIn_'+accommodationId);
-                $('.moveOut', form).attr('id', 'moveOut_'+accommodationId);
+                $('.moveIn', form).attr('id', 'moveIn_'+accommodationId).datepicker({format : "dd-mm-yyyy"});;
+                $('.moveOut', form).attr('id', 'moveOut_'+accommodationId).datepicker({format : "dd-mm-yyyy"});;
 
                 $.each(hotelData, function(id, obj) {
                     $('.hotel', form)
@@ -316,6 +316,17 @@
 
                 return false;
 
+            };
+
+            removeAccommodation = function(accommodationId) {
+
+                $('#accommodationForm_'+accommodationId).remove();
+
+                var index   = accommodationIds.indexOf(accommodationId);
+                var inList  = index > -1;
+                if (inList) accommodationIds.splice(index, 1);
+
+                return false;
             };
 
             addRoom = function (accommodationId) {
@@ -342,6 +353,16 @@
 
                 roomIds.push(roomId);
 
+            };
+
+            removeRoom  = function (accommodationId, roomId) {
+
+                $('#roomType_'+accommodationId+'_'+roomId).closest('.roomForm').remove();
+                var index   = roomIds.indexOf(roomId);
+                var inList  = index > -1;
+                if (inList) roomIds.splice(index, 1);
+
+                return false;
             };
 
             // Program & services
@@ -510,11 +531,9 @@
                 var maxDays = Math.max.apply(Math, programIds);
                 var maxServices = Math.max.apply(Math, serviceIds);
 
-                var days = [];
-                var services = [];
-
-                var rows = [];
-
+                var accommodationRows = [];
+                var programRows = [];
+                
                 programIds.forEach(function (programId) {
 
                     serviceIds.forEach(function (serviceId) {
@@ -553,7 +572,7 @@
                             ].join();
 
 
-                            rows.push(row);
+                            programRows.push(row);
 
                         }
                         else if (serviceType === 'driver') {
@@ -591,14 +610,14 @@
                             ].join();
 
 
-                            rows.push(row);
+                            programRows.push(row);
 
                         }
 
                     });
                 });
 
-                $('table#transferData tbody').html(rows);
+                $('table#transferData tbody').html(programRows);
 
                 $('#myModal').modal('show');
 
