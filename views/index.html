@@ -61,7 +61,6 @@
 
             <hr/>
 
-            <button class="btn btn-primary pull-right" type="button" data-toggle="modal" data-target="#myModal">Preview</button>
             <button class="btn btn-success pull-right">Checkout</button>
         </form>
 
@@ -110,11 +109,11 @@
             </div>
             <div class="form-group">
                 <label for="">Кол-во часов</label><br/>
-                <input type="number" placeholder="" class="form-control transferHours"/>
+                <input type="number" placeholder="" class="form-control transferHours" value="0" />
             </div>
             <div class="form-group">
                 <label for="">Кол-во авто</label><br/>
-                <input type="number" placeholder="" class="form-control transferCarsAmount"/>
+                <input type="number" placeholder="" class="form-control transferCarsAmount" value="1"/>
             </div>
             <div class="form-group">
                 <label for="">Ночной тариф (+50% c 23:00-07:00)</label><br/>
@@ -138,12 +137,12 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="">Кол-во часов</label><br/>
-                <input type="number" placeholder="" class="form-control driverHours"/>
+                <label for="">Кол-во доп. часов</label><br/>
+                <input type="number" placeholder="" class="form-control driverHours" value="0"/>
             </div>
             <div class="form-group">
                 <label for="">Кол-во авто</label><br/>
-                <input type="number" placeholder="" class="form-control driverCarsAmount"/>
+                <input type="number" placeholder="" class="form-control driverCarsAmount" value="1"/>
             </div>
             <div class="form-group">
                 <label for="">Ночной тариф (+50% c 23:00-07:00)</label><br/>
@@ -382,7 +381,6 @@
 
                 event.preventDefault();
 
-
                 var maxDays = Math.max.apply(Math, programIds);
                 var maxServices = Math.max.apply(Math, serviceIds);
 
@@ -431,7 +429,8 @@
 
                             rows.push(row);
 
-                        } else if (serviceType === 'driver') {
+                        }
+                        else if (serviceType === 'driver') {
 
 
                             var driverCarTypePrice = $(event.target['driverCarType_' + programId + '_' + serviceId]).val();
@@ -449,7 +448,6 @@
 
                             if (driverIsNightMode) discount = 1.5; else discount = 1;
 
-                            // todo
                             var total = (parseInt(priceArr[0]) + parseInt(priceArr[1]) * driverHours) * driverCarsAmount * discount;
 
                             var isNightMode = (driverIsNightMode) ? 'Да' : 'Нет';
@@ -471,12 +469,12 @@
 
                         }
 
-
-
                     });
                 });
 
                 $('table#transferData tbody').html(rows);
+
+                $('#myModal').modal('show');
 
                 return false;
             });
