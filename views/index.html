@@ -47,7 +47,7 @@
 
             </div>
 
-            <a onclick="addAcc();" class="btn btn-primary btn-sm">+ Добавить отель</a>
+            <a onclick="addAccommodation();" class="btn btn-primary btn-sm">+ Добавить вариант проживания</a>
 
             <hr/>
 
@@ -65,6 +65,62 @@
         </form>
 
         <!--Hidden stuff-->
+
+        <div class="row accommodationForm" style="display: none">
+            <div class="col-lg-12">
+                <h3>
+                    Отель
+                    <b class="accommodationNum"></b>
+                    <a href="#" class="btn btn-xs btn-danger removeAccommodation pull-right">x Убрать отель</a>
+                </h3>
+            </div>
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label>Гостиница</label>
+                            <br/>
+                            <select class="form-control hotel">
+                                <option>-</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label >Дата заселения</label>
+                            <br/>
+                            <input type="text" placeholder="dd-mm-yyyy" class="form-control moveIn"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Дата выезда</label>
+                            <br/>
+                            <input type="text" placeholder="dd-mm-yyyy" class="form-control moveOut"/>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div id="rooms"></div>
+                        <hr/>
+                        <a class="btn btn-xs btn-primary addRoom">+ Добавить тип комнаты</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="roomForm" style="display: none">
+            <div class="form-group">
+                <label>Тип комнаты</label><br/>
+                <select class="form-control roomType">
+                    <option>-</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Кол-во номеров</label><br/>
+                <input type="number" placeholder="Кол-во номеров" class="form-control roomsAmount" value="1"/>
+            </div>
+            <div class="form-group">
+                <label>Доп. кровать</label><br/>
+                <input type="checkbox" class="extraBed"/>
+            </div>
+            <a href="#" class="btn btn-xs btn-danger removeRoom">x</a>
+        </div>
 
         <div class="row programForm" style="display: none;">
             <div class="col-md-12">
@@ -216,10 +272,80 @@
 
         var transferData = require('./data/transfer');
         var driverData = require('./data/driver');
+        var hotelData = require('./data/hotels');
+        var roomData = require('./data/roomTypes');
 
         $(document).ready(function () {
 
-            // Get program form
+            // Accommodation & rooms
+
+            var accommodationForm = $('.accommodationForm');
+
+            var accommodationIds    = [];
+            var accommodationId     = $('#accommodations>.accommodationForm').size();
+
+            var roomForm = $('.roomForm');
+
+            var roomIds = [];
+            var roomId  = $('#rooms>.roomForm').size();
+
+            addAccommodation = function () {
+
+                accommodationId++;
+
+                var form = accommodationForm.clone();
+
+                form.attr('id', 'accommodationForm_'+accommodationId);
+
+                $('.accommodationNum', form).text(accommodationId);
+                $('.removeAccommodation', form).attr('onclick', 'removeAccommodation('+accommodationId+');');
+                $('.addRoom', form).attr('onclick', 'addRoom('+accommodationId+');');
+
+                $('.hotel', form).attr('id', 'hotel_'+accommodationId);
+                $('.moveIn', form).attr('id', 'moveIn_'+accommodationId);
+                $('.moveOut', form).attr('id', 'moveOut_'+accommodationId);
+
+                $.each(hotelData, function(id, obj) {
+                    $('.hotel', form)
+                            .append($('<option>', { value : obj.codeName }).text(obj.name));
+                });
+
+                $('#accommodations').append(form.css('display', 'block'));
+
+                accommodationIds.push(accommodationId);
+
+                return false;
+
+            };
+
+            addRoom = function (accommodationId) {
+
+                roomId++;
+
+
+                var form = $(roomForm).clone();
+
+                $.each(roomData, function(id, obj) {
+                    $('.roomType', form)
+                            .append($('<option>', { value : obj.value }).text(obj.title));
+                });
+
+                form.attr('id', 'roomForm_'+roomId);
+
+                $('.roomType', form).attr('id', 'roomType_' + accommodationId + '_' + roomId);
+                $('.roomsAmount', form).attr('id', 'roomsAmount_' + accommodationId + '_' + roomId);
+                $('.extraBed', form).attr('id', 'extraBed_' + accommodationId + '_' + roomId);
+
+                $('.removeRoom', form).attr('onclick', 'removeRoom('+accommodationId+', '+roomId+')');
+
+                $('#accommodationForm_'+accommodationId+' #rooms').append(form.css('display', 'block'));
+
+                roomIds.push(roomId);
+
+            };
+
+            // Program & services
+
             var programForm = $('.programForm');
 
             var programIds = [];
