@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>New wallpapaper every hour.</title>
+    <title>Travel expenses calculator.</title>
     <link rel="stylesheet" href="./vendor/bootstrap.min.css">
     <link rel="stylesheet" href="./vendor/datepicker.css">
     <link rel="stylesheet" href="./main.css">
@@ -18,24 +18,24 @@
                 <tr>
                     <td>
                         Квотация подготовленя для
-                        <input id="documentFor" type="text" placeholder="..." name="documentFor" class="form-control input-sm"/></td>
+                        <input id="documentedFor" type="text" placeholder="..." class="form-control input-sm"/></td>
                 </tr>
                 <tr>
                     <td>
                         Начало пребывания
-                        <input id="tripStarts" type="text" placeholder="dd-mm-yyyy" name="tripStarts" class="form-control input-sm"/>
+                        <input id="tripStarts" type="text" placeholder="dd-mm-yyyy" class="form-control input-sm"/>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         Конец пребывания
-                        <input id="tripEnds" type="text" placeholder="dd-mm-yyyy" name="tripEnds" class="form-control input-sm"/>
+                        <input id="tripEnds" type="text" placeholder="dd-mm-yyyy" class="form-control input-sm"/>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         Количество гостей
-                        <input id="guestsCount" type="number" placeholder="..." name="guestsCount" class="form-control input-sm"/>
+                        <input id="guestsAmount" type="number" placeholder="..." class="form-control input-sm"/>
                     </td>
                 </tr>
                 </tbody>
@@ -61,7 +61,7 @@
 
             <hr/>
 
-            <button class="btn btn-success pull-right">Checkout</button>
+            <button class="btn btn-success pull-right">Посчитать</button>
         </form>
 
         <!--Hidden stuff-->
@@ -240,6 +240,18 @@
                     </div>
                     <div class="modal-body">
                         <div id="checkoutData">
+                            <p>
+                                Квотация подготовлена для &nbsp;
+                                <b id="documentedForPlace"></b>
+                            </p>
+                            <p>
+                                Даты пребывания &nbsp;
+                                <b id="tripDatesPlace"></b>
+                            </p>
+                            <p>
+                                Кол-во гостей &nbsp;
+                                <b id="guestsAmountPlace"></b>
+                            </p>
                             <h1>Проживание</h1>
                             <table class="table table-bordered" id="accommodationData">
                                 <thead>
@@ -258,6 +270,12 @@
 
                                 </tbody>
                             </table>
+
+                            <p>
+                                <b>Итого</b>
+                                <b class="pull-right accommodationsTotalPrice"></b>
+                            </p>
+
                             <h1>Программа</h1>
                             <table class="table table-bordered" id="transferData">
                                 <thead>
@@ -275,11 +293,16 @@
 
                                 </tbody>
                             </table>
+
+                            <p>
+                                <b>Итого</b>
+                                <b class="pull-right programTotalPrice"></b>
+                            </p>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <!--button.btn.btn-default(type='button', data-dismiss='modal') Close-->
-                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                        <button type="submit" class="btn btn-primary" id="continueEditing">Редактировать</button>
                     </div>
                 </div>
             </div>
@@ -553,8 +576,15 @@
                 var maxDays = Math.max.apply(Math, programIds);
                 var maxServices = Math.max.apply(Math, serviceIds);
 
+                $('#documentedForPlace').html($('#documentedFor').val());
+                $('#tripDatesPlace').html($('#tripStarts').val() + ' / ' + $('#tripEnds').val());
+                $('#guestsAmountPlace').html($('#guestsAmount').val());
+
                 var accommodationRows = [];
                 var programRows = [];
+                
+                var totalAccommodationsPrice = 0;
+                var programTotalPrice = 0;
 
                 _.each(accommodationIds, function (accommodationId) {
 
@@ -575,7 +605,7 @@
                     }
 
                     var roomsTotalPrice = 0;
-                    var totalPrice = 0;
+                    var singleAccommodationPrice = 0;
 
                     var row;
 
@@ -632,9 +662,9 @@
                                 '<td></td>' +
                                 '<td></td>' +
                                 '<td></td>' +
-                                '<td>'+ roomTypeText +'</td>' +
+                                '<td>'+ roomTypeText +' ('+roomTypePrice+'р.)</td>' +
                                 '<td>'+ roomsAmount +'</td>' +
-                                '<td>'+ hasExtraBed +'</td>' +
+                                '<td>'+ hasExtraBed +' ('+extraBedPrice+')</td>' +
                                 '<td></td>' +
                                 '</tr>'
                             ].join();
@@ -644,7 +674,9 @@
                         }
                     });
 
-                    totalPrice = roomsTotalPrice * daysTotal;
+                    singleAccommodationPrice = roomsTotalPrice * daysTotal;
+
+                    totalAccommodationsPrice += singleAccommodationPrice;
 
                     row = [
                         '<tr class="">' +
@@ -655,7 +687,7 @@
                             '<td></td>' +
                             '<td></td>' +
                             '<td></td>' +
-                            '<td>'+ totalPrice +'</td>' +
+                            '<td>'+ singleAccommodationPrice +'р.</td>' +
                         '</tr>'
                     ].join();
 
@@ -677,7 +709,7 @@
                             var transferCarType = $('#' + $(event.target['transferCarType_' + programId + '_' + serviceId]).attr('id') + ' option:selected').text();
                             var transferHours = $(event.target['transferHours_' + programId + '_' + serviceId]).val();
                             var transferCarsAmount = $(event.target['transferCarsAmount_' + programId + '_' + serviceId]).val();
-                            var transferIsNightMode = event.target['transferNightMode_' + programId + '_' + serviceId].checked;
+                            var transferIsNightMode = $(event.target['transferNightMode_' + programId + '_' + serviceId]).is(':checked');
 
 
 
@@ -698,7 +730,7 @@
                                 '<td>' + transferHours + '</td>' +
                                 '<td>' + transferCarsAmount + '</td>' +
                                 '<td>' + isNightMode + '</td>' +
-                                '<td>' + total +'</td>' +
+                                '<td>' + total +'р.</td>' +
                                 '</tr>'
                             ].join();
 
@@ -712,7 +744,7 @@
                             var driverCarType = $('#' + $(event.target['driverCarType_' + programId + '_' + serviceId]).attr('id') + ' option:selected').text();
                             var driverHours = $(event.target['driverHours_' + programId + '_' + serviceId]).val();
                             var driverCarsAmount = $(event.target['driverCarsAmount_' + programId + '_' + serviceId]).val();
-                            var driverIsNightMode = event.target['driverNightMode_' + programId + '_' + serviceId].checked;
+                            var driverIsNightMode = $(event.target['driverNightMode_' + programId + '_' + serviceId]).is(':checked');
 
                             var priceArr = driverCarTypePrice.split('/');
 
@@ -733,7 +765,7 @@
                                 '<td>' + driverHours + '</td>' +
                                 '<td>' + driverCarsAmount + '</td>' +
                                 '<td>' + isNightMode + '</td>' +
-                                '<td>' + total +'</td>' +
+                                '<td>' + total +'р.</td>' +
                                 '</tr>'
                             ].join();
 
@@ -742,15 +774,25 @@
 
                         }
 
+                        programTotalPrice += total;
+
                     });
 
                 });
 
-                $('table#transferData tbody').html(programRows);
-
                 $('table#accommodationData tbody').html(accommodationRows);
 
+                $('.accommodationsTotalPrice').html(totalAccommodationsPrice + "р.");
+
+                $('table#transferData tbody').html(programRows);
+
+                $('.programTotalPrice').html(programTotalPrice + "р.");
+
                 $('#myModal').modal('show');
+
+                $('#continueEditing').on('click', function () {
+                    $('#myModal').modal('hide');
+                });
 
                 return false;
             });
