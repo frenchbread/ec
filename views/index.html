@@ -268,6 +268,9 @@
 
     </div>
     <script>
+
+        var _ = require('underscore');
+
         window.$ = window.jQuery = require('./vendor/jquery.min.js');
 
         var transferData = require('./data/transfer');
@@ -533,17 +536,35 @@
 
                 var accommodationRows = [];
                 var programRows = [];
-                
-                programIds.forEach(function (programId) {
 
-                    serviceIds.forEach(function (serviceId) {
+                _.each(accommodationIds, function (accommodationId) {
+
+                    var hotel = $(event.target['hotel_'+accommodationId]).val();
+                    var moveIn = $(event.target['moveIn_'+accommodationId]).val();
+                    var moveOut = $(event.target['moveOut_'+accommodationId]).val();
+
+                    _.each(roomIds, function (roomId) {
+
+                        var roomType = $(event.target['roomType_'+accommodationId+'_'+roomId]).val();
+                        var roomsAmount = $(event.target['roomsAmount_'+accommodationId+'_'+roomId]).val();
+                        var extraBed = event.target['extraBed_'+accommodationId+'_'+roomId].checked;
+
+                        
+
+                    });
+
+                });
+
+                _.each(programIds, function (programId) {
+
+                    _.each(serviceIds, function (serviceId) {
 
                         var serviceType = $(event.target['service_serviceType_' + programId + '_' +serviceId]).val();
 
                         if (serviceType === 'transfer') {
 
                             var transferCarTypePrice = $(event.target['transferCarType_' + programId + '_' + serviceId]).val();
-                            var transferCarType = $('#' + $(event.target['transferCarType_' + programId + '_' + serviceId]).attr('id') + ' option:selected').text()
+                            var transferCarType = $('#' + $(event.target['transferCarType_' + programId + '_' + serviceId]).attr('id') + ' option:selected').text();
                             var transferHours = $(event.target['transferHours_' + programId + '_' + serviceId]).val();
                             var transferCarsAmount = $(event.target['transferCarsAmount_' + programId + '_' + serviceId]).val();
                             var transferIsNightMode = event.target['transferNightMode_' + programId + '_' + serviceId].checked;
@@ -615,6 +636,7 @@
                         }
 
                     });
+
                 });
 
                 $('table#transferData tbody').html(programRows);
