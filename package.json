@@ -1,10 +1,11 @@
 {
-  "name": "electron-quick-start",
-  "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "name": "calc",
+  "version": "0.0.1",
+  "description": "Travel expenses calucator.",
   "main": "main.js",
   "scripts": {
-    "start": "electron main.js"
+    "start": "electron main.js",
+    "build": "electron-packager . calc --platform=darwin --arch=x64 --version=0.32.3 --ignore=node_modules/electron-*"
   },
   "repository": {
     "type": "git",
@@ -12,16 +13,16 @@
   },
   "keywords": [
     "Electron",
-    "quick",
-    "start",
-    "tutorial"
+    "travel",
+    "expenses",
+    "calculator"
   ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "author": "Damir Mustafin",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/atom/electron-quick-start/issues"
+    "url": "https://github.com/frenchbread/calc/issues"
   },
-  "homepage": "https://github.com/atom/electron-quick-start#readme",
+  "homepage": "https://github.com/frenchbread/calc/issues#readme",
   "devDependencies": {
     "electron-prebuilt": "^0.36.0"
   },
