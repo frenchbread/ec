@@ -1,14 +1,14 @@
 module.exports = [
     {
-        title: "Одиночная",
-        value: "single"
+        title: 'Одиночная',
+        value: 'single'
     },
     {
-        title: "Двойная",
-        value: "double"
+        title: 'Двойная',
+        value: 'double'
     },
     {
-        title: "Тройная",
-        value: "triple"
+        title: 'Тройная',
+        value: 'triple'
     }
 ];

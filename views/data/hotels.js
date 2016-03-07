@@ -13,7 +13,7 @@ module.exports = [
                 eur: 0,
                 rub: 5000
             },
-            tripple: {
+            triple: {
                 eur: 0,
                 rub: 6000
             }
@@ -37,7 +37,7 @@ module.exports = [
                 eur: 0,
                 rub: 5500
             },
-            tripple: {
+            triple: {
                 eur: 0,
                 rub: 6500
             }
@@ -61,7 +61,7 @@ module.exports = [
                 eur: 0,
                 rub: 4000
             },
-            tripple: {
+            triple: {
                 eur: 0,
                 rub: 5000
             }
@@ -85,7 +85,7 @@ module.exports = [
                 eur: 0,
                 rub: 3000
             },
-            tripple: {
+            triple: {
                 eur: 0,
                 rub: 4000
             }
@@ -109,7 +109,7 @@ module.exports = [
                 eur: 0,
                 rub: 4500
             },
-            tripple: {
+            triple: {
                 eur: 0,
                 rub: 5500
             }
@@ -133,7 +133,7 @@ module.exports = [
                 eur: 0,
                 rub: 2500
             },
-            tripple: {
+            triple: {
                 eur: 0,
                 rub: 3500
             }
@@ -157,7 +157,7 @@ module.exports = [
                 eur: 0,
                 rub: 5500
             },
-            tripple: {
+            triple: {
                 eur: 0,
                 rub: 6500
             }
@@ -181,7 +181,7 @@ module.exports = [
                 eur: 0,
                 rub: 3000
             },
-            tripple: {
+            triple: {
                 eur: 0,
                 rub: 4500
             }
@@ -205,7 +205,7 @@ module.exports = [
                 eur: 0,
                 rub: 5500
             },
-            tripple: {
+            triple: {
                 eur: 0,
                 rub: 6000
             }
@@ -229,7 +229,7 @@ module.exports = [
                 eur: 0,
                 rub: 5500
             },
-            tripple: {
+            triple: {
                 eur: 0,
                 rub: 6000
             }
