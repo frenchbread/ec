@@ -302,6 +302,10 @@
                     </div>
                     <div class="modal-footer">
                         <!--button.btn.btn-default(type='button', data-dismiss='modal') Close-->
+                        <button type="submit" class="btn btn-success" id="export">Export</button>
+                    </div>
+                  <div class="modal-footer">
+                        <!--button.btn.btn-default(type='button', data-dismiss='modal') Close-->
                         <button type="submit" class="btn btn-primary" id="continueEditing">Редактировать</button>
                     </div>
                 </div>
@@ -310,494 +314,566 @@
 
     </div>
     <script>
+      var _ = require('underscore');
+      var json2xls = require('json2xls');
+      var fs = require('fs');
+      const remote = require('electron').remote;
+      const dialog = remote.require('electron').dialog;
 
-        var _ = require('underscore');
+      window.$ = window.jQuery = require('./vendor/jquery.min.js');
 
-        window.$ = window.jQuery = require('./vendor/jquery.min.js');
+      var transferData = require('./data/transfer');
+      var driverData = require('./data/driver');
+      var hotelsData = require('./data/hotels');
+      var roomData = require('./data/roomTypes');
 
-        var transferData = require('./data/transfer');
-        var driverData = require('./data/driver');
-        var hotelsData = require('./data/hotels');
-        var roomData = require('./data/roomTypes');
+      $(document).ready(function () {
 
-        $(document).ready(function () {
+        // Accommodation & rooms
 
-            // Accommodation & rooms
+        var accommodationForm = $('.accommodationForm');
 
-            var accommodationForm = $('.accommodationForm');
+        var accommodationIds    = [];
+        var accommodationId     = $('#accommodations>.accommodationForm').size();
 
-            var accommodationIds    = [];
-            var accommodationId     = $('#accommodations>.accommodationForm').size();
+        var roomForm = $('.roomForm');
 
-            var roomForm = $('.roomForm');
+        var roomIds = [];
+        var roomId  = $('#rooms>.roomForm').size();
 
-            var roomIds = [];
-            var roomId  = $('#rooms>.roomForm').size();
+        addAccommodation = function () {
 
-            addAccommodation = function () {
+          accommodationId++;
 
-                accommodationId++;
+          var form = accommodationForm.clone();
 
-                var form = accommodationForm.clone();
+          form.attr('id', 'accommodationForm_'+accommodationId);
 
-                form.attr('id', 'accommodationForm_'+accommodationId);
+          $('.accommodationNum', form).text(accommodationId);
+          $('.removeAccommodation', form).attr('onclick', 'removeAccommodation('+accommodationId+');');
+          $('.addRoom', form).attr('onclick', 'addRoom('+accommodationId+');');
 
-                $('.accommodationNum', form).text(accommodationId);
-                $('.removeAccommodation', form).attr('onclick', 'removeAccommodation('+accommodationId+');');
-                $('.addRoom', form).attr('onclick', 'addRoom('+accommodationId+');');
+          $('.hotel', form).attr('id', 'hotel_'+accommodationId);
+          $('.moveIn', form).attr('id', 'moveIn_'+accommodationId).datepicker({format : "dd-mm-yyyy"});;
+          $('.moveOut', form).attr('id', 'moveOut_'+accommodationId).datepicker({format : "dd-mm-yyyy"});;
 
-                $('.hotel', form).attr('id', 'hotel_'+accommodationId);
-                $('.moveIn', form).attr('id', 'moveIn_'+accommodationId).datepicker({format : "dd-mm-yyyy"});;
-                $('.moveOut', form).attr('id', 'moveOut_'+accommodationId).datepicker({format : "dd-mm-yyyy"});;
+          $.each(hotelsData, function(id, obj) {
+            $('.hotel', form)
+              .append($('<option>', { value : obj.codeName }).text(obj.name));
+          });
 
-                $.each(hotelsData, function(id, obj) {
-                    $('.hotel', form)
-                            .append($('<option>', { value : obj.codeName }).text(obj.name));
-                });
+          $('#accommodations').append(form.css('display', 'block'));
 
-                $('#accommodations').append(form.css('display', 'block'));
+          accommodationIds.push(accommodationId);
 
-                accommodationIds.push(accommodationId);
+          return false;
 
-                return false;
+        };
 
-            };
+        removeAccommodation = function(accommodationId) {
 
-            removeAccommodation = function(accommodationId) {
+          $('#accommodationForm_'+accommodationId).remove();
 
-                $('#accommodationForm_'+accommodationId).remove();
+          var index   = accommodationIds.indexOf(accommodationId);
+          var inList  = index > -1;
+          if (inList) accommodationIds.splice(index, 1);
 
-                var index   = accommodationIds.indexOf(accommodationId);
-                var inList  = index > -1;
-                if (inList) accommodationIds.splice(index, 1);
+          return false;
+        };
 
-                return false;
-            };
+        addRoom = function (accommodationId) {
 
-            addRoom = function (accommodationId) {
+          roomId++;
 
-                roomId++;
 
+          var form = $(roomForm).clone();
 
-                var form = $(roomForm).clone();
+          $.each(roomData, function(id, obj) {
+            $('.roomType', form)
+              .append($('<option>', { value : obj.value }).text(obj.title));
+          });
 
-                $.each(roomData, function(id, obj) {
-                    $('.roomType', form)
-                            .append($('<option>', { value : obj.value }).text(obj.title));
-                });
+          form.attr('id', 'roomForm_'+roomId);
 
-                form.attr('id', 'roomForm_'+roomId);
+          $('.roomType', form).attr('id', 'roomType_' + accommodationId + '_' + roomId);
+          $('.roomsAmount', form).attr('id', 'roomsAmount_' + accommodationId + '_' + roomId);
+          $('.extraBed', form).attr('id', 'extraBed_' + accommodationId + '_' + roomId);
 
-                $('.roomType', form).attr('id', 'roomType_' + accommodationId + '_' + roomId);
-                $('.roomsAmount', form).attr('id', 'roomsAmount_' + accommodationId + '_' + roomId);
-                $('.extraBed', form).attr('id', 'extraBed_' + accommodationId + '_' + roomId);
+          $('.removeRoom', form).attr('onclick', 'removeRoom('+accommodationId+', '+roomId+')');
 
-                $('.removeRoom', form).attr('onclick', 'removeRoom('+accommodationId+', '+roomId+')');
+          $('#accommodationForm_'+accommodationId+' #rooms').append(form.css('display', 'block'));
 
-                $('#accommodationForm_'+accommodationId+' #rooms').append(form.css('display', 'block'));
+          roomIds.push(roomId);
 
-                roomIds.push(roomId);
+        };
 
-            };
+        removeRoom  = function (accommodationId, roomId) {
 
-            removeRoom  = function (accommodationId, roomId) {
+          $('#roomType_'+accommodationId+'_'+roomId).closest('.roomForm').remove();
+          var index   = roomIds.indexOf(roomId);
+          var inList  = index > -1;
+          if (inList) roomIds.splice(index, 1);
 
-                $('#roomType_'+accommodationId+'_'+roomId).closest('.roomForm').remove();
-                var index   = roomIds.indexOf(roomId);
-                var inList  = index > -1;
-                if (inList) roomIds.splice(index, 1);
+          return false;
+        };
 
-                return false;
-            };
+        // Program & services
 
-            // Program & services
+        var programForm = $('.programForm');
 
-            var programForm = $('.programForm');
+        var programIds = [];
+        var programId = $('#programs>.programForm').size();
 
-            var programIds = [];
-            var programId = $('#programs>.programForm').size();
+        var serviceForm = $('.serviceForm');
 
-            var serviceForm = $('.serviceForm');
+        var serviceIds = [];
+        var serviceId  = $('#services>.serviceForm').size();
 
-            var serviceIds = [];
-            var serviceId  = $('#services>.serviceForm').size();
+        addProgram = function () {
 
-            addProgram = function () {
+          programId++;
 
-                programId++;
+          var form = programForm.clone();
 
-                var form = programForm.clone();
+          form.attr('id', 'programForm_'+programId);
 
-                form.attr('id', 'programForm_'+programId);
+          $('.removeProgram', form).attr('onclick', 'removeProgram('+programId+');');
 
-                $('.removeProgram', form).attr('onclick', 'removeProgram('+programId+');');
+          $('.addService', form).attr('onclick', 'addService('+programId+');');
 
-                $('.addService', form).attr('onclick', 'addService('+programId+');');
+          $('.programNum', form).text(programId);
 
-                $('.programNum', form).text(programId);
+          $('#programs').append(form.css('display', 'block'));
 
-                $('#programs').append(form.css('display', 'block'));
+          programIds.push(programId);
 
-                programIds.push(programId);
+          return false;
 
-                return false;
+        };
 
-            };
+        removeProgram = function(programId) {
 
-            removeProgram = function(programId) {
+          $('#programForm_'+programId).remove();
 
-                $('#programForm_'+programId).remove();
+          var index   = programIds.indexOf(programId);
+          var inList  = index > -1;
+          if (inList) programIds.splice(index, 1);
 
-                var index   = programIds.indexOf(programId);
-                var inList  = index > -1;
-                if (inList) programIds.splice(index, 1);
+          return false;
+        };
 
-                return false;
-            };
+        addService = function (programId) {
 
-            addService = function (programId) {
+          serviceId++;
 
-                serviceId++;
+          var serviceType = 'service_serviceType_' + programId + '_' +serviceId;
 
-                var serviceType = 'service_serviceType_' + programId + '_' +serviceId;
+          var form = $(serviceForm).clone();
 
-                var form = $(serviceForm).clone();
+          form.attr('id', 'serviceForm_'+serviceId);
 
-                form.attr('id', 'serviceForm_'+serviceId);
+          $('.serviceType', form).attr({
+            'id': serviceType,
+            'name': serviceType,
+            'onchange': 'switchServiceType('+programId+', '+serviceId+')'
+          });
 
-                $('.serviceType', form).attr({
-                    'id': serviceType,
-                    'name': serviceType,
-                    'onchange': 'switchServiceType('+programId+', '+serviceId+')'
-                });
+          $('.dynamicPlace', form).attr('id', 'dynamicPlace_'+ serviceId);
 
-                $('.dynamicPlace', form).attr('id', 'dynamicPlace_'+ serviceId);
+          $('.removeService', form).attr('onclick', 'removeService('+programId+', '+serviceId+')');
 
-                $('.removeService', form).attr('onclick', 'removeService('+programId+', '+serviceId+')');
+          $('#programForm_'+programId+' #services').append(form.css('display', 'block'));
 
-                $('#programForm_'+programId+' #services').append(form.css('display', 'block'));
+          serviceIds.push(serviceId);
 
-                serviceIds.push(serviceId);
+          console.log("added " + programId + " and " + serviceId);
 
-                console.log("added " + programId + " and " + serviceId);
 
 
+        };
 
-            };
+        removeService  = function (programId, serviceId) {
 
-            removeService  = function (programId, serviceId) {
+          $('#service_serviceType_'+programId+'_'+serviceId).closest('.serviceForm').remove();
+          var index   = serviceIds.indexOf(serviceId);
+          var inList  = index > -1;
+          if (inList) serviceIds.splice(index, 1);
 
-                $('#service_serviceType_'+programId+'_'+serviceId).closest('.serviceForm').remove();
-                var index   = serviceIds.indexOf(serviceId);
-                var inList  = index > -1;
-                if (inList) serviceIds.splice(index, 1);
+          return false;
+        };
 
-                return false;
-            };
+        switchServiceType = function (programId, serviceId) {
 
-            switchServiceType = function (programId, serviceId) {
+          var serviceType   = 'service_serviceType_' + programId + '_' +serviceId;
 
-                var serviceType   = 'service_serviceType_' + programId + '_' +serviceId;
+          var value = $('#'+serviceType).val();
 
-                var value = $('#'+serviceType).val();
+          var dynamicPlace = '#dynamicPlace_'+serviceId;
 
-                var dynamicPlace = '#dynamicPlace_'+serviceId;
+          var transferFields = $('#hiddenTransfer').html();
+          var driverFields = $('#hiddenDriver').html();
+          var excursionFields = $('#hiddenExcursion').html();
+          var restaurantFields = $('#hiddenRestaurant').html();
 
-                var transferFields = $('#hiddenTransfer').html();
-                var driverFields = $('#hiddenDriver').html();
-                var excursionFields = $('#hiddenExcursion').html();
-                var restaurantFields = $('#hiddenRestaurant').html();
 
+          switch (value) {
 
-                switch (value) {
+            case "transfer":
 
-                    case "transfer":
+              $(dynamicPlace).html(transferFields);
 
-                        $(dynamicPlace).html(transferFields);
+              $.each(transferData, function(id, obj) {
+                $(dynamicPlace+' .transferCarType')
+                  .append($('<option>', { value : obj.value })
+                    .text(obj.title));
+              });
 
-                        $.each(transferData, function(id, obj) {
-                            $(dynamicPlace+' .transferCarType')
-                                    .append($('<option>', { value : obj.value })
-                                            .text(obj.title));
-                        });
+              $(dynamicPlace+' .transferCarType').attr('id', 'transferCarType_'+programId+'_'+serviceId);
+              $(dynamicPlace+' .transferHours').attr('id', 'transferHours_'+programId+'_'+serviceId);
+              $(dynamicPlace+' .transferCarsAmount').attr('id', 'transferCarsAmount_'+programId+'_'+serviceId);
+              $(dynamicPlace+' .transferNightMode').attr('id', 'transferNightMode_'+programId+'_'+serviceId);
+              $(dynamicPlace+' .transferFrom').attr('id', 'transferFrom_'+programId+'_'+serviceId);
+              $(dynamicPlace+' .transferTo').attr('id', 'transferTo_'+programId+'_'+serviceId);
 
-                        $(dynamicPlace+' .transferCarType').attr('id', 'transferCarType_'+programId+'_'+serviceId);
-                        $(dynamicPlace+' .transferHours').attr('id', 'transferHours_'+programId+'_'+serviceId);
-                        $(dynamicPlace+' .transferCarsAmount').attr('id', 'transferCarsAmount_'+programId+'_'+serviceId);
-                        $(dynamicPlace+' .transferNightMode').attr('id', 'transferNightMode_'+programId+'_'+serviceId);
-                        $(dynamicPlace+' .transferFrom').attr('id', 'transferFrom_'+programId+'_'+serviceId);
-                        $(dynamicPlace+' .transferTo').attr('id', 'transferTo_'+programId+'_'+serviceId);
+              break;
 
-                        break;
+            case "driver":
 
-                    case "driver":
+              $(dynamicPlace).html(driverFields);
 
-                        $(dynamicPlace).html(driverFields);
+              $.each(driverData, function(id, obj) {
+                $(dynamicPlace+' .driverCarType')
+                  .append($('<option>', { value : obj.value })
+                    .text(obj.title));
+              });
 
-                        $.each(driverData, function(id, obj) {
-                            $(dynamicPlace+' .driverCarType')
-                                    .append($('<option>', { value : obj.value })
-                                            .text(obj.title));
-                        });
+              $(dynamicPlace+' .driverCarType').attr('id', 'driverCarType_'+programId+'_'+serviceId);
+              $(dynamicPlace+' .driverHours').attr('id', 'driverHours_'+programId+'_'+serviceId);
+              $(dynamicPlace+' .driverCarsAmount').attr('id', 'driverCarsAmount_'+programId+'_'+serviceId);
+              $(dynamicPlace+' .driverNightMode').attr('id', 'driverNightMode_'+programId+'_'+serviceId);
 
-                        $(dynamicPlace+' .driverCarType').attr('id', 'driverCarType_'+programId+'_'+serviceId);
-                        $(dynamicPlace+' .driverHours').attr('id', 'driverHours_'+programId+'_'+serviceId);
-                        $(dynamicPlace+' .driverCarsAmount').attr('id', 'driverCarsAmount_'+programId+'_'+serviceId);
-                        $(dynamicPlace+' .driverNightMode').attr('id', 'driverNightMode_'+programId+'_'+serviceId);
+              break;
 
-                        break;
+            case "excursion":
 
-                    case "excursion":
+              $(dynamicPlace).html(excursionFields);
 
-                        $(dynamicPlace).html(excursionFields);
+              //$(dynamicPlace+' .goingPlace').attr('name', 'goingPlace_'+programId+'_'+serviceId);
+              //$(dynamicPlace+' .pplAmount').attr('name', 'pplAmount_'+programId+'_'+serviceId);
 
-                        //$(dynamicPlace+' .goingPlace').attr('name', 'goingPlace_'+programId+'_'+serviceId);
-                        //$(dynamicPlace+' .pplAmount').attr('name', 'pplAmount_'+programId+'_'+serviceId);
+              break;
 
-                        break;
+            case "restaurant":
 
-                    case "restaurant":
+              $(dynamicPlace).html(restaurantFields);
 
-                        $(dynamicPlace).html(restaurantFields);
+              //$(dynamicPlace+' .restaurant').attr('name', 'restaurant_'+programId+'_'+serviceId);
+              //$(dynamicPlace+' .menuTitle').attr('name', 'menuTitle_'+programId+'_'+serviceId);
+              //$(dynamicPlace+' .restaurantPeopleAmount').attr('name', 'restaurantPeopleAmount_'+programId+'_'+serviceId);
 
-                        //$(dynamicPlace+' .restaurant').attr('name', 'restaurant_'+programId+'_'+serviceId);
-                        //$(dynamicPlace+' .menuTitle').attr('name', 'menuTitle_'+programId+'_'+serviceId);
-                        //$(dynamicPlace+' .restaurantPeopleAmount').attr('name', 'restaurantPeopleAmount_'+programId+'_'+serviceId);
+              break;
+          }
 
-                        break;
-                }
+        };
 
-            };
+        var allAccommodations = [];
 
-            $('form#mainForm').submit(function (event) {
+        $('form#mainForm').submit(function (event) {
 
-                event.preventDefault();
+          event.preventDefault();
 
-                var maxDays = Math.max.apply(Math, programIds);
-                var maxServices = Math.max.apply(Math, serviceIds);
+          var maxDays = Math.max.apply(Math, programIds);
+          var maxServices = Math.max.apply(Math, serviceIds);
 
-                $('#documentedForPlace').html($('#documentedFor').val());
-                $('#tripDatesPlace').html($('#tripStarts').val() + ' / ' + $('#tripEnds').val());
-                $('#guestsAmountPlace').html($('#guestsAmount').val());
+          $('#documentedForPlace').html($('#documentedFor').val());
+          $('#tripDatesPlace').html($('#tripStarts').val() + ' / ' + $('#tripEnds').val());
+          $('#guestsAmountPlace').html($('#guestsAmount').val());
 
-                var accommodationRows = [];
-                var programRows = [];
-                
-                var totalAccommodationsPrice = 0;
-                var programTotalPrice = 0;
+          var accommodationRows = [];
+          var programRows = [];
 
-                _.each(accommodationIds, function (accommodationId) {
+          var accommodationData = [];
+          var programData = [];
 
-                    var hotel = $(event.target['hotel_'+accommodationId]).val();
-                    var hotelName = $('#' + $(event.target['hotel_'+accommodationId]).attr('id') + ' option:selected').text();
-                    var moveIn = $(event.target['moveIn_'+accommodationId]).val();
-                    var moveOut = $(event.target['moveOut_'+accommodationId]).val();
+          var totalAccommodationsPrice = 0;
+          var programTotalPrice = 0;
 
-                    var daysTotal = 1;
+          _.each(accommodationIds, function (accommodationId) {
 
-                    if (moveIn.length && moveOut.length) {
+            var hotel = $(event.target['hotel_'+accommodationId]).val();
+            var hotelName = $('#' + $(event.target['hotel_'+accommodationId]).attr('id') + ' option:selected').text();
+            var moveIn = $(event.target['moveIn_'+accommodationId]).val();
+            var moveOut = $(event.target['moveOut_'+accommodationId]).val();
 
-                        var momentMoveIn = moment(moveIn, "DD-MM-YYYY");
-                        var momentMoveOut = moment(moveOut, "DD-MM-YYYY");
+            var daysTotal = 1;
 
-                        daysTotal = momentMoveOut.diff(momentMoveIn, 'days');
+            if (moveIn.length && moveOut.length) {
 
-                    }
+              var momentMoveIn = moment(moveIn, "DD-MM-YYYY");
+              var momentMoveOut = moment(moveOut, "DD-MM-YYYY");
 
-                    var roomsTotalPrice = 0;
-                    var singleAccommodationPrice = 0;
+              daysTotal = momentMoveOut.diff(momentMoveIn, 'days');
 
-                    var row;
+            }
 
-                    row = [
-                        '<tr class="success">' +
-                            '<th scope="row">' + accommodationId + '</th>' +
-                            '<td>' + hotelName + '</td>' +
-                            '<td>' + moveIn + ' / ' + moveOut + '</td>' +
-                            '<td>' + daysTotal + '</td>' +
-                            '<td></td>' +
-                            '<td></td>' +
-                            '<td></td>' +
-                            '<td></td>' +
-                        '</tr>'
-                    ].join();
+            var roomsTotalPrice = 0;
+            var singleAccommodationPrice = 0;
 
-                    accommodationRows.push(row);
+            var row;
 
-                    _.each(roomIds, function (roomId) {
+            row = [
+              '<tr class="success">' +
+              '<th scope="row">' + accommodationId + '</th>' +
+              '<td>' + hotelName + '</td>' +
+              '<td>' + moveIn + ' / ' + moveOut + '</td>' +
+              '<td>' + daysTotal + '</td>' +
+              '<td></td>' +
+              '<td></td>' +
+              '<td></td>' +
+              '<td></td>' +
+              '</tr>'
+            ].join();
 
-                        if ($(event.target['roomType_'+accommodationId+'_'+roomId]).length) {
+            accommodationRows.push(row);
 
-                            var roomType = $(event.target['roomType_'+accommodationId+'_'+roomId]).val();
-                            var roomTypeText = $('#' + $(event.target['roomType_'+accommodationId+'_'+roomId]).attr('id') + ' option:selected').text();
-                            var roomsAmount = $(event.target['roomsAmount_'+accommodationId+'_'+roomId]).val();
-                            var extraBed = $(event.target['extraBed_'+accommodationId+'_'+roomId]).is(':checked');
-
-                            var roomTypePrice = 0;
-                            var extraBedPrice = 0;
-
-                            var hasExtraBed = '';
-
-                            _.each(hotelsData, function (hotelData) {
-
-                                if (hotelData.codeName === hotel) {
-
-                                    roomTypePrice = hotelData.roomType[roomType].rub;
-
-                                    if (extraBed) {
-
-                                        extraBedPrice = hotelData.extraBed.rub;
-                                        hasExtraBed = 'Да';
-                                    } else {
-                                        hasExtraBed = 'Нет';
-                                    }
-                                }
-                            });
-
-                            roomsTotalPrice += (roomTypePrice + extraBedPrice) * roomsAmount;
-
-                            row = [
-                                '<tr class="">' +
-                                '<th scope="row"></th>' +
-                                '<td></td>' +
-                                '<td></td>' +
-                                '<td></td>' +
-                                '<td>'+ roomTypeText +' ('+roomTypePrice+'р.)</td>' +
-                                '<td>'+ roomsAmount +'</td>' +
-                                '<td>'+ hasExtraBed +' ('+extraBedPrice+')</td>' +
-                                '<td></td>' +
-                                '</tr>'
-                            ].join();
-
-                            accommodationRows.push(row);
-
-                        }
-                    });
-
-                    singleAccommodationPrice = roomsTotalPrice * daysTotal;
-
-                    totalAccommodationsPrice += singleAccommodationPrice;
-
-                    row = [
-                        '<tr class="">' +
-                            '<th scope="row"></th>' +
-                            '<td></td>' +
-                            '<td></td>' +
-                            '<td></td>' +
-                            '<td></td>' +
-                            '<td></td>' +
-                            '<td></td>' +
-                            '<td>'+ singleAccommodationPrice +'р.</td>' +
-                        '</tr>'
-                    ].join();
-
-                    accommodationRows.push(row);
-                });
-
-                _.each(programIds, function (programId) {
-
-                    _.each(serviceIds, function (serviceId) {
-
-                        var serviceType = $(event.target['service_serviceType_' + programId + '_' +serviceId]).val();
-
-                        var total, row, isNightMode;
-                        var discount = 1;
-
-                        if (serviceType === 'transfer') {
-
-                            var transferCarTypePrice = $(event.target['transferCarType_' + programId + '_' + serviceId]).val();
-                            var transferCarType = $('#' + $(event.target['transferCarType_' + programId + '_' + serviceId]).attr('id') + ' option:selected').text();
-                            var transferHours = $(event.target['transferHours_' + programId + '_' + serviceId]).val();
-                            var transferCarsAmount = $(event.target['transferCarsAmount_' + programId + '_' + serviceId]).val();
-                            var transferIsNightMode = $(event.target['transferNightMode_' + programId + '_' + serviceId]).is(':checked');
-
-
-
-                            if (transferCarsAmount < 1) transferCarsAmount = 1;
-                            if (transferHours < 1) transferHours = 1;
-
-                            if (transferIsNightMode) discount = 1.5;
-
-                            total = transferCarTypePrice * transferCarsAmount * transferHours * discount;
-
-                            isNightMode = (transferIsNightMode) ? 'Да' : 'Нет';
-
-                            row = [
-                                '<tr>' +
-                                '<th scope="row">' + programId + '</th>' +
-                                '<td>' + serviceType + '</td>' +
-                                '<td>' + transferCarType + '</td>' +
-                                '<td>' + transferHours + '</td>' +
-                                '<td>' + transferCarsAmount + '</td>' +
-                                '<td>' + isNightMode + '</td>' +
-                                '<td>' + total +'р.</td>' +
-                                '</tr>'
-                            ].join();
-
-
-                            programRows.push(row);
-
-                        } else if (serviceType === 'driver') {
-
-
-                            var driverCarTypePrice = $(event.target['driverCarType_' + programId + '_' + serviceId]).val();
-                            var driverCarType = $('#' + $(event.target['driverCarType_' + programId + '_' + serviceId]).attr('id') + ' option:selected').text();
-                            var driverHours = $(event.target['driverHours_' + programId + '_' + serviceId]).val();
-                            var driverCarsAmount = $(event.target['driverCarsAmount_' + programId + '_' + serviceId]).val();
-                            var driverIsNightMode = $(event.target['driverNightMode_' + programId + '_' + serviceId]).is(':checked');
-
-                            var priceArr = driverCarTypePrice.split('/');
-
-                            if (driverCarsAmount < 1) driverCarsAmount = 1;
-                            if (driverHours < 1) driverHours = 1;
-
-                            if (driverIsNightMode) discount = 1.5;
-
-                            total = (parseInt(priceArr[0]) + parseInt(priceArr[1]) * driverHours) * driverCarsAmount * discount;
-
-                            isNightMode = (driverIsNightMode) ? 'Да' : 'Нет';
-
-                            row = [
-                                '<tr>' +
-                                '<th scope="row">' + programId + '</th>' +
-                                '<td>' + serviceType + '</td>' +
-                                '<td>' + driverCarType + '</td>' +
-                                '<td>' + driverHours + '</td>' +
-                                '<td>' + driverCarsAmount + '</td>' +
-                                '<td>' + isNightMode + '</td>' +
-                                '<td>' + total +'р.</td>' +
-                                '</tr>'
-                            ].join();
-
-
-                            programRows.push(row);
-
-                        }
-
-                        programTotalPrice += total;
-
-                    });
-
-                });
-
-                $('table#accommodationData tbody').html(accommodationRows);
-
-                $('.accommodationsTotalPrice').html(totalAccommodationsPrice + "р.");
-
-                $('table#transferData tbody').html(programRows);
-
-                $('.programTotalPrice').html(programTotalPrice + "р.");
-
-                $('#myModal').modal('show');
-
-                $('#continueEditing').on('click', function () {
-                    $('#myModal').modal('hide');
-                });
-
-                return false;
+            accommodationData.push({
+              "#": accommodationId,
+              "Отель": hotelName,
+              "Заезд": moveIn,
+              "Выезд": moveOut,
+              "Кол-во дней": daysTotal,
+              "Тип комнаты": "",
+              "Кол-во комнат": "",
+              "Доп. кровать": "",
+              "Цена": ""
             });
 
+            _.each(roomIds, function (roomId) {
+
+              if ($(event.target['roomType_'+accommodationId+'_'+roomId]).length) {
+
+                var roomType = $(event.target['roomType_'+accommodationId+'_'+roomId]).val();
+                var roomTypeText = $('#' + $(event.target['roomType_'+accommodationId+'_'+roomId]).attr('id') + ' option:selected').text();
+                var roomsAmount = $(event.target['roomsAmount_'+accommodationId+'_'+roomId]).val();
+                var extraBed = $(event.target['extraBed_'+accommodationId+'_'+roomId]).is(':checked');
+
+                var roomTypePrice = 0;
+                var extraBedPrice = 0;
+
+                var hasExtraBed = '';
+
+                _.each(hotelsData, function (hotelData) {
+
+                  if (hotelData.codeName === hotel) {
+
+                    roomTypePrice = hotelData.roomType[roomType].rub;
+
+                    if (extraBed) {
+
+                      extraBedPrice = hotelData.extraBed.rub;
+                      hasExtraBed = 'Да';
+                    } else {
+                      hasExtraBed = 'Нет';
+                    }
+                  }
+                });
+
+                roomsTotalPrice += (roomTypePrice + extraBedPrice) * roomsAmount;
+
+                row = [
+                  '<tr class="">' +
+                  '<th scope="row"></th>' +
+                  '<td></td>' +
+                  '<td></td>' +
+                  '<td></td>' +
+                  '<td>'+ roomTypeText +' ('+roomTypePrice+'р.)</td>' +
+                  '<td>'+ roomsAmount +'</td>' +
+                  '<td>'+ hasExtraBed +' ('+extraBedPrice+')</td>' +
+                  '<td></td>' +
+                  '</tr>'
+                ].join();
+
+                accommodationRows.push(row);
+
+                accommodationData.push({
+                  "#": accommodationId,
+                  "Отель": "",
+                  "Заезд": "",
+                  "Выезд": "",
+                  "Кол-во дней": "",
+                  "Тип комнаты": roomTypeText,
+                  "Кол-во комнат": roomsAmount,
+                  "Доп. кровать": hasExtraBed + ' (' + extraBedPrice + ')',
+                  "Цена": ""
+                });
+
+              }
+            });
+
+            singleAccommodationPrice = roomsTotalPrice * daysTotal;
+
+            totalAccommodationsPrice += singleAccommodationPrice;
+
+            accommodationData.push({
+              "#": accommodationId,
+              "Отель": "",
+              "Заезд": "",
+              "Выезд": "",
+              "Кол-во дней": "",
+              "Тип комнаты": "",
+              "Кол-во комнат": "",
+              "Доп. кровать": "",
+              "Цена": totalAccommodationsPrice
+            });
+
+            row = [
+              '<tr class="">' +
+              '<th scope="row"></th>' +
+              '<td></td>' +
+              '<td></td>' +
+              '<td></td>' +
+              '<td></td>' +
+              '<td></td>' +
+              '<td></td>' +
+              '<td>'+ singleAccommodationPrice +'р.</td>' +
+              '</tr>'
+            ].join();
+
+            accommodationRows.push(row);
+
+          });
+
+          allAccommodations = accommodationData;
+
+          _.each(programIds, function (programId) {
+
+            _.each(serviceIds, function (serviceId) {
+
+              var serviceType = $(event.target['service_serviceType_' + programId + '_' +serviceId]).val();
+
+              var total, row, isNightMode;
+              var discount = 1;
+
+              if (serviceType === 'transfer') {
+
+                var transferCarTypePrice = $(event.target['transferCarType_' + programId + '_' + serviceId]).val();
+                var transferCarType = $('#' + $(event.target['transferCarType_' + programId + '_' + serviceId]).attr('id') + ' option:selected').text();
+                var transferHours = $(event.target['transferHours_' + programId + '_' + serviceId]).val();
+                var transferCarsAmount = $(event.target['transferCarsAmount_' + programId + '_' + serviceId]).val();
+                var transferIsNightMode = $(event.target['transferNightMode_' + programId + '_' + serviceId]).is(':checked');
+
+
+
+                if (transferCarsAmount < 1) transferCarsAmount = 1;
+                if (transferHours < 1) transferHours = 1;
+
+                if (transferIsNightMode) discount = 1.5;
+
+                total = transferCarTypePrice * transferCarsAmount * transferHours * discount;
+
+                isNightMode = (transferIsNightMode) ? 'Да' : 'Нет';
+
+                row = [
+                  '<tr>' +
+                  '<th scope="row">' + programId + '</th>' +
+                  '<td>' + serviceType + '</td>' +
+                  '<td>' + transferCarType + '</td>' +
+                  '<td>' + transferHours + '</td>' +
+                  '<td>' + transferCarsAmount + '</td>' +
+                  '<td>' + isNightMode + '</td>' +
+                  '<td>' + total +'р.</td>' +
+                  '</tr>'
+                ].join();
+
+
+                programRows.push(row);
+
+              } else if (serviceType === 'driver') {
+
+
+                var driverCarTypePrice = $(event.target['driverCarType_' + programId + '_' + serviceId]).val();
+                var driverCarType = $('#' + $(event.target['driverCarType_' + programId + '_' + serviceId]).attr('id') + ' option:selected').text();
+                var driverHours = $(event.target['driverHours_' + programId + '_' + serviceId]).val();
+                var driverCarsAmount = $(event.target['driverCarsAmount_' + programId + '_' + serviceId]).val();
+                var driverIsNightMode = $(event.target['driverNightMode_' + programId + '_' + serviceId]).is(':checked');
+
+                var priceArr = driverCarTypePrice.split('/');
+
+                if (driverCarsAmount < 1) driverCarsAmount = 1;
+                if (driverHours < 1) driverHours = 1;
+
+                if (driverIsNightMode) discount = 1.5;
+
+                total = (parseInt(priceArr[0]) + parseInt(priceArr[1]) * driverHours) * driverCarsAmount * discount;
+
+                isNightMode = (driverIsNightMode) ? 'Да' : 'Нет';
+
+                row = [
+                  '<tr>' +
+                  '<th scope="row">' + programId + '</th>' +
+                  '<td>' + serviceType + '</td>' +
+                  '<td>' + driverCarType + '</td>' +
+                  '<td>' + driverHours + '</td>' +
+                  '<td>' + driverCarsAmount + '</td>' +
+                  '<td>' + isNightMode + '</td>' +
+                  '<td>' + total +'р.</td>' +
+                  '</tr>'
+                ].join();
+
+
+                programRows.push(row);
+
+              }
+
+              programTotalPrice += total;
+
+            });
+
+          });
+
+          $('table#accommodationData tbody').html(accommodationRows);
+
+          $('.accommodationsTotalPrice').html(totalAccommodationsPrice + "р.");
+
+          $('table#transferData tbody').html(programRows);
+
+          $('.programTotalPrice').html(programTotalPrice + "р.");
+
+          $('#myModal').modal('show');
+
+          $('#continueEditing').on('click', function () {
+            $('#myModal').modal('hide');
+          });
+
+          return false;
         });
+
+        $('#export').on('click', function () {
+
+          var xls = json2xls(allAccommodations);
+
+          dialog.showSaveDialog({
+            title: 'data.xlsx',
+            defaultPath: __dirname,
+            filters: [
+              { name: 'Custom File Type', extensions: ['xlsx'] }
+            ]
+          }, function (filePath) {
+
+            fs.writeFile(filePath, xls, 'binary', function (err) {
+
+              if (err) console.log(err);
+
+              dialog.showMessageBox({
+                message: "The file has been saved to " + filePath,
+                buttons: ["OK"]
+              });
+            });
+          });
+
+        });
+
+      });
     </script>
     <script src="./vendor/bootstrap.min.js"></script>
     <script src="./vendor/moment.min.js"></script>
