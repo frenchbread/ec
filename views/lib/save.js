@@ -42,7 +42,7 @@ module.exports = function (headingInfo, allAccommodations, allPrograms) {
   ];
 
   //Here you specify the export structure
-  var specification = {
+  var specificationAccommodation = {
     hotel: { // <- the key should match the actual data key
       displayName: 'Отель', // <- Here you specify the column header
       headerStyle: styles.headerDark, // <- Header style,
@@ -76,8 +76,42 @@ module.exports = function (headingInfo, allAccommodations, allPrograms) {
     price: {
       displayName: 'Цена (р.)',
       headerStyle: styles.headerDark,
-      cellStyle: styles.cellPink, // <- Cell style [todo: allow function]
-      width: 50 // <- width in pixels
+      cellStyle: styles.cellPink,
+      width: 100
+    }
+  };
+
+  var specificationProgram = {
+    service: { // <- the key should match the actual data key
+      displayName: 'Сервис', // <- Here you specify the column header
+      headerStyle: styles.headerDark, // <- Header style,
+      width: 200 // <- width in pixels
+    },
+    autoType: {
+      displayName: 'Тип авто',
+      headerStyle: styles.headerDark,
+      width: 150
+    },
+    hours: {
+      displayName: 'Кол-во часов',
+      headerStyle: styles.headerDark,
+      width: 150
+    },
+    carsAmount: {
+      displayName: 'Кол-во авто',
+      headerStyle: styles.headerDark,
+      width: 120
+    },
+    isNightMode: {
+      displayName: 'Ночноый тариф',
+      headerStyle: styles.headerDark,
+      width: 120
+    },
+    price: {
+      displayName: 'Цена (р.)',
+      headerStyle: styles.headerDark,
+      cellStyle: styles.cellPink,
+      width: 100
     }
   };
 
@@ -86,8 +120,14 @@ module.exports = function (headingInfo, allAccommodations, allPrograms) {
       {
         name: 'Проживание',
         heading: heading,
-        specification: specification,
+        specification: specificationAccommodation,
         data: allAccommodations
+      },
+      {
+        name: "Программа",
+        heading: heading,
+        specification: specificationProgram,
+        data: allPrograms
       }
     ]
   );

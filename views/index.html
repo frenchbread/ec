@@ -611,7 +611,6 @@
             var singleAccommodationPrice = 0;
 
             allAccommodations.push({
-//              "#": accommodationId,
               "hotel": hotelName,
               "dates": moveIn + ' / ' + moveOut,
               "daysTotal": daysTotal,
@@ -654,7 +653,6 @@
                 roomsTotalPrice += (roomTypePrice + extraBedPrice) * roomsAmount;
 
                 allAccommodations.push({
-//                  "#": accommodationId,
                   "hotel": "",
                   "dates": "",
                   "daysTotal": "",
@@ -672,7 +670,6 @@
             totalAccommodationsPrice += singleAccommodationPrice;
 
             allAccommodations.push({
-//              "#": accommodationId,
               "hotel": "",
               "dates": "",
               "daysTotal": "",
@@ -689,6 +686,7 @@
             _.each(serviceIds, function (serviceId) {
 
               var serviceType = $(event.target['service_serviceType_' + programId + '_' +serviceId]).val();
+              var serviceTypeText = $('#' +  $(event.target['service_serviceType_' + programId + '_' +serviceId]).attr('id') + ' option:selected').text();
 
               var total, isNightMode;
               var discount = 1;
@@ -713,13 +711,12 @@
                 isNightMode = (transferIsNightMode) ? 'Да' : 'Нет';
 
                 allPrograms.push({
-                  "#": programId,
-                  "Сервис": serviceType,
-                  "Тип авто": transferCarType,
-                  "Кол-во часов": transferHours,
-                  "Кол-во авто": transferCarsAmount,
-                  "Ночной тариф": isNightMode,
-                  "Цена": total
+                  "service": serviceTypeText,
+                  "autoType": transferCarType,
+                  "hours": transferHours,
+                  "carsAmount": transferCarsAmount,
+                  "isNightMode": isNightMode,
+                  "price": total
                 });
 
               } else if (serviceType === 'driver') {
@@ -743,13 +740,12 @@
                 isNightMode = (driverIsNightMode) ? 'Да' : 'Нет';
 
                 allPrograms.push({
-                  "#": programId,
-                  "Сервис": serviceType,
-                  "Тип авто": driverCarType,
-                  "Кол-во часов": driverHours,
-                  "Кол-во авто": driverCarsAmount,
-                  "Ночной тариф": isNightMode,
-                  "Цена": total
+                  "service": serviceTypeText,
+                  "autoType": driverCarType,
+                  "hours": driverHours,
+                  "carsAmount": driverCarsAmount,
+                  "isNightMode": isNightMode,
+                  "price": total
                 });
               }
 
