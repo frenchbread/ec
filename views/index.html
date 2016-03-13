@@ -612,7 +612,7 @@
             var roomsTotalPrice = 0;
             var singleAccommodationPrice = 0;
 
-            accommodationData.push({
+            allAccommodations.push({
               "#": accommodationId,
               "Отель": hotelName,
               "Заезд": moveIn,
@@ -656,7 +656,7 @@
 
                 roomsTotalPrice += (roomTypePrice + extraBedPrice) * roomsAmount;
 
-                accommodationData.push({
+                allAccommodations.push({
                   "#": accommodationId,
                   "Отель": "",
                   "Заезд": "",
@@ -675,7 +675,7 @@
 
             totalAccommodationsPrice += singleAccommodationPrice;
 
-            accommodationData.push({
+            allAccommodations.push({
               "#": accommodationId,
               "Отель": "",
               "Заезд": "",
@@ -688,8 +688,6 @@
             });
 
           });
-
-          allAccommodations = accommodationData;
 
           _.each(programIds, function (programId) {
 
@@ -747,13 +745,8 @@
             });
 
           });
-
-          return false;
-        });
-
-        $('#export').on('click', function () {
-
-          var xls = json2xls(allAccommodations);
+  
+          var xlsFile = json2xls(allAccommodations);
 
           dialog.showSaveDialog({
             title: 'data.xlsx',
@@ -763,7 +756,7 @@
             ]
           }, function (filePath) {
 
-            fs.writeFile(filePath, xls, 'binary', function (err) {
+            fs.writeFile(filePath, xlsFile, 'binary', function (err) {
 
               if (err) console.log(err);
 
@@ -774,6 +767,7 @@
             });
           });
 
+          return false;
         });
 
       });
