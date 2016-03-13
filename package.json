@@ -28,7 +28,7 @@
     "electron-prebuilt": "^0.36.0"
   },
   "dependencies": {
-    "json2xls": "^0.1.1",
+    "node-excel-export": "^1.1.0",
     "underscore": "^1.8.3"
   }
 }

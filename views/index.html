@@ -311,10 +311,7 @@
     </div>
     <script>
       var _ = require('underscore');
-      var json2xls = require('json2xls');
-      var fs = require('fs');
-      const remote = require('electron').remote;
-      const dialog = remote.require('electron').dialog;
+      var saveFile = require('./lib/save');
 
       window.$ = window.jQuery = require('./vendor/jquery.min.js');
 
@@ -573,6 +570,7 @@
         };
 
         var allAccommodations = [];
+        var allPrograms = [];
 
         $('form#mainForm').submit(function (event) {
 
@@ -581,12 +579,12 @@
           var maxDays = Math.max.apply(Math, programIds);
           var maxServices = Math.max.apply(Math, serviceIds);
 
-          $('#documentedForPlace').html($('#documentedFor').val());
-          $('#tripDatesPlace').html($('#tripStarts').val() + ' / ' + $('#tripEnds').val());
-          $('#guestsAmountPlace').html($('#guestsAmount').val());
-
-          var accommodationData = [];
-          var programData = [];
+          var headingInfo = [
+            $('#documentedFor').val(),
+            "",
+            $('#tripStarts').val() + ' / ' + $('#tripEnds').val(),
+            $('#guestsAmount').val()
+          ];
 
           var totalAccommodationsPrice = 0;
           var programTotalPrice = 0;
@@ -613,15 +611,14 @@
             var singleAccommodationPrice = 0;
 
             allAccommodations.push({
-              "#": accommodationId,
-              "Отель": hotelName,
-              "Заезд": moveIn,
-              "Выезд": moveOut,
-              "Кол-во дней": daysTotal,
-              "Тип комнаты": "",
-              "Кол-во комнат": "",
-              "Доп. кровать": "",
-              "Цена": ""
+//              "#": accommodationId,
+              "hotel": hotelName,
+              "dates": moveIn + ' / ' + moveOut,
+              "daysTotal": daysTotal,
+              "roomType": "",
+              "roomsAmount": "",
+              "extraBed": "",
+              "price": ""
             });
 
             _.each(roomIds, function (roomId) {
@@ -657,15 +654,14 @@
                 roomsTotalPrice += (roomTypePrice + extraBedPrice) * roomsAmount;
 
                 allAccommodations.push({
-                  "#": accommodationId,
-                  "Отель": "",
-                  "Заезд": "",
-                  "Выезд": "",
-                  "Кол-во дней": "",
-                  "Тип комнаты": roomTypeText,
-                  "Кол-во комнат": roomsAmount,
-                  "Доп. кровать": hasExtraBed + ' (' + extraBedPrice + ')',
-                  "Цена": ""
+//                  "#": accommodationId,
+                  "hotel": "",
+                  "dates": "",
+                  "daysTotal": "",
+                  "roomType": roomTypeText + ' (' + roomTypePrice + 'р.)',
+                  "roomsAmount": roomsAmount,
+                  "extraBed": hasExtraBed + ' (' + extraBedPrice + 'р.)',
+                  "price": ""
                 });
 
               }
@@ -676,15 +672,14 @@
             totalAccommodationsPrice += singleAccommodationPrice;
 
             allAccommodations.push({
-              "#": accommodationId,
-              "Отель": "",
-              "Заезд": "",
-              "Выезд": "",
-              "Кол-во дней": "",
-              "Тип комнаты": "",
-              "Кол-во комнат": "",
-              "Доп. кровать": "",
-              "Цена": totalAccommodationsPrice
+//              "#": accommodationId,
+              "hotel": "",
+              "dates": "",
+              "daysTotal": "",
+              "roomType": "",
+              "roomsAmount": "",
+              "extraBed": "",
+              "price": totalAccommodationsPrice
             });
 
           });
@@ -717,6 +712,16 @@
 
                 isNightMode = (transferIsNightMode) ? 'Да' : 'Нет';
 
+                allPrograms.push({
+                  "#": programId,
+                  "Сервис": serviceType,
+                  "Тип авто": transferCarType,
+                  "Кол-во часов": transferHours,
+                  "Кол-во авто": transferCarsAmount,
+                  "Ночной тариф": isNightMode,
+                  "Цена": total
+                });
+
               } else if (serviceType === 'driver') {
 
 
@@ -737,7 +742,15 @@
 
                 isNightMode = (driverIsNightMode) ? 'Да' : 'Нет';
 
-
+                allPrograms.push({
+                  "#": programId,
+                  "Сервис": serviceType,
+                  "Тип авто": driverCarType,
+                  "Кол-во часов": driverHours,
+                  "Кол-во авто": driverCarsAmount,
+                  "Ночной тариф": isNightMode,
+                  "Цена": total
+                });
               }
 
               programTotalPrice += total;
@@ -745,27 +758,8 @@
             });
 
           });
-  
-          var xlsFile = json2xls(allAccommodations);
 
-          dialog.showSaveDialog({
-            title: 'data.xlsx',
-            defaultPath: __dirname,
-            filters: [
-              { name: 'Custom File Type', extensions: ['xlsx'] }
-            ]
-          }, function (filePath) {
-
-            fs.writeFile(filePath, xlsFile, 'binary', function (err) {
-
-              if (err) console.log(err);
-
-              dialog.showMessageBox({
-                message: "The file has been saved to " + filePath,
-                buttons: ["OK"]
-              });
-            });
-          });
+          saveFile(headingInfo, allAccommodations, allPrograms);
 
           return false;
         });
