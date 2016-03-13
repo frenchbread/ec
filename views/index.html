@@ -61,7 +61,7 @@
 
             <hr/>
 
-            <button class="btn btn-success pull-right">Посчитать</button>
+            <button class="btn btn-success pull-right">Сохранить</button>
         </form>
 
         <!--Hidden stuff-->
@@ -301,12 +301,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <!--button.btn.btn-default(type='button', data-dismiss='modal') Close-->
-                        <button type="submit" class="btn btn-success" id="export">Export</button>
-                    </div>
-                  <div class="modal-footer">
-                        <!--button.btn.btn-default(type='button', data-dismiss='modal') Close-->
-                        <button type="submit" class="btn btn-primary" id="continueEditing">Редактировать</button>
+                          <!--button.btn.btn-default(type='button', data-dismiss='modal') Close-->
+                          <button type="submit" class="btn btn-primary" id="continueEditing">Редактировать</button>
                     </div>
                 </div>
             </div>
@@ -589,9 +585,6 @@
           $('#tripDatesPlace').html($('#tripStarts').val() + ' / ' + $('#tripEnds').val());
           $('#guestsAmountPlace').html($('#guestsAmount').val());
 
-          var accommodationRows = [];
-          var programRows = [];
-
           var accommodationData = [];
           var programData = [];
 
@@ -618,23 +611,6 @@
 
             var roomsTotalPrice = 0;
             var singleAccommodationPrice = 0;
-
-            var row;
-
-            row = [
-              '<tr class="success">' +
-              '<th scope="row">' + accommodationId + '</th>' +
-              '<td>' + hotelName + '</td>' +
-              '<td>' + moveIn + ' / ' + moveOut + '</td>' +
-              '<td>' + daysTotal + '</td>' +
-              '<td></td>' +
-              '<td></td>' +
-              '<td></td>' +
-              '<td></td>' +
-              '</tr>'
-            ].join();
-
-            accommodationRows.push(row);
 
             accommodationData.push({
               "#": accommodationId,
@@ -680,21 +656,6 @@
 
                 roomsTotalPrice += (roomTypePrice + extraBedPrice) * roomsAmount;
 
-                row = [
-                  '<tr class="">' +
-                  '<th scope="row"></th>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td></td>' +
-                  '<td>'+ roomTypeText +' ('+roomTypePrice+'р.)</td>' +
-                  '<td>'+ roomsAmount +'</td>' +
-                  '<td>'+ hasExtraBed +' ('+extraBedPrice+')</td>' +
-                  '<td></td>' +
-                  '</tr>'
-                ].join();
-
-                accommodationRows.push(row);
-
                 accommodationData.push({
                   "#": accommodationId,
                   "Отель": "",
@@ -726,21 +687,6 @@
               "Цена": totalAccommodationsPrice
             });
 
-            row = [
-              '<tr class="">' +
-              '<th scope="row"></th>' +
-              '<td></td>' +
-              '<td></td>' +
-              '<td></td>' +
-              '<td></td>' +
-              '<td></td>' +
-              '<td></td>' +
-              '<td>'+ singleAccommodationPrice +'р.</td>' +
-              '</tr>'
-            ].join();
-
-            accommodationRows.push(row);
-
           });
 
           allAccommodations = accommodationData;
@@ -751,7 +697,7 @@
 
               var serviceType = $(event.target['service_serviceType_' + programId + '_' +serviceId]).val();
 
-              var total, row, isNightMode;
+              var total, isNightMode;
               var discount = 1;
 
               if (serviceType === 'transfer') {
@@ -773,21 +719,6 @@
 
                 isNightMode = (transferIsNightMode) ? 'Да' : 'Нет';
 
-                row = [
-                  '<tr>' +
-                  '<th scope="row">' + programId + '</th>' +
-                  '<td>' + serviceType + '</td>' +
-                  '<td>' + transferCarType + '</td>' +
-                  '<td>' + transferHours + '</td>' +
-                  '<td>' + transferCarsAmount + '</td>' +
-                  '<td>' + isNightMode + '</td>' +
-                  '<td>' + total +'р.</td>' +
-                  '</tr>'
-                ].join();
-
-
-                programRows.push(row);
-
               } else if (serviceType === 'driver') {
 
 
@@ -808,20 +739,6 @@
 
                 isNightMode = (driverIsNightMode) ? 'Да' : 'Нет';
 
-                row = [
-                  '<tr>' +
-                  '<th scope="row">' + programId + '</th>' +
-                  '<td>' + serviceType + '</td>' +
-                  '<td>' + driverCarType + '</td>' +
-                  '<td>' + driverHours + '</td>' +
-                  '<td>' + driverCarsAmount + '</td>' +
-                  '<td>' + isNightMode + '</td>' +
-                  '<td>' + total +'р.</td>' +
-                  '</tr>'
-                ].join();
-
-
-                programRows.push(row);
 
               }
 
@@ -829,20 +746,6 @@
 
             });
 
-          });
-
-          $('table#accommodationData tbody').html(accommodationRows);
-
-          $('.accommodationsTotalPrice').html(totalAccommodationsPrice + "р.");
-
-          $('table#transferData tbody').html(programRows);
-
-          $('.programTotalPrice').html(programTotalPrice + "р.");
-
-          $('#myModal').modal('show');
-
-          $('#continueEditing').on('click', function () {
-            $('#myModal').modal('hide');
           });
 
           return false;
