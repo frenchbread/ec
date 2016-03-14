@@ -215,19 +215,18 @@
                 <label for="">Кол-во человек</label><br/>
                 <input type="number" placeholder="" class="form-control pplAmount"/>
             </div>
-            <div id="hiddenRestaurant" style="display:none">
-                <div class="form-group">
-                    <label for="">Ресторан</label><br/>
-                    <input type="text" placeholder="" class="form-control restaurant"/>
-                </div>
-                <div class="form-group">
-                    <label for="">Название меню</label><br/>
-                    <input type="text" placeholder="" class="form-control restaurantMenu"/>
-                </div>
-                <div class="form-group">
-                    <label for="">Кол-во человек</label><br/>
-                    <input type="number" placeholder="" class="form-control restaurantPeopleAmount"/>
-                </div>
+        </div>
+
+        <div id="hiddenRestaurant" style="display:none">
+            <div class="form-group">
+                <label for="">Ресторан</label><br/>
+                <select class="form-control restaurant">
+                    <option>-</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="">Кол-во человек</label><br/>
+                <input type="number" placeholder="" class="form-control restaurantPeopleAmount"/>
             </div>
         </div>
 
@@ -314,6 +313,9 @@
       var _ = require('underscore');
       var saveFile = require('./lib/save');
       var doMagic = require('./lib/doMagic');
+
+      var Datastore = require('nedb');
+      var restaurants = new Datastore({ filename: 'db/restaurants.db', autoload: true });
 
       window.$ = window.jQuery = require('./vendor/jquery.min.js');
 
@@ -558,9 +560,18 @@
 
               $(dynamicPlace).html(restaurantFields);
 
-              //$(dynamicPlace+' .restaurant').attr('name', 'restaurant_'+programId+'_'+serviceId);
-              //$(dynamicPlace+' .menuTitle').attr('name', 'menuTitle_'+programId+'_'+serviceId);
-              //$(dynamicPlace+' .restaurantPeopleAmount').attr('name', 'restaurantPeopleAmount_'+programId+'_'+serviceId);
+              restaurants.find({}, function(err, docs){
+                if (docs.length > 0) {
+                  $.each(docs, function(id, obj) {
+                    $(dynamicPlace+' .restaurant')
+                      .append($('<option>', { value : obj.price })
+                        .text(obj.title));
+                  });
+                }
+              });
+
+              $(dynamicPlace+' .restaurant').attr('name', 'restaurant_'+programId+'_'+serviceId);
+              $(dynamicPlace+' .restaurantPeopleAmount').attr('name', 'restaurantPeopleAmount_'+programId+'_'+serviceId);
 
               break;
           }

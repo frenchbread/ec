@@ -9,31 +9,40 @@
     <div class="container-fluid">
       <legend>
         <h3>
-          Transfers
-          <button type="button" name="button" class="btn btn-sm btn-default pull-right" data-toggle="modal" data-target="#myModal">Add</button>
+          Рестораны
+          <button type="button" name="button" class="btn btn-sm btn-default pull-right" data-toggle="modal" data-target="#transferModal">Добавить</button>
         </h3>
       </legend>
-      <div class="" id=transfersList>
+      <div class="" id=restaurantsList>
 
       </div>
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="transferModal" tabindex="-1" role="dialog" aria-labelledby="transferModalLabel">
       <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        <form id="addTransfer">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="transferModalLabel">Добавить</h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="title">Название ресторана / меню</label>
+                <input type="text" class="form-control" id="title" placeholder="Название ресторана, меню ..">
+              </div>
+              <div class="form-group">
+                <label for="price">Цена (р.)</label>
+                <input type="number" class="form-control" id="price" placeholder="1200">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+              <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
           </div>
-          <div class="modal-body">
-            ...
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
     <script>
@@ -41,19 +50,73 @@
 
       var _ = require('underscore');
       var Datastore = require('nedb');
-      var transfers = new Datastore({ filename: 'db/transfers.db', autoload: true });
+      var restaurants = new Datastore({ filename: 'db/restaurants.db', autoload: true });
 
-      transfers.find({}, function (err, docs) {
+      const remote = require('electron').remote;
+      const dialog = remote.require('electron').dialog;
+
+      restaurants.find({}, function (err, docs) {
         _.each(docs, function (doc) {
-          $('#transfersList').append(
-            '<div class="panel panel-default">' +
-              '<div class="panel-heading">' + doc.title + '</div>' +
-              '<div class="panel-body"><b>Price:</b> ' + doc.value + '</div>' +
+          $('#restaurantsList').append(
+            '<div class="panel panel-default" id="' + doc._id + '">' +
+              '<div class="panel-heading">' +
+                doc.title +
+                '<button class="btn btn-danger btn-xs pull-right" onclick="removeRecord(\''+doc._id+'\')">x</button>' +
+              '</div>' +
+              '<div class="panel-body"><b>Price:</b> ' + doc.price + ' р.</div>' +
             '</div>'
           )
         });
       });
 
+      $('form#addTransfer').submit(function(event){
+
+        var title = $(event.target['title']).val();
+        var price = $(event.target['price']).val();
+
+        restaurants.insert({
+          title: title,
+          price: price
+        }, function (err, newDoc) {
+
+          $('#restaurantsList').append(
+            '<div class="panel panel-default" id="' + newDoc._id + '">' +
+              '<div class="panel-heading">' +
+                newDoc.title +
+                '<button class="btn btn-danger btn-xs pull-right" onclick="removeRecord(\''+newDoc._id+'\')">x</button>' +
+              '</div>' +
+              '<div class="panel-body"><b>Price:</b> ' + newDoc.price + ' р.</div>' +
+            '</div>'
+          );
+
+        });
+
+        $('#transferModal').modal('hide');
+
+        $(event.target['title']).val("");
+        $(event.target['price']).val("");
+
+        return false;
+      });
+
+      removeRecord = function (id) {
+
+        dialog.showMessageBox({
+          message: "Удалить? ",
+          buttons: ["OK", "Отменить"]
+        }, function (index) {
+
+          if (index === 0) {
+            restaurants.remove({ _id: id }, {}, function (err, numRemoved) {
+              if (err)
+                console.log(err);
+              else
+                $('#'+id).remove();
+            });
+          }
+        });
+
+      };
 
     </script>
     <script src="./vendor/bootstrap.min.js"></script>
