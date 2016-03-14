@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Database list</title>
+    <link rel="stylesheet" href="./vendor/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="container-fluid">
+      <legend>
+        <h3>
+          Transfers
+          <button type="button" name="button" class="btn btn-sm btn-default pull-right">Add</button>
+        </h3>
+      </legend>
+      <div class="" id=transfersList>
+
+      </div>
+    </div>
+    <script>
+      window.$ = window.jQuery = require('./vendor/jquery.min.js');
+
+      var _ = require('underscore');
+      var Datastore = require('nedb');
+      var transfers = new Datastore({ filename: 'db/transfers.db', autoload: true });
+
+      transfers.find({}, function (err, docs) {
+        _.each(docs, function (doc) {
+          $('#transfersList').append(
+            '<div class="panel panel-default">' +
+              '<div class="panel-heading">' + doc.title + '</div>' +
+              '<div class="panel-body"><b>Price:</b> ' + doc.value + '</div>' +
+            '</div>'
+          )
+        });
+      });
+
+
+    </script>
+  </body>
+</html>
