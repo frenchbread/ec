@@ -31,7 +31,7 @@ function createWindow () {
     mainWindow = null;
   });
 
-  dbWindow = new BrowserWindow({width: 400, height: 600, show: false});
+  dbWindow = new BrowserWindow({width: 450, height: 600, show: false});
   dbWindow.loadURL('file://' + __dirname + '/views/db.html');
 
   ipc.on('open-db', function () {
