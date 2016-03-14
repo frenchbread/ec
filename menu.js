@@ -4,14 +4,41 @@ const Menu = remote.Menu;
 
 var template = [
   {
-    label: 'Calc',
+    label: 'Edit',
     submenu: [
       {
-        label: 'Show databases',
-        click: function () {
-          ipc.send('open-db');
-        }
-      }
+        label: 'Undo',
+        accelerator: 'CmdOrCtrl+Z',
+        role: 'undo'
+      },
+      {
+        label: 'Redo',
+        accelerator: 'Shift+CmdOrCtrl+Z',
+        role: 'redo'
+      },
+      {
+        type: 'separator'
+      },
+      {
+        label: 'Cut',
+        accelerator: 'CmdOrCtrl+X',
+        role: 'cut'
+      },
+      {
+        label: 'Copy',
+        accelerator: 'CmdOrCtrl+C',
+        role: 'copy'
+      },
+      {
+        label: 'Paste',
+        accelerator: 'CmdOrCtrl+V',
+        role: 'paste'
+      },
+      {
+        label: 'Select All',
+        accelerator: 'CmdOrCtrl+A',
+        role: 'selectall'
+      },
     ]
   },
   {
@@ -53,7 +80,53 @@ var template = [
       },
     ]
   },
+  {
+    label: 'Window',
+    role: 'window',
+    submenu: [
+      {
+        label: 'Minimize',
+        accelerator: 'CmdOrCtrl+M',
+        role: 'minimize'
+      },
+      {
+        label: 'Close',
+        accelerator: 'CmdOrCtrl+W',
+        role: 'close'
+      },
+    ]
+  },
+  {
+    label: 'Help',
+    role: 'help',
+    submenu: [
+      {
+        label: 'Learn More',
+        click: function() { require('electron').shell.openExternal('http://electron.atom.io') }
+      },
+    ]
+  },
+  {
+    label: 'Databases',
+    submenu: [
+      {
+        label: 'Show databases',
+        click: function () {
+          ipc.send('open-db');
+        }
+      }
+    ]
+  }
 ];
-
+// Window menu.
+template[3].submenu.push(
+  {
+    type: 'separator'
+  },
+  {
+    label: 'Bring All to Front',
+    role: 'front'
+  }
+);
 var menu = Menu.buildFromTemplate(template);
 Menu.setApplicationMenu(menu);
