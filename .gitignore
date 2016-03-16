@@ -1,6 +1,0 @@
-.DS_*
-.idea/
-.meteor/local
-.meteor/meteorite
-.meteor/.id
-node_modules
