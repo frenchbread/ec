@@ -1,5 +1,12 @@
 $(document).ready(function () {
 
+    // Accommodations
+
+    var labelAcc = 'accommodation';
+
+    var accIds = [];
+    var accId = $('#accommodations>.accommodationForm').size();
+
     var accommodationForm = [
         '<div class="row accommodationForm">' +
             '<div class="col-md-12">' +
@@ -21,52 +28,140 @@ $(document).ready(function () {
         '<div class="form-group">' +
             '<label>Город</label>' +
             '<br/>' +
-            '<select class="form-control city">' +
+            '<select class="form-control city input-sm">' +
             '</select>' +
         '</div>' +
         '<div class="form-group">' +
             '<label>Гостиница</label>' +
             '<br/>' +
-            '<select class="form-control hotel">' +
+            '<select class="form-control hotel input-sm">' +
             '</select>' +
         '</div>' +
         '<div class="form-group">' +
             '<label >Дата заселения</label>' +
             '<br/>' +
-            '<input type="text" placeholder="dd-mm-yyyy" class="form-control moveIn"/>' +
+            '<input type="text" placeholder="dd-mm-yyyy" class="form-control moveIn input-sm"/>' +
         '</div>' +
         '<div class="form-group">' +
             '<label>Дата выезда</label>' +
             '<br/>' +
-            '<input type="text" placeholder="dd-mm-yyyy" class="form-control moveOut"/>' +
+            '<input type="text" placeholder="dd-mm-yyyy" class="form-control moveOut input-sm"/>' +
         '</div>'
     ].join();
 
-    var room = [
-        '<div class="roomForm" >' +
-            '<div class="form-group">' +
-                '<label>Тип комнаты</label><br/>' +
-                '<select class="form-control roomType">' +
-                '</select>' +
-            '</div>' +
-            '<div class="form-group">' +
-                '<label>Кол-во номеров</label><br/>' +
-                '<input type="number" class="form-control roomsAmount"/>' +
-            '</div>' +
-            '<div class="form-group" style="padding:2px;padding-top:30px;">' +
-                '<a class="btn btn-xs btn-danger removeRoom">x</a>' +
-            '</div>' +
-        '</div>'
-    ].join();
+    // Rooms
 
-    var labelAcc    = 'accommodation';
     var labelRoom   = 'room';
-
-    var accIds = [];
-    var accId = $('#playground>.accommodationForm').size();
 
     var roomIds = [];
     var roomId  = $('#rooms>.roomForm').size();
+
+    var room = [
+        '<div class="roomForm" >' +
+        '<div class="form-group">' +
+        '<label>Тип комнаты</label><br/>' +
+        '<select class="form-control roomType input-sm">' +
+        '</select>' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<label>Кол-во номеров</label><br/>' +
+        '<input type="number" class="form-control roomsAmount input-sm"/>' +
+        '</div>' +
+        '<div class="form-group" style="padding:2px;padding-top:30px;">' +
+        '<a class="btn btn-xs btn-danger removeRoom">x</a>' +
+        '</div>' +
+        '</div>'
+    ].join();
+
+    // Program
+
+    var labelProgram = 'program';
+
+    var programIds = [];
+    var programId = $('#programs>.programForm').size();
+
+    var programForm = [
+        '<div class="row programForm">' +
+            '<div class="col-md-12">' +
+                '<h3>День <b id="programNum"></b>' +
+                    '<a class="btn btn-xs btn-danger removeProgram pull-right">x Убрать день</a>' +
+                '</h3>' +
+                '<div id="programInfo">' +
+                '</div>' +
+            '</div>' +
+        '</div>'
+    ].join();
+
+    var col2 = [
+        '<div class="">' +
+            '<hr/>' +
+            '<label>Город</label>' +
+            '<br/>' +
+            '<select class="form-control cityProgram input-sm">' +
+            '</select>' +
+            '<hr/>' +
+        '</div>' +
+        '<h4>Трансфер</h4>' +
+        '<div class="form-group">' +
+            '<label>Класс авто</label>' +
+            '<br/>' +
+            '<select class="form-control transferAuto input-sm">' +
+            '</select>' +
+        '</div>' +
+        '<div class="form-group">' +
+            '<label >Откуда</label>' +
+            '<br/>' +
+            '<input type="text" class="form-control transferFrom input-sm"/>' +
+        '</div>' +
+        '<div class="form-group">' +
+            '<label>Куда</label>' +
+            '<br/>' +
+            '<input type="text" class="form-control transferTo input-sm"/>' +
+        '</div>' +
+
+        '<h4>Аренда с водителем</h4>' +
+        '<div class="form-group">' +
+            '<label>Класс авто</label>' +
+            '<br/>' +
+            '<select class="form-control withDriverAuto input-sm">' +
+            '</select>' +
+        '</div>' +
+        '<div class="form-group">' +
+            '<label >С</label>' +
+            '<br/>' +
+            '<input type="text" class="form-control withDriverStart input-sm"/>' +
+        '</div>' +
+        '<div class="form-group">' +
+            '<label>До</label>' +
+            '<br/>' +
+            '<input type="text" class="form-control withDriverEnd input-sm"/>' +
+        '</div>' +
+
+        '<h4>Экскурсия</h4>' +
+        '<div class="form-group">' +
+            '<label>Куда</label>' +
+            '<br/>' +
+            '<input type="text" class="form-control excursionTo input-sm" />' +
+            '</select>' +
+        '</div>' +
+        '<div class="form-group">' +
+            '<label >Кол-во человек</label>' +
+            '<br/>' +
+            '<input type="number" class="form-control excursionPeopleAmount input-sm"/>' +
+        '</div>' +
+
+        '<h4>Питание</h4>' +
+            '<div class="form-group">' +
+            '<label>Ресторан</label>' +
+            '<br/>' +
+            '<input type="text" class="form-control foodRestaurant input-sm" />' +
+        '</div>' +
+        '<div class="form-group">' +
+            '<label >Название меню</label>' +
+            '<br/>' +
+            '<input type="text" class="form-control foodMenu input-sm"/>' +
+        '</div>'
+    ].join();
 
     var example = [
         {
@@ -141,22 +236,11 @@ $(document).ready(function () {
         $('#hotelInfo', form).html(col);
 
         // publish
-        $('#playground').append(form);
+        $('#accommodations').append(form);
 
         accIds.push(accId);
 
         accId++;
-
-        return false;
-    };
-
-    removeAcc = function(accId) {
-
-        $('#accommodationForm_'+accId).remove();
-
-        var index   = accIds.indexOf(accId);
-        var inList  = index > -1;
-        if (inList) accIds.splice(index, 1);
 
         return false;
     };
@@ -198,6 +282,125 @@ $(document).ready(function () {
         return false;
     };
 
+    addProgram = function () {
+
+        var cityProgram = labelProgram + "_cityProgram_" + programId;
+
+        var transferAuto = labelProgram + "_transferAuto_" + programId;
+        var transferFrom = labelProgram + "_transferFrom_" + programId;
+        var transferTo = labelProgram + "_transferTo_" + programId;
+
+        var withDriverAuto = labelProgram + "_withDriverAuto_" + programId;
+        var withDriverStart = labelProgram + "_withDriverStart_" + programId;
+        var withDriverEnd = labelProgram + "_withDriverEnd_" + programId;
+
+        var excursionTo = labelProgram + "_excursionTo_" + programId;
+        var excursionPeopleAmount = labelProgram + "_excursionPeopleAmount_" + programId;
+
+        var foodRestaurant = labelProgram + "_foodRestaurant_" + programId;
+        var foodMenu = labelProgram + "_foodMenu_" + programId;
+
+        var form = $(programForm);
+        var col = $(col2);
+
+        form.attr('id', 'programForm_'+programId);
+
+        // city
+        $('.cityProgram', col).attr({
+            'id': cityProgram,
+            'name': cityProgram
+        });
+
+        // transfer
+        $('.transferAuto', col).attr({
+            'id': transferAuto,
+            'name': transferAuto
+        });
+
+        $('.transferFrom', col).attr({
+            'id': transferFrom,
+            'name': transferFrom
+        });
+
+        $('.transferTo', col).attr({
+            'id': transferTo,
+            'name': transferTo
+        });
+
+        // with driver
+        $('.withDriverAuto', col).attr({
+            'id': withDriverAuto,
+            'name': withDriverAuto
+        });
+
+        $('.withDriverStart', col).attr({
+            'id': withDriverStart,
+            'name': withDriverStart
+        }).datepicker({format : "dd-mm-yyyy"});
+
+        $('.withDriverEnd', col).attr({
+            'id': withDriverEnd,
+            'name': withDriverEnd
+        }).datepicker({format : "dd-mm-yyyy"});
+
+        // excursion
+        $('.excursionTo', col).attr({
+            'id': excursionTo,
+            'name': excursionTo
+        });
+
+        $('.excursionPeopleAmount', col).attr({
+            'id': excursionPeopleAmount,
+            'name': excursionPeopleAmount
+        });
+
+        // food
+        $('.foodRestaurant', col).attr({
+            'id': foodRestaurant,
+            'name': foodRestaurant
+        });
+
+        $('.foodMenu', col).attr({
+            'id': foodMenu,
+            'name': foodMenu
+        });
+
+        $('.removeProgram', form).attr('onclick', 'removeProgram('+programId+');');
+
+
+        var cities = $('#cities').html();
+        var cars = $('#cars').html();
+
+        $('.cityProgram', col).html(cities);
+
+        $('.transferAuto', col).html(cars);
+        $('.withDriverAuto', col).html(cars);
+
+        $('#programInfo', form).html(col);
+
+        $('#programNum', form).text(programId);
+
+        $('#programs').append(form);
+
+        programIds.push(accId);
+
+        programId++;
+
+        return false;
+
+    };
+
+    removeAcc = function(accId) {
+
+        $('#accommodationForm_'+accId).remove();
+
+        var index   = accIds.indexOf(accId);
+        var inList  = index > -1;
+        if (inList) accIds.splice(index, 1);
+
+        return false;
+    };
+
     removeRoom = function (accId, roomId) {
 
 
@@ -208,6 +411,17 @@ $(document).ready(function () {
 
         return false;
 
+    };
+
+    removeProgram = function(programId) {
+
+        $('#programForm_'+programId).remove();
+
+        var index   = programIds.indexOf(programId);
+        var inList  = index > -1;
+        if (inList) programIds.splice(index, 1);
+
+        return false;
     };
 
     preview = function () {
@@ -332,8 +546,10 @@ $(document).ready(function () {
 
                     if (pr.hotelCodename == acc.hotel) {
 
+                        console.log(pr);
+
                         // prise per day for current toomType and hotel
-                        prisePerRoomPerDay = pr.roomType[0][r.type].eur;
+                        prisePerRoomPerDay = pr.roomType[r.type].eur;
 
                         acc.displayName = pr.hotelName;
                     }

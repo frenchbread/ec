@@ -26,23 +26,20 @@ router.get('/', function(req, res) {
 
 });
 
+router.get('/api/hotels/', function (req, res) {
+
+    res.json(hotels);
+
+});
+
 router.get('/test', function (req, res) {
 
     res.render('test', {
         hotels: hotels,
         cities: cities,
-        rooms : rooms
+        rooms : rooms,
+        cars  : cars
     });
-
-});
-
-router.get('/api/hotels/', function (req, res) {
-
-    H.find({}, function (err, hotels) {
-        if (err) throw  err;
-
-        res.json(hotels);
-    })
 
 });
 
