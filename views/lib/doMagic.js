@@ -184,10 +184,10 @@ module.exports = function (data) {
       } else if (serviceType === 'restaurant') {
 
         var restaurantName= $('#' + $(event.target['restaurant_'+programId+'_'+serviceId]).attr('id') + ' option:selected').text();
-        var restaurantPrice = $(event.targer['restaurant_'+programId+'_'+serviceId]).val();
+        var restaurantPrice = $(event.target['restaurant_'+programId+'_'+serviceId]).val();
         var pplAmount = $(event.target['restaurantPeopleAmount_'+programId+'_'+serviceId]).val();
 
-        total = restaurant * pplAmount;
+        total = restaurantPrice * pplAmount;
 
         allRestaurants.push({
           "service": serviceTypeText,
