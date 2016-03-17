@@ -3,7 +3,8 @@ var hotelsData = require('../data/hotels');
 module.exports = function (data) {
 
   var allAccommodations = [];
-  var allPrograms = [];
+  var allTransport = [];
+  var allRestaurants = [];
 
   var event = data.event;
   var accommodationIds = data.accommodationIds;
@@ -143,7 +144,7 @@ module.exports = function (data) {
 
         isNightMode = (transferIsNightMode) ? 'Да' : 'Нет';
 
-        allPrograms.push({
+        allTransport.push({
           "service": serviceTypeText,
           "autoType": transferCarType,
           "hours": transferHours,
@@ -172,7 +173,7 @@ module.exports = function (data) {
 
         isNightMode = (driverIsNightMode) ? 'Да' : 'Нет';
 
-        allPrograms.push({
+        allTransport.push({
           "service": serviceTypeText,
           "autoType": driverCarType,
           "hours": driverHours,
@@ -180,6 +181,21 @@ module.exports = function (data) {
           "isNightMode": isNightMode,
           "price": total
         });
+      } else if (serviceType === 'restaurant') {
+
+        var restaurantName= $('#' + $(event.target['restaurant_'+programId+'_'+serviceId]).attr('id') + ' option:selected').text();
+        var restaurantPrice = $(event.targer['restaurant_'+programId+'_'+serviceId]).val();
+        var pplAmount = $(event.target['restaurantPeopleAmount_'+programId+'_'+serviceId]).val();
+
+        total = restaurant * pplAmount;
+
+        allRestaurants.push({
+          "service": serviceTypeText,
+          "restaurant": restaurantName,
+          "pplAmount": pplAmount,
+          "total": total
+        });
+
       }
 
       programTotalPrice += total;
@@ -191,6 +207,7 @@ module.exports = function (data) {
   return {
     headingInfo: headingInfo,
     allAccommodations: allAccommodations,
-    allPrograms: allPrograms
+    allTransport: allTransport,
+    allRestaurants: allRestaurants
   }
 };

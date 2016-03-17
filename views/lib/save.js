@@ -3,7 +3,7 @@ const dialog = remote.require('electron').dialog;
 const fs = require('fs');
 var excel = require('node-excel-export');
 
-module.exports = function (headingInfo, allAccommodations, allPrograms) {
+module.exports = function (headingInfo, allAccommodations, allPrograms, allRestaurants) {
 
   var styles = {
     headerDark: {
@@ -115,6 +115,29 @@ module.exports = function (headingInfo, allAccommodations, allPrograms) {
     }
   };
 
+  var specificationFood = {
+    service: {
+      displayName: 'Сервис',
+      headerStyle: styles.headerDark,
+      width: 200
+    },
+    restaurant: {
+      displayName: 'Ресторан',
+      headerStyle: styles.headerDark,
+      width: 200
+    },
+    pplAmount: {
+      displayName: 'Кол-во человек',
+      headerStyle: styles.headerDark,
+      width: 150
+    },
+    restaurant: {
+      displayName: 'Цена (р.)',
+      headerStyle: styles.headerDark,
+      width: 120
+    }
+  }
+
   var report = excel.buildExport(
     [
       {
@@ -128,6 +151,12 @@ module.exports = function (headingInfo, allAccommodations, allPrograms) {
         heading: heading,
         specification: specificationProgram,
         data: allPrograms
+      },
+      {
+        name: "Питание",
+        heading: heading,
+        specification: specificationFood,
+        data: allRestaurants
       }
     ]
   );
