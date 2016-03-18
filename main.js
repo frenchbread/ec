@@ -10,7 +10,7 @@ const BrowserWindow = electron.BrowserWindow;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow, dbWindow;
+let mainWindow;
 
 function createWindow () {
   // Create the browser window.
@@ -30,17 +30,6 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
-
-  dbWindow = new BrowserWindow({width: 450, height: 600, show: false});
-  dbWindow.loadURL('file://' + __dirname + '/views/db.html');
-
-  ipc.on('open-db', function () {
-    if (dbWindow.isVisible())
-      dbWindow.hide();
-    else
-      dbWindow.show();
-  });
-
 }
 
 // This method will be called when Electron has finished
