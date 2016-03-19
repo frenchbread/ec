@@ -1,4 +1,4 @@
-html, body, .box {
+/*html, body, .box {
     width: 100%;
     height: 100%;
     min-height: 400px;
@@ -17,7 +17,20 @@ p {
     color: #787878;
     font-size: 13px;
     margin-bottom: 5px;
+}*/
+
+header.head-menu ul {
+  background-color: #111338;
+  list-style: none;
 }
+header.head-menu ul li {
+  display: inline-block;
+  padding: 10px 10px
+}
+header.head-menu ul li a{
+  color: #fff;
+}
+
 .box {
     display: table;
 }
@@ -67,4 +80,12 @@ p {
     position: absolute;
     right: 3px;
     top: 3px;
+}
+
+.roomsLayout {
+  padding: 10px;
+  border:1px solid #ddd;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
 }

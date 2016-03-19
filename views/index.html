@@ -1,599 +1,607 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Travel expenses calculator.</title>
-    <link rel="stylesheet" href="./vendor/bootstrap.min.css">
-    <link rel="stylesheet" href="./vendor/datepicker.css">
-    <link rel="stylesheet" href="./main.css">
+  <meta charset="utf-8">
+  <title>Travel expenses calculator.</title>
+  <link rel="stylesheet" href="./vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="./vendor/datepicker.css">
+  <link rel="stylesheet" href="./main.css">
 </head>
 <body>
-<div class="container">
-
+  <div>
+    <header class="head-menu">
+      <ul >
+        <li><a href="#" id="showHotelsData">Отели (тарифы)</a></li>
+      </ul>
+    </header>
     <div style="margin-top:20px;" class="container">
-        <form id="mainForm" class="form-inline">
+      <form id="mainForm" class="form-inline">
 
-            <table id="head-table" class="table tab-content">
-                <tbody>
-                <tr>
-                    <td>
-                        Квотация подготовленя для
-                        <input id="documentedFor" type="text" placeholder="..." class="form-control input-sm"/></td>
-                </tr>
-                <tr>
-                    <td>
-                        Начало пребывания
-                        <input id="tripStarts" type="text" placeholder="dd-mm-yyyy" class="form-control input-sm"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Конец пребывания
-                        <input id="tripEnds" type="text" placeholder="dd-mm-yyyy" class="form-control input-sm"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Количество гостей
-                        <input id="guestsAmount" type="number" placeholder="..." class="form-control input-sm"/>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-
-            <h1>Проживание</h1>
-
-            <div id="accommodations">
-
-            </div>
-
-            <a onclick="addAccommodation();" class="btn btn-primary btn-sm">+ Добавить вариант проживания</a>
-
-            <hr/>
-
-            <h1>Программа</h1>
-
-            <div id="programs">
-
-            </div>
-
-            <a onclick="addProgram();" class="btn btn-primary btn-sm">+ Добавить день</a>
-
-            <hr/>
-
-            <button class="btn btn-success pull-right">Сохранить</button>
-        </form>
-
-        <!--Hidden stuff-->
-
-        <div class="row accommodationForm" style="display: none">
-            <div class="col-lg-12">
-                <h3>
-                    Отель
-                    <b class="accommodationNum"></b>
-                    <a href="#" class="btn btn-xs btn-danger removeAccommodation pull-right">x Убрать отель</a>
-                </h3>
-            </div>
-            <div class="col-lg-12">
-                <div class="row">
-                    <div class="col-md-9">
-                        <div class="form-group">
-                            <label>Гостиница</label>
-                            <br/>
-                            <select class="form-control hotel">
-                                <option>-</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label >Дата заселения</label>
-                            <br/>
-                            <input type="text" placeholder="dd-mm-yyyy" class="form-control moveIn"/>
-                        </div>
-                        <div class="form-group">
-                            <label>Дата выезда</label>
-                            <br/>
-                            <input type="text" placeholder="dd-mm-yyyy" class="form-control moveOut"/>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div id="rooms"></div>
-                        <hr/>
-                        <a class="btn btn-xs btn-primary addRoom">+ Добавить тип комнаты</a>
-                    </div>
-                </div>
-            </div>
+        <div class="form-group">
+          <input id="documentedFor" type="text" placeholder="Подготовлено для .." class="form-control"/>
+        </div>
+        <div class="form-group">
+          <input id="tripStarts" type="text" placeholder="C (dd-mm-yyyy)" class="form-control"/>
+        </div>
+        <div class="form-group">
+          <input id="tripEnds" type="text" placeholder="До (dd-mm-yyyy)" class="form-control"/>
+        </div>
+        <div class="form-group">
+          <input id="guestsAmount" type="number" placeholder="Кол-во гостей" class="form-control"/>
         </div>
 
-        <div class="roomForm" style="display: none">
-            <div class="form-group">
-                <label>Тип комнаты</label><br/>
-                <select class="form-control roomType">
-                    <option>-</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Кол-во номеров</label><br/>
-                <input type="number" placeholder="Кол-во номеров" class="form-control roomsAmount" value="1"/>
-            </div>
-            <div class="form-group">
-                <label>Доп. кровать</label><br/>
-                <input type="checkbox" class="extraBed"/>
-            </div>
-            <a href="#" class="btn btn-xs btn-danger removeRoom">x</a>
+        <h1>Проживание</h1>
+
+        <div id="accommodations">
+
         </div>
 
-        <div class="row programForm" style="display: none;">
-            <div class="col-md-12">
-                <h3>
-                    День
-                    <b class="programNum"></b>
-                    <a class="btn btn-xs btn-danger removeProgram pull-right">x Убрать день</a>
-                </h3>
-            </div>
-            <div class="col-md-12">
-                <h3>Сервисы</h3>
-                <div id="services"></div>
-                <hr/>
-                <a class="btn btn-xs btn-primary addService">+ Добавить сервис</a>
-            </div>
+        <a onclick="addAccommodation();" class="btn btn-primary btn-sm">+ Добавить вариант проживания</a>
+
+        <hr/>
+
+        <h1>Программа</h1>
+
+        <div id="programs">
+
         </div>
 
-        <div class="serviceForm" style="display: none">
-            <div class="form-group">
-                <label>Тип сервиса</label>
+        <a onclick="addProgram();" class="btn btn-primary btn-sm">+ Добавить день</a>
+
+        <hr/>
+
+        <button class="btn btn-success pull-right">Сохранить</button>
+      </form>
+
+      <!--Hidden stuff-->
+
+      <div class="row accommodationForm" style="display: none">
+        <div class="col-lg-12">
+          <h3>
+            Отель
+            <b class="accommodationNum"></b>
+            <a href="#" class="btn btn-xs btn-danger removeAccommodation pull-right">x Убрать отель</a>
+          </h3>
+        </div>
+        <div class="col-lg-12">
+          <div class="row">
+            <div class="col-md-9">
+              <div class="form-group">
+                <label>Гостиница</label>
                 <br/>
-                <select class="serviceType form-control" >
-                    <option>-</option>
-                    <option value="transfer">Трансфер</option>
-                    <option value="driver">Аренда с водителем</option>
-                    <option value="excursion">Экскурсия</option>
-                    <option value="restaurant">Питание</option>
+                <select class="form-control hotel">
+                  <option>-</option>
                 </select>
+              </div>
+              <div class="form-group">
+                <label >Дата заселения</label>
+                <br/>
+                <input type="text" placeholder="dd-mm-yyyy" class="form-control moveIn"/>
+              </div>
+              <div class="form-group">
+                <label>Дата выезда</label>
+                <br/>
+                <input type="text" placeholder="dd-mm-yyyy" class="form-control moveOut"/>
+              </div>
             </div>
-            <span class="dynamicPlace"></span>
-            <div class="form-group" style="padding:2px;padding-top:30px;">
-                <a class="btn btn-xs btn-danger removeService">x</a>
+            <div class="col-md-3">
+              <div id="rooms"></div>
+              <hr/>
+              <a class="btn btn-xs btn-primary addRoom">+ Добавить тип комнаты</a>
             </div>
+          </div>
         </div>
+      </div>
 
-        <div id="hiddenTransfer" style="display:none">
-            <div class="form-group">
-                <label for="">Класс авто</label><br/>
-                <select class="form-control transferCarType">
-                    <option>-</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="">Кол-во часов</label><br/>
-                <input type="number" placeholder="" class="form-control transferHours" value="0" />
-            </div>
-            <div class="form-group">
-                <label for="">Кол-во авто</label><br/>
-                <input type="number" placeholder="" class="form-control transferCarsAmount" value="1"/>
-            </div>
-            <div class="form-group">
-                <label for="">Ночной тариф (+50% c 23:00-07:00)</label><br/>
-                <input type="checkbox" class="transferNightMode"/>
-            </div>
-            <div class="form-group">
-                <label for="">Откуда</label><br/>
-                <input type="text" placeholder="" class="form-control transferFrom"/>
-            </div>
-            <div class="form-group">
-                <label for="">Куда</label><br/>
-                <input type="text" placeholder="" class="form-control transferTo"/>
-            </div>
+      <div class="roomForm" style="display: none">
+        <div class="form-group">
+          <label>Тип комнаты</label><br/>
+          <select class="form-control roomType">
+            <option>-</option>
+          </select>
         </div>
-
-        <div id="hiddenDriver" style="display:none">
-            <div class="form-group">
-                <label for="">Класс авто</label><br/>
-                <select class="form-control driverCarType">
-                    <option>-</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="">Кол-во доп. часов</label><br/>
-                <input type="number" placeholder="" class="form-control driverHours" value="0"/>
-            </div>
-            <div class="form-group">
-                <label for="">Кол-во авто</label><br/>
-                <input type="number" placeholder="" class="form-control driverCarsAmount" value="1"/>
-            </div>
-            <div class="form-group">
-                <label for="">Ночной тариф (+50% c 23:00-07:00)</label><br/>
-                <input type="checkbox" class="driverNightMode"/>
-            </div>
+        <div class="form-group">
+          <label>Кол-во номеров</label><br/>
+          <input type="number" placeholder="Кол-во номеров" class="form-control roomsAmount" value="1"/>
         </div>
-
-        <div id="hiddenExcursion" style="display:none">
-            <div class="form-group">
-                <label for="">Куда</label><br/>
-                <input type="text" placeholder="" class="form-control goingPlace"/>
-            </div>
-            <div class="form-group">
-                <label for="">Кол-во человек</label><br/>
-                <input type="number" placeholder="" class="form-control pplAmount"/>
-            </div>
+        <div class="form-group">
+          <label>Доп. кровать</label><br/>
+          <input type="checkbox" class="extraBed"/>
         </div>
+        <a href="#" class="btn btn-xs btn-danger removeRoom">x</a>
+      </div>
 
-        <div id="hiddenRestaurant" style="display:none">
-            <div class="form-group">
-                <label for="">Ресторан</label><br/>
-                <select class="form-control restaurant">
-                    <option>-</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="">Кол-во человек</label><br/>
-                <input type="number" placeholder="" class="form-control restaurantPeopleAmount"/>
-            </div>
+      <div class="row programForm" style="display: none;">
+        <div class="col-md-12">
+          <h3>
+            День
+            <b class="programNum"></b>
+            <a class="btn btn-xs btn-danger removeProgram pull-right">x Убрать день</a>
+          </h3>
         </div>
-
-        <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" class="modal fade">
-            <div role="document" class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-                        <h4 id="myModalLabel" class="modal-title">Проверьте введенные данные</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div id="checkoutData">
-                            <p>
-                                Квотация подготовлена для &nbsp;
-                                <b id="documentedForPlace"></b>
-                            </p>
-                            <p>
-                                Даты пребывания &nbsp;
-                                <b id="tripDatesPlace"></b>
-                            </p>
-                            <p>
-                                Кол-во гостей &nbsp;
-                                <b id="guestsAmountPlace"></b>
-                            </p>
-                            <h1>Проживание</h1>
-                            <table class="table table-bordered" id="accommodationData">
-                                <thead>
-                                    <tr>
-                                        <th>№</th>
-                                        <th>Отель</th>
-                                        <th>Даты</th>
-                                        <th>Кол-во ночей</th>
-                                        <th>Тип комнаты</th>
-                                        <th>Кол-во комнат</th>
-                                        <th>Доп. кровать</th>
-                                        <th>Стоимость</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                            </table>
-
-                            <p>
-                                <b>Итого</b>
-                                <b class="pull-right accommodationsTotalPrice"></b>
-                            </p>
-
-                            <h1>Программа</h1>
-                            <table class="table table-bordered" id="transferData">
-                                <thead>
-                                    <tr>
-                                        <th>№ День</th>
-                                        <th>Сервис</th>
-                                        <th>Тип авто</th>
-                                        <th>Кол-во часов</th>
-                                        <th>Кол-во авто</th>
-                                        <th>Ночной тариф</th>
-                                        <th>Цена</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                            </table>
-
-                            <p>
-                                <b>Итого</b>
-                                <b class="pull-right programTotalPrice"></b>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                          <!--button.btn.btn-default(type='button', data-dismiss='modal') Close-->
-                          <button type="submit" class="btn btn-primary" id="continueEditing">Редактировать</button>
-                    </div>
-                </div>
-            </div>
+        <div class="col-md-12">
+          <h3>Сервисы</h3>
+          <div id="services"></div>
+          <hr/>
+          <a class="btn btn-xs btn-primary addService">+ Добавить сервис</a>
         </div>
+      </div>
+
+      <div class="serviceForm" style="display: none">
+        <div class="form-group">
+          <label>Тип сервиса</label>
+          <br/>
+          <select class="serviceType form-control" >
+            <option>-</option>
+            <option value="transfer">Трансфер</option>
+            <option value="driver">Аренда с водителем</option>
+            <option value="excursion">Экскурсия</option>
+            <option value="restaurant">Питание</option>
+          </select>
+        </div>
+        <span class="dynamicPlace"></span>
+        <div class="form-group" style="padding:2px;padding-top:30px;">
+          <a class="btn btn-xs btn-danger removeService">x</a>
+        </div>
+      </div>
+
+      <div id="hiddenTransfer" style="display:none">
+        <div class="form-group">
+          <label for="">Класс авто</label><br/>
+          <select class="form-control transferCarType">
+            <option>-</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="">Кол-во часов</label><br/>
+          <input type="number" placeholder="" class="form-control transferHours" value="0" />
+        </div>
+        <div class="form-group">
+          <label for="">Кол-во авто</label><br/>
+          <input type="number" placeholder="" class="form-control transferCarsAmount" value="1"/>
+        </div>
+        <div class="form-group">
+          <label for="">Ночной тариф (+50% c 23:00-07:00)</label><br/>
+          <input type="checkbox" class="transferNightMode"/>
+        </div>
+        <div class="form-group">
+          <label for="">Откуда</label><br/>
+          <input type="text" placeholder="" class="form-control transferFrom"/>
+        </div>
+        <div class="form-group">
+          <label for="">Куда</label><br/>
+          <input type="text" placeholder="" class="form-control transferTo"/>
+        </div>
+      </div>
+
+      <div id="hiddenDriver" style="display:none">
+        <div class="form-group">
+          <label for="">Класс авто</label><br/>
+          <select class="form-control driverCarType">
+            <option>-</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="">Кол-во доп. часов</label><br/>
+          <input type="number" placeholder="" class="form-control driverHours" value="0"/>
+        </div>
+        <div class="form-group">
+          <label for="">Кол-во авто</label><br/>
+          <input type="number" placeholder="" class="form-control driverCarsAmount" value="1"/>
+        </div>
+        <div class="form-group">
+          <label for="">Ночной тариф (+50% c 23:00-07:00)</label><br/>
+          <input type="checkbox" class="driverNightMode"/>
+        </div>
+      </div>
+
+      <div id="hiddenExcursion" style="display:none">
+        <div class="form-group">
+          <label for="">Куда</label><br/>
+          <input type="text" placeholder="" class="form-control goingPlace"/>
+        </div>
+        <div class="form-group">
+          <label for="">Кол-во человек</label><br/>
+          <input type="number" placeholder="" class="form-control pplAmount"/>
+        </div>
+      </div>
+
+      <div id="hiddenRestaurant" style="display:none">
+        <div class="form-group">
+          <label for="">Ресторан</label><br/>
+          <select class="form-control restaurant">
+            <option>-</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="">Кол-во человек</label><br/>
+          <input type="number" placeholder="" class="form-control restaurantPeopleAmount"/>
+        </div>
+      </div>
+
+      <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" class="modal fade">
+        <div role="document" class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+              <h4 id="myModalLabel" class="modal-title">Проверьте введенные данные</h4>
+            </div>
+            <div class="modal-body">
+              <div id="checkoutData">
+                <p>
+                  Квотация подготовлена для &nbsp;
+                  <b id="documentedForPlace"></b>
+                </p>
+                <p>
+                  Даты пребывания &nbsp;
+                  <b id="tripDatesPlace"></b>
+                </p>
+                <p>
+                  Кол-во гостей &nbsp;
+                  <b id="guestsAmountPlace"></b>
+                </p>
+                <h1>Проживание</h1>
+                <table class="table table-bordered" id="accommodationData">
+                  <thead>
+                    <tr>
+                      <th>№</th>
+                      <th>Отель</th>
+                      <th>Даты</th>
+                      <th>Кол-во ночей</th>
+                      <th>Тип комнаты</th>
+                      <th>Кол-во комнат</th>
+                      <th>Доп. кровать</th>
+                      <th>Стоимость</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                  </tbody>
+                </table>
+
+                <p>
+                  <b>Итого</b>
+                  <b class="pull-right accommodationsTotalPrice"></b>
+                </p>
+
+                <h1>Программа</h1>
+                <table class="table table-bordered" id="transferData">
+                  <thead>
+                    <tr>
+                      <th>№ День</th>
+                      <th>Сервис</th>
+                      <th>Тип авто</th>
+                      <th>Кол-во часов</th>
+                      <th>Кол-во авто</th>
+                      <th>Ночной тариф</th>
+                      <th>Цена</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                  </tbody>
+                </table>
+
+                <p>
+                  <b>Итого</b>
+                  <b class="pull-right programTotalPrice"></b>
+                </p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <!--button.btn.btn-default(type='button', data-dismiss='modal') Close-->
+              <button type="submit" class="btn btn-primary" id="continueEditing">Редактировать</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
     <script>
-      var _ = require('underscore');
-      var saveFile = require('./lib/save');
-      var doMagic = require('./lib/doMagic');
+    var _ = require('underscore');
+    var saveFile = require('./lib/save');
+    var doMagic = require('./lib/doMagic');
 
-      var Datastore = require('nedb');
-      var restaurants = new Datastore({ filename: 'db/restaurants.db', autoload: true });
+    var restaurants = require('../dbInit').restaurants;
+    var hotels = require('../dbInit').hotels;
 
-      window.$ = window.jQuery = require('./vendor/jquery.min.js');
+    window.$ = window.jQuery = require('./vendor/jquery.min.js');
 
-      var transferData = require('./data/transfer');
-      var driverData = require('./data/driver');
-      var hotelsData = require('./data/hotels');
-      var roomData = require('./data/roomTypes');
+    var transferData = require('./data/transfer');
+    var driverData = require('./data/driver');
+    var hotelsData = require('./data/hotels');
+    var roomData = require('./data/roomTypes');
 
-      $(document).ready(function () {
+    $(document).ready(function () {
 
-        // Accommodation & rooms
+      // Accommodation & rooms
 
-        var accommodationForm = $('.accommodationForm');
+      var accommodationForm = $('.accommodationForm');
 
-        var accommodationIds    = [];
-        var accommodationId     = $('#accommodations>.accommodationForm').size();
+      var accommodationIds    = [];
+      var accommodationId     = $('#accommodations>.accommodationForm').size();
 
-        var roomForm = $('.roomForm');
+      var roomForm = $('.roomForm');
 
-        var roomIds = [];
-        var roomId  = $('#rooms>.roomForm').size();
+      var roomIds = [];
+      var roomId  = $('#rooms>.roomForm').size();
 
-        addAccommodation = function () {
+      addAccommodation = function () {
 
-          accommodationId++;
+        accommodationId++;
 
-          var form = accommodationForm.clone();
+        var form = accommodationForm.clone();
 
-          form.attr('id', 'accommodationForm_'+accommodationId);
+        form.attr('id', 'accommodationForm_'+accommodationId);
 
-          $('.accommodationNum', form).text(accommodationId);
-          $('.removeAccommodation', form).attr('onclick', 'removeAccommodation('+accommodationId+');');
-          $('.addRoom', form).attr('onclick', 'addRoom('+accommodationId+');');
+        $('.accommodationNum', form).text(accommodationId);
+        $('.removeAccommodation', form).attr('onclick', 'removeAccommodation('+accommodationId+');');
+        $('.addRoom', form).attr('onclick', 'addRoom('+accommodationId+');');
 
-          $('.hotel', form).attr('id', 'hotel_'+accommodationId);
-          $('.moveIn', form).attr('id', 'moveIn_'+accommodationId).datepicker({format : "dd-mm-yyyy"});;
-          $('.moveOut', form).attr('id', 'moveOut_'+accommodationId).datepicker({format : "dd-mm-yyyy"});;
+        $('.hotel', form).attr('id', 'hotel_'+accommodationId);
+        $('.moveIn', form).attr('id', 'moveIn_'+accommodationId).datepicker({format : "dd-mm-yyyy"});;
+        $('.moveOut', form).attr('id', 'moveOut_'+accommodationId).datepicker({format : "dd-mm-yyyy"});;
 
-          $.each(hotelsData, function(id, obj) {
-            $('.hotel', form)
-              .append($('<option>', { value : obj.codeName }).text(obj.name));
-          });
-
-          $('#accommodations').append(form.css('display', 'block'));
-
-          accommodationIds.push(accommodationId);
-
-          return false;
-
-        };
-
-        removeAccommodation = function(accommodationId) {
-
-          $('#accommodationForm_'+accommodationId).remove();
-
-          var index   = accommodationIds.indexOf(accommodationId);
-          var inList  = index > -1;
-          if (inList) accommodationIds.splice(index, 1);
-
-          return false;
-        };
-
-        addRoom = function (accommodationId) {
-
-          roomId++;
-
-
-          var form = $(roomForm).clone();
-
-          $.each(roomData, function(id, obj) {
-            $('.roomType', form)
-              .append($('<option>', { value : obj.value }).text(obj.title));
-          });
-
-          form.attr('id', 'roomForm_'+roomId);
-
-          $('.roomType', form).attr('id', 'roomType_' + accommodationId + '_' + roomId);
-          $('.roomsAmount', form).attr('id', 'roomsAmount_' + accommodationId + '_' + roomId);
-          $('.extraBed', form).attr('id', 'extraBed_' + accommodationId + '_' + roomId);
-
-          $('.removeRoom', form).attr('onclick', 'removeRoom('+accommodationId+', '+roomId+')');
-
-          $('#accommodationForm_'+accommodationId+' #rooms').append(form.css('display', 'block'));
-
-          roomIds.push(roomId);
-
-        };
-
-        removeRoom  = function (accommodationId, roomId) {
-
-          $('#roomType_'+accommodationId+'_'+roomId).closest('.roomForm').remove();
-          var index   = roomIds.indexOf(roomId);
-          var inList  = index > -1;
-          if (inList) roomIds.splice(index, 1);
-
-          return false;
-        };
-
-        // Program & services
-
-        var programForm = $('.programForm');
-
-        var programIds = [];
-        var programId = $('#programs>.programForm').size();
-
-        var serviceForm = $('.serviceForm');
-
-        var serviceIds = [];
-        var serviceId  = $('#services>.serviceForm').size();
-
-        addProgram = function () {
-
-          programId++;
-
-          var form = programForm.clone();
-
-          form.attr('id', 'programForm_'+programId);
-
-          $('.removeProgram', form).attr('onclick', 'removeProgram('+programId+');');
-
-          $('.addService', form).attr('onclick', 'addService('+programId+');');
-
-          $('.programNum', form).text(programId);
-
-          $('#programs').append(form.css('display', 'block'));
-
-          programIds.push(programId);
-
-          return false;
-
-        };
-
-        removeProgram = function(programId) {
-
-          $('#programForm_'+programId).remove();
-
-          var index   = programIds.indexOf(programId);
-          var inList  = index > -1;
-          if (inList) programIds.splice(index, 1);
-
-          return false;
-        };
-
-        addService = function (programId) {
-
-          serviceId++;
-
-          var serviceType = 'service_serviceType_' + programId + '_' +serviceId;
-
-          var form = $(serviceForm).clone();
-
-          form.attr('id', 'serviceForm_'+serviceId);
-
-          $('.serviceType', form).attr({
-            'id': serviceType,
-            'name': serviceType,
-            'onchange': 'switchServiceType('+programId+', '+serviceId+')'
-          });
-
-          $('.dynamicPlace', form).attr('id', 'dynamicPlace_'+ serviceId);
-
-          $('.removeService', form).attr('onclick', 'removeService('+programId+', '+serviceId+')');
-
-          $('#programForm_'+programId+' #services').append(form.css('display', 'block'));
-
-          serviceIds.push(serviceId);
-
-        };
-
-        removeService  = function (programId, serviceId) {
-
-          $('#service_serviceType_'+programId+'_'+serviceId).closest('.serviceForm').remove();
-          var index   = serviceIds.indexOf(serviceId);
-          var inList  = index > -1;
-          if (inList) serviceIds.splice(index, 1);
-
-          return false;
-        };
-
-        switchServiceType = function (programId, serviceId) {
-
-          var serviceType   = 'service_serviceType_' + programId + '_' +serviceId;
-
-          var value = $('#'+serviceType).val();
-
-          var dynamicPlace = '#dynamicPlace_'+serviceId;
-
-          var transferFields = $('#hiddenTransfer').html();
-          var driverFields = $('#hiddenDriver').html();
-          var excursionFields = $('#hiddenExcursion').html();
-          var restaurantFields = $('#hiddenRestaurant').html();
-
-
-          switch (value) {
-
-            case "transfer":
-
-              $(dynamicPlace).html(transferFields);
-
-              $.each(transferData, function(id, obj) {
-                $(dynamicPlace+' .transferCarType')
-                  .append($('<option>', { value : obj.value })
-                    .text(obj.title));
-              });
-
-              $(dynamicPlace+' .transferCarType').attr('id', 'transferCarType_'+programId+'_'+serviceId);
-              $(dynamicPlace+' .transferHours').attr('id', 'transferHours_'+programId+'_'+serviceId);
-              $(dynamicPlace+' .transferCarsAmount').attr('id', 'transferCarsAmount_'+programId+'_'+serviceId);
-              $(dynamicPlace+' .transferNightMode').attr('id', 'transferNightMode_'+programId+'_'+serviceId);
-              $(dynamicPlace+' .transferFrom').attr('id', 'transferFrom_'+programId+'_'+serviceId);
-              $(dynamicPlace+' .transferTo').attr('id', 'transferTo_'+programId+'_'+serviceId);
-
-              break;
-
-            case "driver":
-
-              $(dynamicPlace).html(driverFields);
-
-              $.each(driverData, function(id, obj) {
-                $(dynamicPlace+' .driverCarType')
-                  .append($('<option>', { value : obj.value })
-                    .text(obj.title));
-              });
-
-              $(dynamicPlace+' .driverCarType').attr('id', 'driverCarType_'+programId+'_'+serviceId);
-              $(dynamicPlace+' .driverHours').attr('id', 'driverHours_'+programId+'_'+serviceId);
-              $(dynamicPlace+' .driverCarsAmount').attr('id', 'driverCarsAmount_'+programId+'_'+serviceId);
-              $(dynamicPlace+' .driverNightMode').attr('id', 'driverNightMode_'+programId+'_'+serviceId);
-
-              break;
-
-            case "excursion":
-
-              $(dynamicPlace).html(excursionFields);
-
-              //$(dynamicPlace+' .goingPlace').attr('name', 'goingPlace_'+programId+'_'+serviceId);
-              //$(dynamicPlace+' .pplAmount').attr('name', 'pplAmount_'+programId+'_'+serviceId);
-
-              break;
-
-            case "restaurant":
-
-              $(dynamicPlace).html(restaurantFields);
-
-              restaurants.find({}, function(err, docs){
-                if (docs.length > 0) {
-                  $.each(docs, function(id, obj) {
-                    $(dynamicPlace+' .restaurant')
-                      .append($('<option>', { value : obj.price })
-                        .text(obj.title));
-                  });
-                }
-              });
-
-              $(dynamicPlace+' .restaurant').attr('id', 'restaurant_'+programId+'_'+serviceId);
-              $(dynamicPlace+' .restaurantPeopleAmount').attr('id', 'restaurantPeopleAmount_'+programId+'_'+serviceId);
-
-              break;
+        hotels.find({}, function(err, docs){
+          if (docs.length > 0) {
+            $.each(docs, function(id, obj) {
+              $('.hotel', form)
+              .append($('<option>', { value : obj._id })
+              .text(obj.name));
+            });
           }
-
-        };
-
-        $('form#mainForm').submit(function (event) {
-
-          event.preventDefault();
-
-          var processedData = doMagic({
-            event: event,
-            accommodationIds: accommodationIds,
-            roomIds: roomIds,
-            programIds: programIds,
-            serviceIds: serviceIds
-          });
-
-          saveFile(processedData.headingInfo, processedData.allAccommodations, processedData.allTransport, processedData.allRestaurants);
-
-          return false;
         });
 
+        $('#accommodations').append(form.css('display', 'block'));
+
+        accommodationIds.push(accommodationId);
+
+        return false;
+
+      };
+
+      removeAccommodation = function(accommodationId) {
+
+        $('#accommodationForm_'+accommodationId).remove();
+
+        var index   = accommodationIds.indexOf(accommodationId);
+        var inList  = index > -1;
+        if (inList) accommodationIds.splice(index, 1);
+
+        return false;
+      };
+
+      addRoom = function (accommodationId) {
+
+        roomId++;
+
+        var form = $(roomForm).clone();
+
+        $.each(roomData, function(id, obj) {
+          $('.roomType', form)
+          .append($('<option>', { value : obj.value }).text(obj.title));
+        });
+
+        form.attr('id', 'roomForm_'+roomId);
+
+        $('.roomType', form).attr('id', 'roomType_' + accommodationId + '_' + roomId);
+        $('.roomsAmount', form).attr('id', 'roomsAmount_' + accommodationId + '_' + roomId);
+        $('.extraBed', form).attr('id', 'extraBed_' + accommodationId + '_' + roomId);
+
+        $('.removeRoom', form).attr('onclick', 'removeRoom('+accommodationId+', '+roomId+')');
+
+        $('#accommodationForm_'+accommodationId+' #rooms').append(form.css('display', 'block'));
+
+        roomIds.push(roomId);
+
+      };
+
+      removeRoom  = function (accommodationId, roomId) {
+
+        $('#roomType_'+accommodationId+'_'+roomId).closest('.roomForm').remove();
+        var index   = roomIds.indexOf(roomId);
+        var inList  = index > -1;
+        if (inList) roomIds.splice(index, 1);
+
+        return false;
+      };
+
+      // Program & services
+
+      var programForm = $('.programForm');
+
+      var programIds = [];
+      var programId = $('#programs>.programForm').size();
+
+      var serviceForm = $('.serviceForm');
+
+      var serviceIds = [];
+      var serviceId  = $('#services>.serviceForm').size();
+
+      addProgram = function () {
+
+        programId++;
+
+        var form = programForm.clone();
+
+        form.attr('id', 'programForm_'+programId);
+
+        $('.removeProgram', form).attr('onclick', 'removeProgram('+programId+');');
+
+        $('.addService', form).attr('onclick', 'addService('+programId+');');
+
+        $('.programNum', form).text(programId);
+
+        $('#programs').append(form.css('display', 'block'));
+
+        programIds.push(programId);
+
+        return false;
+
+      };
+
+      removeProgram = function(programId) {
+
+        $('#programForm_'+programId).remove();
+
+        var index   = programIds.indexOf(programId);
+        var inList  = index > -1;
+        if (inList) programIds.splice(index, 1);
+
+        return false;
+      };
+
+      addService = function (programId) {
+
+        serviceId++;
+
+        var serviceType = 'service_serviceType_' + programId + '_' +serviceId;
+
+        var form = $(serviceForm).clone();
+
+        form.attr('id', 'serviceForm_'+serviceId);
+
+        $('.serviceType', form).attr({
+          'id': serviceType,
+          'name': serviceType,
+          'onchange': 'switchServiceType('+programId+', '+serviceId+')'
+        });
+
+        $('.dynamicPlace', form).attr('id', 'dynamicPlace_'+ serviceId);
+
+        $('.removeService', form).attr('onclick', 'removeService('+programId+', '+serviceId+')');
+
+        $('#programForm_'+programId+' #services').append(form.css('display', 'block'));
+
+        serviceIds.push(serviceId);
+
+      };
+
+      removeService  = function (programId, serviceId) {
+
+        $('#service_serviceType_'+programId+'_'+serviceId).closest('.serviceForm').remove();
+        var index   = serviceIds.indexOf(serviceId);
+        var inList  = index > -1;
+        if (inList) serviceIds.splice(index, 1);
+
+        return false;
+      };
+
+      switchServiceType = function (programId, serviceId) {
+
+        var serviceType   = 'service_serviceType_' + programId + '_' +serviceId;
+
+        var value = $('#'+serviceType).val();
+
+        var dynamicPlace = '#dynamicPlace_'+serviceId;
+
+        var transferFields = $('#hiddenTransfer').html();
+        var driverFields = $('#hiddenDriver').html();
+        var excursionFields = $('#hiddenExcursion').html();
+        var restaurantFields = $('#hiddenRestaurant').html();
+
+
+        switch (value) {
+
+          case "transfer":
+
+          $(dynamicPlace).html(transferFields);
+
+          $.each(transferData, function(id, obj) {
+            $(dynamicPlace+' .transferCarType')
+            .append($('<option>', { value : obj.value })
+            .text(obj.title));
+          });
+
+          $(dynamicPlace+' .transferCarType').attr('id', 'transferCarType_'+programId+'_'+serviceId);
+          $(dynamicPlace+' .transferHours').attr('id', 'transferHours_'+programId+'_'+serviceId);
+          $(dynamicPlace+' .transferCarsAmount').attr('id', 'transferCarsAmount_'+programId+'_'+serviceId);
+          $(dynamicPlace+' .transferNightMode').attr('id', 'transferNightMode_'+programId+'_'+serviceId);
+          $(dynamicPlace+' .transferFrom').attr('id', 'transferFrom_'+programId+'_'+serviceId);
+          $(dynamicPlace+' .transferTo').attr('id', 'transferTo_'+programId+'_'+serviceId);
+
+          break;
+
+          case "driver":
+
+          $(dynamicPlace).html(driverFields);
+
+          $.each(driverData, function(id, obj) {
+            $(dynamicPlace+' .driverCarType')
+            .append($('<option>', { value : obj.value })
+            .text(obj.title));
+          });
+
+          $(dynamicPlace+' .driverCarType').attr('id', 'driverCarType_'+programId+'_'+serviceId);
+          $(dynamicPlace+' .driverHours').attr('id', 'driverHours_'+programId+'_'+serviceId);
+          $(dynamicPlace+' .driverCarsAmount').attr('id', 'driverCarsAmount_'+programId+'_'+serviceId);
+          $(dynamicPlace+' .driverNightMode').attr('id', 'driverNightMode_'+programId+'_'+serviceId);
+
+          break;
+
+          case "excursion":
+
+          $(dynamicPlace).html(excursionFields);
+
+          //$(dynamicPlace+' .goingPlace').attr('name', 'goingPlace_'+programId+'_'+serviceId);
+          //$(dynamicPlace+' .pplAmount').attr('name', 'pplAmount_'+programId+'_'+serviceId);
+
+          break;
+
+          case "restaurant":
+
+          $(dynamicPlace).html(restaurantFields);
+
+          restaurants.find({}, function(err, docs){
+            if (docs.length > 0) {
+              $.each(docs, function(id, obj) {
+                $(dynamicPlace+' .restaurant')
+                .append($('<option>', { value : obj.price })
+                .text(obj.title));
+              });
+            }
+          });
+
+          $(dynamicPlace+' .restaurant').attr('id', 'restaurant_'+programId+'_'+serviceId);
+          $(dynamicPlace+' .restaurantPeopleAmount').attr('id', 'restaurantPeopleAmount_'+programId+'_'+serviceId);
+
+          break;
+        }
+
+      };
+
+      $('form#mainForm').submit(function (event) {
+
+        event.preventDefault();
+
+        doMagic({
+          event: event,
+          accommodationIds: accommodationIds,
+          roomIds: roomIds,
+          programIds: programIds,
+          serviceIds: serviceIds
+        }, function (err, data) {
+
+          console.log('inside callback')
+
+          if (err) console.log(err);
+
+          saveFile(data);
+        });
+
+        return false;
+      });
+
+    });
+    </script>
+    <script>
+      var electron = require('electron');
+      var remote = electron.remote;
+      var BrowserWindow = remote.BrowserWindow;
+      var hotelsListWindow;
+      $('#showHotelsData').on('click', function () {
+        hotelsListWindow = new BrowserWindow({width:500, height: 700});
+        hotelsListWindow.loadURL('file://'+__dirname+'/dbManagement/manageHotels.html');
       });
     </script>
     <script src="./vendor/bootstrap.min.js"></script>
@@ -601,6 +609,6 @@
     <script src="./vendor/bootstrap-datepicker.js"></script>
     <script src="./vendor/datePicker.js"></script>
     <!--<script src="./core.js"></script>-->
-</div>
+  </div>
 </body>
 </html>

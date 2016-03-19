@@ -3,7 +3,14 @@ const dialog = remote.require('electron').dialog;
 const fs = require('fs');
 var excel = require('node-excel-export');
 
-module.exports = function (headingInfo, allAccommodations, allPrograms, allRestaurants) {
+module.exports = function (data) {
+
+  var headingInfo, allAccommodations, allTransports, allRestaurants;
+
+  headingInfo = data.headingInfo;
+  allAccommodations = data.allAccommodations;
+  allTransports = data.allTransports;
+  allRestaurants = data.allRestaurants;
 
   var styles = {
     headerDark: {
@@ -150,7 +157,7 @@ module.exports = function (headingInfo, allAccommodations, allPrograms, allResta
         name: "Программа",
         heading: heading,
         specification: specificationProgram,
-        data: allPrograms
+        data: allTransports
       },
       {
         name: "Питание",
@@ -169,15 +176,17 @@ module.exports = function (headingInfo, allAccommodations, allPrograms, allResta
     ]
   }, function (filePath) {
 
-    fs.writeFile(filePath, report, 'binary', function (err) {
+    if (filePath) {
+      fs.writeFile(filePath, report, 'binary', function (err) {
 
-      if (err) console.log(err);
+        if (err) console.log(err);
 
-      dialog.showMessageBox({
-        message: "The file has been saved to " + filePath,
-        buttons: ["OK"]
+        dialog.showMessageBox({
+          message: "The file has been saved to " + filePath,
+          buttons: ["OK"]
+        });
       });
-    });
+    }
   });
 
 };
