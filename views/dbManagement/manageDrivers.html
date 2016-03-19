@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Аренда авто с водителем</title>
+  <link rel="stylesheet" href="../vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="../main.css">
+</head>
+<body>
+  <div class="container-fluid">
+    <legend>
+      <h3>
+        Аренда с водителем
+        <button type="button" name="button" class="btn btn-sm btn-default pull-right" data-toggle="modal" data-target="#driverssModal">Добавить</button>
+      </h3>
+    </legend>
+    <div class="" id=driverssList>
+
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="driverssModal" tabindex="-1" role="dialog" aria-labelledby="driverssModalLabel">
+    <div class="modal-dialog" role="document">
+      <form id="addDriver">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="driverssModalLabel">Добавить</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="name">Название услуги / Тип авто / Город / Тариф</label>
+              <input type="text" class="form-control" id="name" placeholder="Название">
+            </div>
+            <div class="form-group">
+              <label for="price">Цена услуги (р.)</label>
+              <input type="number" class="form-control" id="price" placeholder="1200">
+            </div>
+            <div class="form-group">
+              <label for="pricePerHour">Цена за доп. часы (р./час)</label>
+              <input type="number" class="form-control" id="pricePerHour" placeholder="500">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script>
+  window.$ = window.jQuery = require('../vendor/jquery.min.js');
+
+  var _ = require('underscore');
+  var drivers = require('../../dbInit').drivers;
+
+  const remote = require('electron').remote;
+  const dialog = remote.require('electron').dialog;
+
+  var BrowserWindow = remote.BrowserWindow;
+
+  var thisWindow = BrowserWindow.getFocusedWindow();
+
+  drivers.find({}, function (err, docs) {
+
+    if (docs) {
+      _.each(docs, function (doc) {
+        $('#driverssList').append(
+          '<div class="panel panel-default" id="' + doc._id + '">' +
+          '<div class="panel-heading">' +
+            doc.name +
+          '<button class="btn btn-danger btn-xs pull-right" onclick="removeRecord(\''+doc._id+'\')">x</button>' +
+          '</div>' +
+          '<div class="panel-body">' +
+            '<b>Цена услуги: </b> ' + doc.price + ' р.' +
+            '<br/>' +
+            '<b>Цена за доп. часы: </b> ' + doc.pricePerHour + ' р./час' +
+            '</div>' +
+          '</div>'
+        )
+      });
+    }
+  });
+
+  $('form#addDriver').submit(function(event){
+
+    var name = $(event.target['name']).val();
+    var price = $(event.target['price']).val();
+    var pricePerHour = $(event.target['pricePerHour']).val();
+
+    drivers.insert({
+      name: name,
+      price: price,
+      pricePerHour: pricePerHour
+    }, function (err, newDoc) {
+      thisWindow.reload();
+    });
+
+    $('#driverssModal').modal('hide');
+
+    $(event.target['name']).val("");
+    $(event.target['price']).val("");
+    $(event.target['pricePerHour']).val("");
+
+    return false;
+  });
+
+  removeRecord = function (id) {
+
+    dialog.showMessageBox({
+      message: "Удалить? ",
+      buttons: ["OK", "Отменить"]
+    }, function (index) {
+
+      if (index === 0) {
+        drivers.remove({ _id: id }, {}, function (err, numRemoved) {
+          if (err)
+          console.log(err);
+          else
+          $('#'+id).remove();
+        });
+      }
+    });
+
+  };
+
+  </script>
+  <script src="../vendor/bootstrap.min.js"></script>
+</body>
+</html>

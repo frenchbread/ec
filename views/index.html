@@ -11,7 +11,10 @@
   <div>
     <header class="head-menu">
       <ul >
-        <li><a href="#" id="showHotelsData">Отели (тарифы)</a></li>
+        Тарифы:
+        <li><a href="#" id="showHotelsData">Отели</a></li>
+        <li><a href="#" id="showTransfersData">Трансферы</a></li>
+        <li><a href="#" id="showDriversData">С водителем</a></li>
       </ul>
     </header>
     <div style="margin-top:20px;" class="container">
@@ -302,8 +305,11 @@
     var saveFile = require('./lib/save');
     var doMagic = require('./lib/doMagic');
 
-    var restaurants = require('../dbInit').restaurants;
     var hotels = require('../dbInit').hotels;
+    var transfers = require('../dbInit').transfers;
+    var drivers = require('../dbInit').drivers;
+
+    var restaurants = require('../dbInit').restaurants;
 
     window.$ = window.jQuery = require('./vendor/jquery.min.js');
 
@@ -507,10 +513,14 @@
 
           $(dynamicPlace).html(transferFields);
 
-          $.each(transferData, function(id, obj) {
-            $(dynamicPlace+' .transferCarType')
-            .append($('<option>', { value : obj.value })
-            .text(obj.title));
+          transfers.find({}, function(err, docs){
+            if (docs.length > 0) {
+              $.each(docs, function(id, obj) {
+                $(dynamicPlace+' .transferCarType')
+                .append($('<option>', { value : obj.price })
+                .text(obj.name));
+              });
+            }
           });
 
           $(dynamicPlace+' .transferCarType').attr('id', 'transferCarType_'+programId+'_'+serviceId);
@@ -526,10 +536,14 @@
 
           $(dynamicPlace).html(driverFields);
 
-          $.each(driverData, function(id, obj) {
-            $(dynamicPlace+' .driverCarType')
-            .append($('<option>', { value : obj.value })
-            .text(obj.title));
+          drivers.find({}, function(err, docs){
+            if (docs.length > 0) {
+              $.each(docs, function(id, obj) {
+                $(dynamicPlace+' .driverCarType')
+                .append($('<option>', { value : obj.price + "/" + obj.pricePerHour })
+                .text(obj.name));
+              });
+            }
           });
 
           $(dynamicPlace+' .driverCarType').attr('id', 'driverCarType_'+programId+'_'+serviceId);
@@ -598,10 +612,22 @@
       var electron = require('electron');
       var remote = electron.remote;
       var BrowserWindow = remote.BrowserWindow;
-      var hotelsListWindow;
+
+      var hotelsListWindow, transfersListWindow, driversListWindow;
+
       $('#showHotelsData').on('click', function () {
         hotelsListWindow = new BrowserWindow({width:500, height: 700});
         hotelsListWindow.loadURL('file://'+__dirname+'/dbManagement/manageHotels.html');
+      });
+
+      $('#showTransfersData').on('click', function () {
+        transfersListWindow = new BrowserWindow({width:500, height: 700});
+        transfersListWindow.loadURL('file://'+__dirname+'/dbManagement/manageTransfers.html');
+      });
+
+      $('#showDriversData').on('click', function () {
+        driversListWindow = new BrowserWindow({width:500, height: 700});
+        driversListWindow.loadURL('file://'+__dirname+'/dbManagement/manageDrivers.html');
       });
     </script>
     <script src="./vendor/bootstrap.min.js"></script>
