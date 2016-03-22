@@ -19,6 +19,10 @@ p {
     margin-bottom: 5px;
 }*/
 
+header .title {
+  color: #fff;
+}
+
 header.head-menu ul {
   background-color: #111338;
   list-style: none;
