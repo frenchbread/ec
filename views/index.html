@@ -11,10 +11,11 @@
   <div>
     <header class="head-menu">
       <ul >
-        Тарифы:
-        <li><a href="#" id="showHotelsData">Отели</a></li>
-        <li><a href="#" id="showTransfersData">Трансферы</a></li>
-        <li><a href="#" id="showDriversData">С водителем</a></li>
+        <span>Тарифы:</span>
+        <li><a href="#" id="showHotelsListWindow">Отели</a></li>
+        <li><a href="#" id="showTransfersListWindow">Трансферы</a></li>
+        <li><a href="#" id="showDriversListWindow">С водителем</a></li>
+        <li><a href="#" id="showRestaurantsListWindow">Рестораны</a></li>
       </ul>
     </header>
     <div style="margin-top:20px;" class="container">
@@ -154,10 +155,6 @@
           <select class="form-control transferCarType">
             <option>-</option>
           </select>
-        </div>
-        <div class="form-group">
-          <label for="">Кол-во часов</label><br/>
-          <input type="number" placeholder="" class="form-control transferHours" value="0" />
         </div>
         <div class="form-group">
           <label for="">Кол-во авто</label><br/>
@@ -352,7 +349,7 @@
           if (docs.length > 0) {
             $.each(docs, function(id, obj) {
               $('.hotel', form)
-              .append($('<option>', { value : obj._id })
+              .append($('<option>', { value : obj.roomType.single.rub + '/' + obj.roomType.double.rub + '/' + obj.roomType.triple.rub + '/' + obj.extraBed })
               .text(obj.name));
             });
           }
@@ -524,7 +521,7 @@
           });
 
           $(dynamicPlace+' .transferCarType').attr('id', 'transferCarType_'+programId+'_'+serviceId);
-          $(dynamicPlace+' .transferHours').attr('id', 'transferHours_'+programId+'_'+serviceId);
+          // $(dynamicPlace+' .transferHours').attr('id', 'transferHours_'+programId+'_'+serviceId);
           $(dynamicPlace+' .transferCarsAmount').attr('id', 'transferCarsAmount_'+programId+'_'+serviceId);
           $(dynamicPlace+' .transferNightMode').attr('id', 'transferNightMode_'+programId+'_'+serviceId);
           $(dynamicPlace+' .transferFrom').attr('id', 'transferFrom_'+programId+'_'+serviceId);
@@ -571,7 +568,7 @@
               $.each(docs, function(id, obj) {
                 $(dynamicPlace+' .restaurant')
                 .append($('<option>', { value : obj.price })
-                .text(obj.title));
+                .text(obj.name));
               });
             }
           });
@@ -613,21 +610,26 @@
       var remote = electron.remote;
       var BrowserWindow = remote.BrowserWindow;
 
-      var hotelsListWindow, transfersListWindow, driversListWindow;
+      var hotelsListWindow, transfersListWindow, driversListWindow, restaurantsListWindow;
 
-      $('#showHotelsData').on('click', function () {
+      $('#showHotelsListWindow').on('click', function () {
         hotelsListWindow = new BrowserWindow({width:500, height: 700});
         hotelsListWindow.loadURL('file://'+__dirname+'/dbManagement/manageHotels.html');
       });
 
-      $('#showTransfersData').on('click', function () {
+      $('#showTransfersListWindow').on('click', function () {
         transfersListWindow = new BrowserWindow({width:500, height: 700});
         transfersListWindow.loadURL('file://'+__dirname+'/dbManagement/manageTransfers.html');
       });
 
-      $('#showDriversData').on('click', function () {
+      $('#showDriversListWindow').on('click', function () {
         driversListWindow = new BrowserWindow({width:500, height: 700});
         driversListWindow.loadURL('file://'+__dirname+'/dbManagement/manageDrivers.html');
+      });
+
+      $('#showRestaurantsListWindow').on('click', function () {
+        driversListWindow = new BrowserWindow({width:500, height: 700});
+        driversListWindow.loadURL('file://'+__dirname+'/dbManagement/manageRestaurants.html');
       });
     </script>
     <script src="./vendor/bootstrap.min.js"></script>

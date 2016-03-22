@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title>Database list</title>
-    <link rel="stylesheet" href="./vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="../vendor/bootstrap.min.css">
   </head>
   <body>
     <div class="container-fluid">
       <legend>
         <h3>
           Рестораны
-          <button type="button" name="button" class="btn btn-sm btn-default pull-right" data-toggle="modal" data-target="#transferModal">Добавить</button>
+          <button type="button" name="button" class="btn btn-sm btn-default pull-right" data-toggle="modal" data-target="#restaurantModal">Добавить</button>
         </h3>
       </legend>
       <div class="" id=restaurantsList>
@@ -19,18 +19,18 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="transferModal" tabindex="-1" role="dialog" aria-labelledby="transferModalLabel">
+    <div class="modal fade" id="restaurantModal" tabindex="-1" role="dialog" aria-labelledby="restaurantModalLabel">
       <div class="modal-dialog" role="document">
-        <form id="addTransfer">
+        <form id="addRestaurant">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="transferModalLabel">Добавить</h4>
+              <h4 class="modal-title" id="restaurantModalLabel">Добавить</h4>
             </div>
             <div class="modal-body">
               <div class="form-group">
-                <label for="title">Название ресторана / меню</label>
-                <input type="text" class="form-control" id="title" placeholder="Название ресторана, меню ..">
+                <label for="name">Название ресторана / меню</label>
+                <input type="text" class="form-control" id="name" placeholder="Название ресторана, меню ..">
               </div>
               <div class="form-group">
                 <label for="price">Цена (р.)</label>
@@ -46,21 +46,23 @@
       </div>
     </div>
     <script>
-      window.$ = window.jQuery = require('./vendor/jquery.min.js');
+      window.$ = window.jQuery = require('../vendor/jquery.min.js');
 
       var _ = require('underscore');
-      var Datastore = require('nedb');
-      var restaurants = new Datastore({ filename: 'db/restaurants.db', autoload: true });
+      var restaurants = require('../../dbInit').restaurants;
 
       const remote = require('electron').remote;
       const dialog = remote.require('electron').dialog;
+
+      var BrowserWindow = remote.BrowserWindow;
+      var thisWindow = BrowserWindow.getFocusedWindow();
 
       restaurants.find({}, function (err, docs) {
         _.each(docs, function (doc) {
           $('#restaurantsList').append(
             '<div class="panel panel-default" id="' + doc._id + '">' +
               '<div class="panel-heading">' +
-                doc.title +
+                doc.name +
                 '<button class="btn btn-danger btn-xs pull-right" onclick="removeRecord(\''+doc._id+'\')">x</button>' +
               '</div>' +
               '<div class="panel-body"><b>Price:</b> ' + doc.price + ' р.</div>' +
@@ -69,31 +71,23 @@
         });
       });
 
-      $('form#addTransfer').submit(function(event){
+      $('form#addRestaurant').submit(function(event){
 
-        var title = $(event.target['title']).val();
+        var name = $(event.target['name']).val();
         var price = $(event.target['price']).val();
 
         restaurants.insert({
-          title: title,
+          name: name,
           price: price
         }, function (err, newDoc) {
 
-          $('#restaurantsList').append(
-            '<div class="panel panel-default" id="' + newDoc._id + '">' +
-              '<div class="panel-heading">' +
-                newDoc.title +
-                '<button class="btn btn-danger btn-xs pull-right" onclick="removeRecord(\''+newDoc._id+'\')">x</button>' +
-              '</div>' +
-              '<div class="panel-body"><b>Price:</b> ' + newDoc.price + ' р.</div>' +
-            '</div>'
-          );
+          thisWindow.reload();
 
         });
 
-        $('#transferModal').modal('hide');
+        $('#restaurantModal').modal('hide');
 
-        $(event.target['title']).val("");
+        $(event.target['name']).val("");
         $(event.target['price']).val("");
 
         return false;
@@ -119,6 +113,6 @@
       };
 
     </script>
-    <script src="./vendor/bootstrap.min.js"></script>
+    <script src="../vendor/bootstrap.min.js"></script>
   </body>
 </html>

@@ -56,7 +56,6 @@
   const dialog = remote.require('electron').dialog;
 
   var BrowserWindow = remote.BrowserWindow;
-
   var thisWindow = BrowserWindow.getFocusedWindow();
 
   transfers.find({}, function (err, docs) {
@@ -108,9 +107,9 @@
       if (index === 0) {
         transfers.remove({ _id: id }, {}, function (err, numRemoved) {
           if (err)
-          console.log(err);
+            console.log(err);
           else
-          $('#'+id).remove();
+            $('#'+id).remove();
         });
       }
     });

@@ -1,7 +1,7 @@
 const remote = require('electron').remote;
 const dialog = remote.require('electron').dialog;
 const fs = require('fs');
-var excel = require('node-excel-export');
+const excel = require('node-excel-export');
 
 module.exports = function (data) {
 
@@ -100,7 +100,7 @@ module.exports = function (data) {
       width: 150
     },
     hours: {
-      displayName: 'Кол-во часов',
+      displayName: 'Кол-во доп. часов',
       headerStyle: styles.headerDark,
       width: 150
     },
@@ -138,7 +138,7 @@ module.exports = function (data) {
       headerStyle: styles.headerDark,
       width: 150
     },
-    restaurant: {
+    total: {
       displayName: 'Цена (р.)',
       headerStyle: styles.headerDark,
       width: 120
