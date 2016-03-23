@@ -16,6 +16,7 @@
         <li><a href="#" id="showTransfersListWindow">Трансферы</a></li>
         <li><a href="#" id="showDriversListWindow">С водителем</a></li>
         <li><a href="#" id="showRestaurantsListWindow">Рестораны</a></li>
+        <li><a href="#" id="showExcursionsListWindow">Экскурсии</a></li>
       </ul>
     </header>
     <div style="margin-top:20px;" class="container">
@@ -198,7 +199,9 @@
       <div id="hiddenExcursion" style="display:none">
         <div class="form-group">
           <label for="">Куда</label><br/>
-          <input type="text" placeholder="" class="form-control goingPlace"/>
+          <select class="form-control goingPlace">
+            <option>-</option>
+          </select>
         </div>
         <div class="form-group">
           <label for="">Кол-во человек</label><br/>
@@ -305,7 +308,7 @@
     var hotels = require('../dbInit').hotels;
     var transfers = require('../dbInit').transfers;
     var drivers = require('../dbInit').drivers;
-
+    var excursions = require('../dbInit').excursions;
     var restaurants = require('../dbInit').restaurants;
 
     window.$ = window.jQuery = require('./vendor/jquery.min.js');
@@ -554,8 +557,18 @@
 
           $(dynamicPlace).html(excursionFields);
 
-          //$(dynamicPlace+' .goingPlace').attr('name', 'goingPlace_'+programId+'_'+serviceId);
-          //$(dynamicPlace+' .pplAmount').attr('name', 'pplAmount_'+programId+'_'+serviceId);
+          excursions.find({}, function(err, docs){
+            if (docs.length > 0) {
+              $.each(docs, function(id, obj) {
+                $(dynamicPlace+' .goingPlace')
+                .append($('<option>', { value : obj.price })
+                .text(obj.name));
+              });
+            }
+          });
+
+          $(dynamicPlace+' .goingPlace').attr('id', 'goingPlace_'+programId+'_'+serviceId);
+          $(dynamicPlace+' .pplAmount').attr('id', 'pplAmount_'+programId+'_'+serviceId);
 
           break;
 
@@ -627,10 +640,18 @@
         driversListWindow.loadURL('file://'+__dirname+'/dbManagement/manageDrivers.html');
       });
 
+      // showExcursionsListWindow
+
       $('#showRestaurantsListWindow').on('click', function () {
         driversListWindow = new BrowserWindow({width:500, height: 700});
         driversListWindow.loadURL('file://'+__dirname+'/dbManagement/manageRestaurants.html');
       });
+
+      $('#showExcursionsListWindow').on('click', function () {
+        driversListWindow = new BrowserWindow({width:500, height: 700});
+        driversListWindow.loadURL('file://'+__dirname+'/dbManagement/manageExcursions.html');
+      });
+
     </script>
     <script src="./vendor/bootstrap.min.js"></script>
     <script src="./vendor/moment.min.js"></script>
