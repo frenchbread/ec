@@ -67,6 +67,7 @@
   var Datastore = require('nedb');
   var hotels = new Datastore({ filename: 'db/hotels.db', autoload: true });
 
+  const ipc = require('electron').ipcRenderer;
   const remote = require('electron').remote;
   const dialog = remote.require('electron').dialog;
 
@@ -122,6 +123,7 @@
       extraBed: extraBed
     }, function (err, newDoc) {
       thisWindow.reload();
+      ipc.send('reload-main-window');
     });
 
     $('#hotelsModal').modal('hide');
@@ -148,6 +150,7 @@
           console.log(err);
           else
           $('#'+id).remove();
+          ipc.send('reload-main-window');
         });
       }
     });

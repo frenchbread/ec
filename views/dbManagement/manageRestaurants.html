@@ -51,6 +51,7 @@
       var _ = require('underscore');
       var restaurants = require('../../dbInit').restaurants;
 
+      const ipc = require('electron').ipcRenderer;
       const remote = require('electron').remote;
       const dialog = remote.require('electron').dialog;
 
@@ -83,6 +84,8 @@
 
           thisWindow.reload();
 
+          ipc.send('reload-main-window');
+
         });
 
         $('#restaurantModal').modal('hide');
@@ -106,6 +109,7 @@
                 console.log(err);
               else
                 $('#'+id).remove();
+                ipc.send('reload-main-window');
             });
           }
         });

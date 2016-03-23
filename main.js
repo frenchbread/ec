@@ -30,6 +30,12 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
+  ipc.on('reload-main-window', function () {
+
+    mainWindow.reload();
+
+  })
 }
 
 // This method will be called when Electron has finished
