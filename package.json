@@ -1,12 +1,12 @@
 {
   "name": "calc",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Travel expenses calucator.",
   "main": "main.js",
   "scripts": {
     "start": "electron main.js",
-    "build-darwin": "electron-packager . calc-v0.1.0 --platform=darwin --arch=x64 --version=0.36.0 --ignore=node_modules/electron-*",
-    "build-win32": "electron-packager . calc-v0.1.0 --platform=win32 --arch=x64 --version=0.36.0 --ignore=node_modules/electron-*"
+    "build-darwin": "electron-packager . calc-v0.1.1 --platform=darwin --arch=x64 --version=0.36.0 --ignore=node_modules/electron-*",
+    "build-win32": "electron-packager . calc-v0.1.1 --platform=win32 --arch=x64 --version=0.36.0 --ignore=node_modules/electron-*"
   },
   "repository": {
     "type": "git",
