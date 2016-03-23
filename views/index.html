@@ -155,7 +155,7 @@
 
       <div id="hiddenTransfer" style="display:none">
         <div class="form-group">
-          <label for="">Класс авто</label><br/>
+          <label for="">Услуга / Класс авто</label><br/>
           <select class="form-control transferCarType">
             <option>-</option>
           </select>
@@ -168,19 +168,11 @@
           <label for="">Ночной тариф (+50% c 23:00-07:00)</label><br/>
           <input type="checkbox" class="transferNightMode"/>
         </div>
-        <div class="form-group">
-          <label for="">Откуда</label><br/>
-          <input type="text" placeholder="" class="form-control transferFrom"/>
-        </div>
-        <div class="form-group">
-          <label for="">Куда</label><br/>
-          <input type="text" placeholder="" class="form-control transferTo"/>
-        </div>
       </div>
 
       <div id="hiddenDriver" style="display:none">
         <div class="form-group">
-          <label for="">Класс авто</label><br/>
+          <label for="">Услуга / Класс авто</label><br/>
           <select class="form-control driverCarType">
             <option>-</option>
           </select>
@@ -208,20 +200,20 @@
         </div>
         <div class="form-group">
           <label for="">Кол-во человек</label><br/>
-          <input type="number" placeholder="" class="form-control pplAmount"/>
+          <input type="number" placeholder="" class="form-control pplAmount" value="1"/>
         </div>
       </div>
 
       <div id="hiddenRestaurant" style="display:none">
         <div class="form-group">
-          <label for="">Ресторан</label><br/>
+          <label for="">Ресторан / Меню</label><br/>
           <select class="form-control restaurant">
             <option>-</option>
           </select>
         </div>
         <div class="form-group">
           <label for="">Кол-во человек</label><br/>
-          <input type="number" placeholder="" class="form-control restaurantPeopleAmount"/>
+          <input type="number" placeholder="" class="form-control restaurantPeopleAmount" value="1"/>
         </div>
       </div>
 
@@ -530,8 +522,8 @@
           // $(dynamicPlace+' .transferHours').attr('id', 'transferHours_'+programId+'_'+serviceId);
           $(dynamicPlace+' .transferCarsAmount').attr('id', 'transferCarsAmount_'+programId+'_'+serviceId);
           $(dynamicPlace+' .transferNightMode').attr('id', 'transferNightMode_'+programId+'_'+serviceId);
-          $(dynamicPlace+' .transferFrom').attr('id', 'transferFrom_'+programId+'_'+serviceId);
-          $(dynamicPlace+' .transferTo').attr('id', 'transferTo_'+programId+'_'+serviceId);
+          // $(dynamicPlace+' .transferFrom').attr('id', 'transferFrom_'+programId+'_'+serviceId);
+          // $(dynamicPlace+' .transferTo').attr('id', 'transferTo_'+programId+'_'+serviceId);
 
           break;
 
