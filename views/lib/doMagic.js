@@ -20,7 +20,7 @@ module.exports = function (data, callback) {
 
   var headingInfo = [
     $(event.target['documentedFor']).val(),
-    "",
+    $(event.target['targetCity']).val(),
     $(event.target['tripStarts']).val() + ' / ' + $(event.target['tripEnds']).val(),
     $(event.target['guestsAmount']).val()
   ];
