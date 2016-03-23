@@ -10,6 +10,7 @@ module.exports = function (data) {
   headingInfo = data.headingInfo;
   allAccommodations = data.allAccommodations;
   allTransports = data.allTransports;
+  allExcursions = data.allExcursions;
   allRestaurants = data.allRestaurants;
 
   var styles = {
@@ -122,6 +123,29 @@ module.exports = function (data) {
     }
   };
 
+  var specificationExcursions = {
+    service: {
+      displayName: 'Сервис',
+      headerStyle: styles.headerDark,
+      width: 200
+    },
+    goingPlace: {
+      displayName: 'Куда',
+      headerStyle: styles.headerDark,
+      width: 200
+    },
+    pplAmount: {
+      displayName: 'Кол-во человек',
+      headerStyle: styles.headerDark,
+      width: 150
+    },
+    total: {
+      displayName: 'Цена (р.)',
+      headerStyle: styles.headerDark,
+      width: 120
+    }
+  };
+
   var specificationFood = {
     service: {
       displayName: 'Сервис',
@@ -143,7 +167,7 @@ module.exports = function (data) {
       headerStyle: styles.headerDark,
       width: 120
     }
-  }
+  };
 
   var report = excel.buildExport(
     [
@@ -158,6 +182,12 @@ module.exports = function (data) {
         heading: heading,
         specification: specificationProgram,
         data: allTransports
+      },
+      {
+        name: "Экскурсии",
+        heading: heading,
+        specification: specificationExcursions,
+        data: allExcursions
       },
       {
         name: "Питание",

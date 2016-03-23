@@ -7,6 +7,7 @@ module.exports = function (data, callback) {
   var allAccommodations = [];
   var allTransports = [];
   var allRestaurants = [];
+  var allExcursions = [];
 
   var event = data.event;
   var accommodationIds = data.accommodationIds;
@@ -203,6 +204,21 @@ module.exports = function (data, callback) {
           "price": total
         });
 
+      } else if (serviceType === 'excursion') {
+
+        var goingPlaceText = $('#' + $(event.target['goingPlace_'+programId+'_'+serviceId]).attr('id') + ' option:selected').text();
+        var goingPlacePrice = $(event.target['goingPlace_'+programId+'_'+serviceId]).val();
+        var pplAmount = $(event.target['pplAmount_'+programId+'_'+serviceId]).val();
+
+        total = goingPlacePrice * pplAmount;
+
+        allExcursions.push({
+          "service": serviceTypeText,
+          "goingPlace": goingPlaceText + ' ('+ goingPlacePrice +'  р.)',
+          "pplAmount": pplAmount,
+          "total": total
+        });
+
       } else if (serviceType === 'restaurant') {
 
         var restaurantName= $('#' + $(event.target['restaurant_'+programId+'_'+serviceId]).attr('id') + ' option:selected').text();
@@ -230,6 +246,7 @@ module.exports = function (data, callback) {
     headingInfo: headingInfo,
     allAccommodations: allAccommodations,
     allTransports: allTransports,
+    allExcursions: allExcursions,
     allRestaurants: allRestaurants
   });
 };
