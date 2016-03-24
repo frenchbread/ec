@@ -98,7 +98,7 @@
 
       removeRecord = function (id) {
 
-        dialog.showMessageBox({
+        dialog.showMessageBox(thisWindow, {
           message: "Удалить? ",
           buttons: ["OK", "Отменить"]
         }, function (index) {

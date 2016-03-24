@@ -3,6 +3,9 @@ const dialog = remote.require('electron').dialog;
 const fs = require('fs');
 const excel = require('node-excel-export');
 
+var BrowserWindow = remote.BrowserWindow;
+var thisWindow = BrowserWindow.getFocusedWindow();
+
 module.exports = function (data) {
 
   var headingInfo, allAccommodations, allTransports, allRestaurants;
@@ -198,7 +201,7 @@ module.exports = function (data) {
     ]
   );
 
-  dialog.showSaveDialog({
+  dialog.showSaveDialog(thisWindow, {
     title: 'data.xlsx',
     defaultPath: __dirname,
     filters: [
@@ -206,13 +209,13 @@ module.exports = function (data) {
     ]
   }, function (filePath) {
 
-    if (fileName === undefined) return;
+    if (filePath === undefined) return;
 
     fs.writeFile(filePath, report, 'binary', function (err) {
 
       if (err) console.log(err);
 
-      dialog.showMessageBox({
+      dialog.showMessageBox(thisWindow, {
         message: "The file has been saved to " + filePath,
         buttons: ["OK"]
       });
