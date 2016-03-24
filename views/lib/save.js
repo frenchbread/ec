@@ -206,17 +206,18 @@ module.exports = function (data) {
     ]
   }, function (filePath) {
 
-    if (filePath) {
-      fs.writeFile(filePath, report, 'binary', function (err) {
+    if (fileName === undefined) return;
 
-        if (err) console.log(err);
+    fs.writeFile(filePath, report, 'binary', function (err) {
 
-        dialog.showMessageBox({
-          message: "The file has been saved to " + filePath,
-          buttons: ["OK"]
-        });
+      if (err) console.log(err);
+
+      dialog.showMessageBox({
+        message: "The file has been saved to " + filePath,
+        buttons: ["OK"]
       });
-    }
+    });
+
   });
 
 };
