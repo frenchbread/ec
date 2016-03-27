@@ -5,6 +5,7 @@ header .title {
 header.head-menu ul {
   background-color: #111338;
   list-style: none;
+  padding: 0 30px;
 }
 header.head-menu ul li {
   display: inline-block;
