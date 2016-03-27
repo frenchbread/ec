@@ -350,3 +350,7 @@ $('form#mainForm').submit(function (event) {
 
   return false;
 });
+
+$('#reload-mainWindow').on('click', () => {
+  BrowserWindow.getFocusedWindow().reload();
+});
