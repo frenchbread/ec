@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Аренда с водителем</title>
+  <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+  <div class="container-fluid">
+    <legend>
+      <h3>
+        Аренда с водителем
+        <button type="button" name="button" class="btn btn-sm btn-default pull-right" data-toggle="modal" data-target="#driversModal">Добавить</button>
+      </h3>
+    </legend>
+    <div class="" id=driversList></div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="driversModal" tabindex="-1" role="dialog" aria-labelledby="driversModalLabel">
+    <div class="modal-dialog" role="document">
+      <form id="addDriver">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="driversModalLabel">Добавить</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="name">Название услуги / Тип авто / Город / Тариф</label>
+              <input type="text" class="form-control" id="name" placeholder="Название">
+            </div>
+            <div class="form-group">
+              <label for="price">Цена услуги (р.)</label>
+              <input type="number" class="form-control" id="price" placeholder="1200">
+            </div>
+            <div class="form-group">
+              <label for="pricePerHour">Цена за доп. часы (р./час)</label>
+              <input type="number" class="form-control" id="pricePerHour" placeholder="500">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script>
+    window.$ = window.jQuery = require('../../bower_components/jquery/dist/jquery.min.js');
+  </script>
+  <script src="./driversWindow.js"></script>
+  <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

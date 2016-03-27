@@ -2,3 +2,4 @@ node_modules
 .DS_*
 .idea/
 db/
+bower_components

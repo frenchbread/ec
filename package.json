@@ -1,0 +1,29 @@
+{
+  "name": "ec",
+  "version": "0.2.0",
+  "description": "Travel expences counter.",
+  "main": "app.js",
+  "scripts": {
+    "start": "electron app.js",
+    "build-darwin": "electron-packager . ec-v0.2.0 --platform=darwin --arch=x64 --version=0.37.2 --ignore=node_modules/electron-* && open .",
+    "build-win32": "electron-packager . ec-v0.2.0 --platform=win32 --arch=x64 --version=0.37.2 --ignore=node_modules/electron-* && open ."
+  },
+  "keywords": [
+    "ec",
+    "expences",
+    "counter",
+    "electron"
+  ],
+  "author": "Damir Mustafin",
+  "license": "MIT",
+  "devDependencies": {
+    "electron-packager": "^5.2.1",
+    "electron-prebuilt": "^0.37.2"
+  },
+  "dependencies": {
+    "moment": "^2.12.0",
+    "nedb": "^1.8.0",
+    "node-excel-export": "^1.2.0",
+    "underscore": "^1.8.3"
+  }
+}

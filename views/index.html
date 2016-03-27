@@ -1,0 +1,238 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Index page</title>
+  <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./vendor/datepicker.css">
+  <link rel="stylesheet" href="./styles/main.css">
+</head>
+<body>
+  <div>
+    <header class="head-menu">
+      <ul >
+        <strong class="title">Тарифы:</strong>
+        <li><a href="#" id="openHotelsWindow">Отели</a></li>
+        <li><a href="#" id="openTransfersWindow">Трансферы</a></li>
+        <li><a href="#" id="openDriversWindow">С водителем</a></li>
+        <li><a href="#" id="openExcursionsWindow">Экскурсии</a></li>
+        <li><a href="#" id="openRestaurantsWindow">Рестораны</a></li>
+      </ul>
+    </header>
+    <div style="margin-top:20px;" class="container">
+
+      <!-- Main form -->
+      <form id="mainForm" class="form-inline">
+
+        <!-- Heading -->
+        <div>
+          <div class="form-group">
+            <input id="headingName" type="text" placeholder="Подготовлено для .." class="form-control"/>
+          </div>
+          <div class="form-group">
+            <input id="headingCity" type="text" placeholder="Город" class="form-control"/>
+          </div>
+          <div class="form-group">
+            <input id="headingStartDate" type="text" placeholder="C (dd-mm-yyyy)" class="form-control"/>
+          </div>
+          <div class="form-group">
+            <input id="headingEndDate" type="text" placeholder="До (dd-mm-yyyy)" class="form-control"/>
+          </div>
+          <div class="form-group">
+            <input id="headingPplAmount" type="number" placeholder="Кол-во гостей" class="form-control"/>
+          </div>
+        </div>
+
+        <h1>Проживание</h1>
+
+        <div id="accommodations"></div>
+
+        <a onclick="addAccommodation();" class="btn btn-primary btn-sm">+ Добавить вариант проживания</a>
+
+        <hr/>
+
+        <h1>Программа</h1>
+
+        <div id="programs"></div>
+
+        <a onclick="addProgram();" class="btn btn-primary btn-sm">+ Добавить день</a>
+
+        <hr/>
+
+        <button type="submit" id="sumbitForm" class="btn btn-success pull-right">Сохранить</button>
+      </form>
+
+      <!--Hidden stuff-->
+      <div class="row accommodationForm" style="display: none">
+        <div class="col-lg-12">
+          <h3>
+            Отель
+            <b class="accommodationNum"></b>
+            <a href="#" class="btn btn-xs btn-danger removeAccommodation pull-right">x Убрать отель</a>
+          </h3>
+        </div>
+        <div class="col-lg-12">
+          <div class="row">
+            <div class="col-md-9">
+              <div class="form-group">
+                <label>Гостиница</label>
+                <br/>
+                <select class="form-control hotel">
+                  <option>-</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label >Дата заселения</label>
+                <br/>
+                <input type="text" placeholder="dd-mm-yyyy" class="form-control moveIn"/>
+              </div>
+              <div class="form-group">
+                <label>Дата выезда</label>
+                <br/>
+                <input type="text" placeholder="dd-mm-yyyy" class="form-control moveOut"/>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div id="rooms"></div>
+              <hr/>
+              <a class="btn btn-xs btn-primary addRoom">+ Добавить тип комнаты</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="roomForm" style="display: none">
+        <div class="form-group">
+          <label>Тип комнаты</label><br/>
+          <select class="form-control roomType">
+            <option>-</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Кол-во номеров</label><br/>
+          <input type="number" placeholder="Кол-во номеров" class="form-control roomsAmount" value="1"/>
+        </div>
+        <div class="form-group">
+          <label>Доп. кровать</label><br/>
+          <input type="checkbox" class="extraBed"/>
+        </div>
+        <a href="#" class="btn btn-xs btn-danger removeRoom">x</a>
+      </div>
+
+      <div class="row programForm" style="display: none;">
+        <div class="col-md-12">
+          <h3>
+            День
+            <b class="programNum"></b>
+            <a class="btn btn-xs btn-danger removeProgram pull-right">x Убрать день</a>
+          </h3>
+        </div>
+        <div class="col-md-12">
+          <h3>Сервисы</h3>
+          <div id="services"></div>
+          <hr/>
+          <a class="btn btn-xs btn-primary addService">+ Добавить сервис</a>
+        </div>
+      </div>
+
+      <div class="serviceForm" style="display: none">
+        <div class="form-group">
+          <label>Тип сервиса</label>
+          <br/>
+          <select class="serviceType form-control" >
+            <option>-</option>
+            <option value="transfer">Трансфер</option>
+            <option value="driver">Аренда с водителем</option>
+            <option value="excursion">Экскурсия</option>
+            <option value="restaurant">Питание</option>
+          </select>
+        </div>
+        <span class="dynamicPlace"></span>
+        <div class="form-group" style="padding:2px;padding-top:30px;">
+          <a class="btn btn-xs btn-danger removeService">x</a>
+        </div>
+      </div>
+
+      <div id="hiddenTransfer" style="display:none">
+        <div class="form-group">
+          <label for="">Услуга / Класс авто</label><br/>
+          <select class="form-control transferCarType">
+            <option>-</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="">Кол-во авто</label><br/>
+          <input type="number" placeholder="" class="form-control transferCarsAmount" value="1"/>
+        </div>
+        <div class="form-group">
+          <label for="">Ночной тариф (+50% c 23:00-07:00)</label><br/>
+          <input type="checkbox" class="transferNightMode"/>
+        </div>
+      </div>
+
+      <div id="hiddenDriver" style="display:none">
+        <div class="form-group">
+          <label for="">Услуга / Класс авто</label><br/>
+          <select class="form-control driverCarType">
+            <option>-</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="">Кол-во доп. часов</label><br/>
+          <input type="number" placeholder="" class="form-control driverHours" value="0"/>
+        </div>
+        <div class="form-group">
+          <label for="">Кол-во авто</label><br/>
+          <input type="number" placeholder="" class="form-control driverCarsAmount" value="1"/>
+        </div>
+        <div class="form-group">
+          <label for="">Ночной тариф (+50% c 23:00-07:00)</label><br/>
+          <input type="checkbox" class="driverNightMode"/>
+        </div>
+      </div>
+
+      <div id="hiddenExcursion" style="display:none">
+        <div class="form-group">
+          <label for="">Куда</label><br/>
+          <select class="form-control goingPlace">
+            <option>-</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="">Кол-во человек</label><br/>
+          <input type="number" placeholder="" class="form-control pplAmount" value="1"/>
+        </div>
+      </div>
+
+      <div id="hiddenRestaurant" style="display:none">
+        <div class="form-group">
+          <label for="">Ресторан / Меню</label><br/>
+          <select class="form-control restaurant">
+            <option>-</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="">Кол-во человек</label><br/>
+          <input type="number" placeholder="" class="form-control restaurantPeopleAmount" value="1"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script charset="utf-8">
+  const remote = require('electron').remote;
+  const Menu = remote.Menu;
+
+  const menuTemplate = require('../menuTemplate');
+
+  var menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
+</script>
+<script>
+  window.$ = window.jQuery = require('../bower_components/jquery/dist/jquery.min.js');
+</script>
+<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="./vendor/bootstrap-datepicker.js"></script>
+<script src="./vendor/datePicker.js"></script>
+<script src="./index.js"></script>
+</html>
