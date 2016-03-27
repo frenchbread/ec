@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "electron app.js",
-    "build-darwin": "electron-packager . ec-v0.2.0 --platform=darwin --arch=x64 --version=0.37.2 --ignore=node_modules/electron-* && open .",
-    "build-win32": "electron-packager . ec-v0.2.0 --platform=win32 --arch=x64 --version=0.37.2 --ignore=node_modules/electron-* && open ."
+    "build-darwin": "electron-packager . ExpensesCounter --platform=darwin --arch=x64 --version=0.37.2 --ignore=node_modules/electron-* && open .",
+    "build-win32": "electron-packager . ExpensesCounter --platform=win32 --arch=x64 --version=0.37.2 --ignore=node_modules/electron-* && open ."
   },
   "keywords": [
     "ec",
