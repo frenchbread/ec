@@ -51,21 +51,21 @@ $(document).ready(() => {
 
     return false;
   });
-
-  function removeRecord (id, name) {
-    dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
-      message: `Удалить "${name}" ?`,
-      buttons: ["OK", "Отменить"]
-    }, function (index) {
-      if (index === 0) {
-        transfers.remove({ _id: id }, {}, function (err, numRemoved) {
-          if (err)
-          console.log(err);
-          else
-          $('#'+id).remove();
-          // ipc.send('reload-main-window');
-        });
-      }
-    });
-  };
 });
+
+function removeRecord (id, name) {
+  dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+    message: `Удалить "${name}" ?`,
+    buttons: ["OK", "Отменить"]
+  }, function (index) {
+    if (index === 0) {
+      transfers.remove({ _id: id }, {}, function (err, numRemoved) {
+        if (err)
+        console.log(err);
+        else
+        $('#'+id).remove();
+        // ipc.send('reload-main-window');
+      });
+    }
+  });
+};
