@@ -1,4 +1,4 @@
-![Image](https://raw.githubusercontent.com/frenchbread/ec/master/docs/ec-logo.png)
+# EC
 
 > Expenses counter.
 
