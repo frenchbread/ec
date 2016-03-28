@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron app.js",
     "build-darwin": "electron-packager . ExpensesCounter --platform=darwin --arch=x64 --version=0.37.2 --ignore=node_modules/electron-* --icon=media/ec-logo.icns && open .",
-    "build-win32": "electron-packager . ExpensesCounter --platform=win32 --arch=x64 --version=0.37.2 --ignore=node_modules/electron-* --icon=media/ec-logo.ico && open ."
+    "build-win32": "electron-packager . ExpensesCounter --platform=win32 --arch=x64 --version=0.37.2 --ignore=node_modules/electron-* && open ."
   },
   "keywords": [
     "ec",
