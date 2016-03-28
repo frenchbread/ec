@@ -1,6 +1,6 @@
 {
   "name": "ec",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "description": "Travel expences counter.",
   "main": "app.js",
   "scripts": {
