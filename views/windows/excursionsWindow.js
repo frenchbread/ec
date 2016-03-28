@@ -1,5 +1,7 @@
 'use strict';
 
+window.$ = window.jQuery = require('../../bower_components/jquery/dist/jquery.min.js');
+
 const _ = require('underscore');
 
 const ipc = require('electron').ipcRenderer;
@@ -12,6 +14,7 @@ const excursionsList = $('#excursionsList');
 const excursionsModal = $('#excursionsModal');
 
 $(document).ready(() => {
+
   excursions.find({}, function (err, docs) {
 
     _.each(docs, function (doc) {

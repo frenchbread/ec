@@ -1,5 +1,7 @@
 'use strict';
 
+window.$ = window.jQuery = require('../../bower_components/jquery/dist/jquery.min.js');
+
 const _ = require('underscore');
 
 const ipc = require('electron').ipcRenderer;
