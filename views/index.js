@@ -85,14 +85,16 @@ function addAccommodation () {
   $('.moveIn', form).attr('id', 'moveIn_'+accommodationId).datepicker({format : "dd-mm-yyyy"});
   $('.moveOut', form).attr('id', 'moveOut_'+accommodationId).datepicker({format : "dd-mm-yyyy"});
 
-  hotels.find({}, function(err, docs){
-    if (docs.length > 0) {
-      $.each(docs, function(id, obj) {
-        $('.hotel', form)
-        .append($('<option>', { value : obj.roomType.single.rub + '/' + obj.roomType.double.rub + '/' + obj.roomType.triple.rub + '/' + obj.extraBed })
-        .text(obj.name));
-      });
-    }
+  hotels.loadDatabase((err) => {
+    hotels.find({}, function(err, docs){
+      if (docs.length > 0) {
+        $.each(docs, function(id, obj) {
+          $('.hotel', form)
+          .append($('<option>', { value : obj.roomType.single.rub + '/' + obj.roomType.double.rub + '/' + obj.roomType.triple.rub + '/' + obj.extraBed })
+          .text(obj.name));
+        });
+      }
+    });
   });
 
   $('#accommodations').append(form.css('display', 'block'));
@@ -234,14 +236,16 @@ function switchServiceType (programId, serviceId) {
 
     $(dynamicPlace).html(transferFields);
 
-    transfers.find({}, function(err, docs){
-      if (docs.length > 0) {
-        $.each(docs, function(id, obj) {
-          $(dynamicPlace+' .transferCarType')
-          .append($('<option>', { value : obj.price })
-          .text(obj.name));
-        });
-      }
+    transfers.loadDatabase((err) => {
+      transfers.find({}, function(err, docs){
+        if (docs.length > 0) {
+          $.each(docs, function(id, obj) {
+            $(dynamicPlace+' .transferCarType')
+            .append($('<option>', { value : obj.price })
+            .text(obj.name));
+          });
+        }
+      });
     });
 
     $(dynamicPlace+' .transferCarType').attr('id', 'transferCarType_'+programId+'_'+serviceId);
@@ -253,14 +257,16 @@ function switchServiceType (programId, serviceId) {
 
     $(dynamicPlace).html(driverFields);
 
-    drivers.find({}, function(err, docs){
-      if (docs.length > 0) {
-        $.each(docs, function(id, obj) {
-          $(dynamicPlace+' .driverCarType')
-          .append($('<option>', { value : obj.price + "/" + obj.pricePerHour })
-          .text(obj.name));
-        });
-      }
+    drivers.loadDatabase((err) => {
+      drivers.find({}, function(err, docs){
+        if (docs.length > 0) {
+          $.each(docs, function(id, obj) {
+            $(dynamicPlace+' .driverCarType')
+            .append($('<option>', { value : obj.price + "/" + obj.pricePerHour })
+            .text(obj.name));
+          });
+        }
+      });
     });
 
     $(dynamicPlace+' .driverCarType').attr('id', 'driverCarType_'+programId+'_'+serviceId);
@@ -273,14 +279,16 @@ function switchServiceType (programId, serviceId) {
 
     $(dynamicPlace).html(excursionFields);
 
-    excursions.find({}, function(err, docs){
-      if (docs.length > 0) {
-        $.each(docs, function(id, obj) {
-          $(dynamicPlace+' .goingPlace')
-          .append($('<option>', { value : obj.price })
-          .text(obj.name));
-        });
-      }
+    excursions.loadDatabase((err) => {
+      excursions.find({}, function(err, docs){
+        if (docs.length > 0) {
+          $.each(docs, function(id, obj) {
+            $(dynamicPlace+' .goingPlace')
+            .append($('<option>', { value : obj.price })
+            .text(obj.name));
+          });
+        }
+      });
     });
 
     $(dynamicPlace+' .goingPlace').attr('id', 'goingPlace_'+programId+'_'+serviceId);
@@ -291,14 +299,16 @@ function switchServiceType (programId, serviceId) {
 
     $(dynamicPlace).html(restaurantFields);
 
-    restaurants.find({}, function(err, docs){
-      if (docs.length > 0) {
-        $.each(docs, function(id, obj) {
-          $(dynamicPlace+' .restaurant')
-          .append($('<option>', { value : obj.price })
-          .text(obj.name));
-        });
-      }
+    restaurants.loadDatabase((err) => {
+      restaurants.find({}, function(err, docs){
+        if (docs.length > 0) {
+          $.each(docs, function(id, obj) {
+            $(dynamicPlace+' .restaurant')
+            .append($('<option>', { value : obj.price })
+            .text(obj.name));
+          });
+        }
+      });
     });
 
     $(dynamicPlace+' .restaurant').attr('id', 'restaurant_'+programId+'_'+serviceId);
