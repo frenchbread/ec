@@ -2,11 +2,11 @@
 
 const Datastore = require('nedb');
 
-const hotels = new Datastore({ filename: __dirname + '/db/hotels.db', autoload: true });
-const transfers = new Datastore({ filename: __dirname + '/db/transfers.db', autoload: true });
-const drivers = new Datastore({ filename: __dirname + '/db/drivers.db', autoload: true });
-const excursions = new Datastore({ filename: __dirname + '/db/excursions.db', autoload: true });
-const restaurants = new Datastore({ filename: __dirname + '/db/restaurants.db', autoload: true });
+const hotels = new Datastore({ filename: __dirname + '/db/hotels.db'});
+const transfers = new Datastore({ filename: __dirname + '/db/transfers.db'});
+const drivers = new Datastore({ filename: __dirname + '/db/drivers.db'});
+const excursions = new Datastore({ filename: __dirname + '/db/excursions.db'});
+const restaurants = new Datastore({ filename: __dirname + '/db/restaurants.db'});
 
 exports.hotels = hotels;
 exports.transfers = transfers;
