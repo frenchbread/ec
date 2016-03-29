@@ -1,7 +1,5 @@
 'use strict';
 
-window.$ = window.jQuery = require('../../bower_components/jquery/dist/jquery.min.js');
-
 const _ = require('underscore');
 
 const ipc = require('electron').ipcRenderer;
@@ -15,28 +13,37 @@ const hotelsModal = $('#hotelsModal');
 
 $(document).ready(() => {
 
-  hotels.find({}, function (err, docs) {
+  hotels.loadDatabase((err) => {
 
-    _.each(docs, function (doc) {
-      hotelsList.append(`
-        <div class="panel panel-default" id="${doc._id}">
-          <div class="panel-heading">
-            ${doc.name}
-            <button class="btn btn-danger btn-xs pull-right" onclick="removeRecord('${doc._id}', '${doc.name}')">x</button>
-          </div>
-          <div class="panel-body">
-            <div class="roomsLayout">
-              <b>Одиночная: </b>${doc.roomType.single.rub}р.
-              <br/>
-              <b>Двойная: </b>${doc.roomType.double.rub}р.
-              <br/>
-              <b>Тройная: </b>${doc.roomType.triple.rub}р.
+    hotels.find({}, function (err, docs) {
+
+      if (docs.length > 0) {
+
+        _.each(docs, function (doc) {
+          hotelsList.append(`
+            <div class="panel panel-default" id="${doc._id}">
+              <div class="panel-heading">
+                ${doc.name}
+                <button class="btn btn-danger btn-xs pull-right" onclick="removeRecord('${doc._id}', '${doc.name}')">x</button>
+              </div>
+              <div class="panel-body">
+                <div class="roomsLayout">
+                  <b>Одиночная: </b>${doc.roomType.single.rub}р.
+                  <br/>
+                  <b>Двойная: </b>${doc.roomType.double.rub}р.
+                  <br/>
+                  <b>Тройная: </b>${doc.roomType.triple.rub}р.
+                </div>
+                <br/>
+                <b>Доп. кровать: </b>${doc.extraBed}р.
+              </div>
             </div>
-            <br/>
-            <b>Доп. кровать: </b>${doc.extraBed}р.
-          </div>
-        </div>
-      `);
+          `);
+        });
+      } else {
+
+        hotelsList.html('<div class="jumbotron text-center"><strong>Тарифы не найдены.</strong></div>');
+      }
     });
   });
 
@@ -44,38 +51,36 @@ $(document).ready(() => {
 
     event.preventDefault();
 
-    const name = $(event.target['name']);
-    const singleRoom = $(event.target['singleRoom']);
-    const doubleRoom = $(event.target['doubleRoom']);
-    const trippleRoom = $(event.target['trippleRoom']);
-    const extraBed = $(event.target['extraBed']);
+    const name = $('#name').val();
+    const singleRoom = $('#singleRoom').val();
+    const doubleRoom = $('#doubleRoom').val();
+    const trippleRoom = $('#trippleRoom').val();
+    const extraBed = $('#extraBed').val();
 
-    hotels.insert({
-      name: name.val(),
-      roomType: {
-        single: {
-          rub: singleRoom.val()
+    hotels.loadDatabase((err) => {
+
+      hotels.insert({
+        name: name,
+        roomType: {
+          single: {
+            rub: singleRoom
+          },
+          double: {
+            rub: doubleRoom
+          },
+          triple: {
+            rub: trippleRoom
+          }
         },
-        double: {
-          rub: doubleRoom.val()
-        },
-        triple: {
-          rub: trippleRoom.val()
-        }
-      },
-      extraBed: extraBed.val()
-    }, function (err, newDoc) {
-      BrowserWindow.getFocusedWindow().reload();
-      // ipc.send('reload-main-window');
+        extraBed: extraBed
+      }, function (err, newDoc) {
+        BrowserWindow.getFocusedWindow().reload();
+      });
     });
 
     hotelsModal.modal('hide');
 
-    name.val("");
-    singleRoom.val("");
-    doubleRoom.val("");
-    trippleRoom.val("");
-    extraBed.val("");
+    this.reset();
 
     return false;
   });
@@ -87,12 +92,13 @@ function removeRecord (id, name) {
     buttons: ["OK", "Отменить"]
   }, function (index) {
     if (index === 0) {
-      hotels.remove({ _id: id }, {}, function (err, numRemoved) {
-        if (err)
-        console.log(err);
-        else
-        $('#'+id).remove();
-        // ipc.send('reload-main-window');
+      hotels.loadDatabase((err) => {
+        hotels.remove({ _id: id }, {}, function (err, numRemoved) {
+          if (err)
+            console.log(err);
+          else
+            $('#'+id).remove();
+        });
       });
     }
   });

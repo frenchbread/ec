@@ -1,7 +1,5 @@
 'use strict';
 
-window.$ = window.jQuery = require('../../bower_components/jquery/dist/jquery.min.js');
-
 const _ = require('underscore');
 
 const ipc = require('electron').ipcRenderer;
@@ -15,20 +13,28 @@ const restaurantsModal = $('#restaurantsModal');
 
 $(document).ready(() => {
 
-  restaurants.find({}, function (err, docs) {
+  restaurants.loadDatabase((err) => {
 
-    _.each(docs, function (doc) {
-      restaurantsList.append(`
-        <div class="panel panel-default" id="${doc._id}">
-          <div class="panel-heading">
-            ${doc.name}
-            <button class="btn btn-danger btn-xs pull-right" onclick="removeRecord('${doc._id}', '${doc.name}')">x</button>
-          </div>
-          <div class="panel-body">
-            <b>Цена: </b>${doc.price}р.
-          </div>
-        </div>
-      `);
+    restaurants.find({}, function (err, docs) {
+
+      if (docs.length > 0) {
+
+        _.each(docs, function (doc) {
+          restaurantsList.append(`
+            <div class="panel panel-default" id="${doc._id}">
+              <div class="panel-heading">
+                ${doc.name}
+                <button class="btn btn-danger btn-xs pull-right" onclick="removeRecord('${doc._id}', '${doc.name}')">x</button>
+              </div>
+              <div class="panel-body">
+                <b>Цена: </b>${doc.price}р.
+              </div>
+            </div>
+          `);
+        });
+      } else {
+        restaurantsList.html('<div class="jumbotron text-center"><strong>Тарифы не найдены.</strong></div>');
+      }
     });
   });
 
@@ -36,21 +42,22 @@ $(document).ready(() => {
 
     event.preventDefault();
 
-    const name = $(event.target['name']);
-    const price = $(event.target['price']);
+    const name = $('#name').val();
+    const price = $('#price').val();
 
-    restaurants.insert({
-      name: name.val(),
-      price: price.val()
-    }, function (err, newDoc) {
-      BrowserWindow.getFocusedWindow().reload();
-      // ipc.send('reload-main-window');
+    restaurants.loadDatabase((err) => {
+
+      restaurants.insert({
+        name: name,
+        price: price
+      }, function (err, newDoc) {
+        BrowserWindow.getFocusedWindow().reload();
+      });
     });
 
     restaurantsModal.modal('hide');
 
-    name.val("");
-    price.val("");
+    this.reset();
 
     return false;
   });
@@ -62,12 +69,13 @@ function removeRecord (id, name) {
     buttons: ["OK", "Отменить"]
   }, function (index) {
     if (index === 0) {
-      restaurants.remove({ _id: id }, {}, function (err, numRemoved) {
-        if (err)
-        console.log(err);
-        else
-        $('#'+id).remove();
-        // ipc.send('reload-main-window');
+      restaurants.loadDatabase((err) => {
+        restaurants.remove({ _id: id }, {}, function (err, numRemoved) {
+          if (err)
+            console.log(err);
+          else
+            $('#'+id).remove();
+        });
       });
     }
   });

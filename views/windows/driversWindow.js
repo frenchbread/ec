@@ -1,7 +1,5 @@
 'use strict';
 
-window.$ = window.jQuery = require('../../bower_components/jquery/dist/jquery.min.js');
-
 const _ = require('underscore');
 
 const ipc = require('electron').ipcRenderer;
@@ -15,20 +13,28 @@ const driversModal = $('#driversModal');
 
 $(document).ready(() => {
 
-  drivers.find({}, function (err, docs) {
+  drivers.loadDatabase((err) => {
 
-    _.each(docs, function (doc) {
-      driversList.append(`
-        <div class="panel panel-default" id="${doc._id}">
-          <div class="panel-heading">
-            ${doc.name}
-            <button class="btn btn-danger btn-xs pull-right" onclick="removeRecord('${doc._id}', '${doc.name}')">x</button>
-          </div>
-          <div class="panel-body">
-            <b>Цена: </b>${doc.price}р.
-          </div>
-        </div>
-      `);
+    drivers.find({}, function (err, docs) {
+
+      if (docs.length > 0) {
+
+        _.each(docs, function (doc) {
+          driversList.append(`
+            <div class="panel panel-default" id="${doc._id}">
+              <div class="panel-heading">
+                ${doc.name}
+                <button class="btn btn-danger btn-xs pull-right" onclick="removeRecord('${doc._id}', '${doc.name}')">x</button>
+              </div>
+              <div class="panel-body">
+                <b>Цена: </b>${doc.price}р.
+              </div>
+            </div>
+          `);
+        });
+      } else {
+        driversList.html('<div class="jumbotron text-center"><strong>Тарифы не найдены.</strong></div>');
+      }
     });
   });
 
@@ -36,24 +42,24 @@ $(document).ready(() => {
 
     event.preventDefault();
 
-    const name = $(event.target['name']);
-    const price = $(event.target['price']);
-    const pricePerHour = $(event.target['pricePerHour']);
+    const name = $('#name').val();
+    const price = $('#price').val();
+    const pricePerHour = $('#pricePerHour').val();
 
-    drivers.insert({
-      name: name.val(),
-      price: price.val(),
-      pricePerHour: pricePerHour.val()
-    }, function (err, newDoc) {
-      BrowserWindow.getFocusedWindow().reload();
-      // ipc.send('reload-main-window');
+    drivers.loadDatabase((err) => {
+
+      drivers.insert({
+        name: name,
+        price: price,
+        pricePerHour: pricePerHour
+      }, function (err, newDoc) {
+        BrowserWindow.getFocusedWindow().reload();
+      });
     });
 
     driversModal.modal('hide');
 
-    name.val("");
-    price.val("");
-    pricePerHour.val("");
+    this.reset();
 
     return false;
   });
@@ -65,12 +71,13 @@ function removeRecord (id, name) {
     buttons: ["OK", "Отменить"]
   }, function (index) {
     if (index === 0) {
-      drivers.remove({ _id: id }, {}, function (err, numRemoved) {
-        if (err)
-        console.log(err);
-        else
-        $('#'+id).remove();
-        // ipc.send('reload-main-window');
+      drivers.loadDatabase((err) => {
+        drivers.remove({ _id: id }, {}, function (err, numRemoved) {
+          if (err)
+          console.log(err);
+          else
+          $('#'+id).remove();
+        });
       });
     }
   });

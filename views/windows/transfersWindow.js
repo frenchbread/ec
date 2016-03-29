@@ -1,7 +1,5 @@
 'use strict';
 
-window.$ = window.jQuery = require('../../bower_components/jquery/dist/jquery.min.js');
-
 const _ = require('underscore');
 
 const ipc = require('electron').ipcRenderer;
@@ -14,20 +12,30 @@ const transfersList = $('#transfersList');
 const transfersModal = $('#transfersModal');
 
 $(document).ready(() => {
-  transfers.find({}, function (err, docs) {
 
-    _.each(docs, function (doc) {
-      transfersList.append(`
-        <div class="panel panel-default" id="${doc._id}">
-          <div class="panel-heading">
-            ${doc.name}
-            <button class="btn btn-danger btn-xs pull-right" onclick="removeRecord('${doc._id}', '${doc.name}')">x</button>
-          </div>
-          <div class="panel-body">
-            <b>Цена: </b>${doc.price}р.
-          </div>
-        </div>
-      `);
+  transfers.loadDatabase((err) => {
+
+    transfers.find({}, function (err, docs) {
+
+      if (docs.length > 0) {
+
+        _.each(docs, function (doc) {
+          transfersList.append(`
+            <div class="panel panel-default" id="${doc._id}">
+              <div class="panel-heading">
+                ${doc.name}
+                <button class="btn btn-danger btn-xs pull-right" onclick="removeRecord('${doc._id}', '${doc.name}')">x</button>
+              </div>
+              <div class="panel-body">
+                <b>Цена: </b>${doc.price}р.
+              </div>
+            </div>
+          `);
+        });
+      } else {
+
+        transfersList.html('<div class="jumbotron text-center"><strong>Тарифы не найдены.</strong></div>');
+      }
     });
   });
 
@@ -35,21 +43,21 @@ $(document).ready(() => {
 
     event.preventDefault();
 
-    const name = $(event.target['name']);
-    const price = $(event.target['price']);
+    const name = $('#name').val();
+    const price = $('#price').val();
 
-    transfers.insert({
-      name: name.val(),
-      price: price.val()
-    }, function (err, newDoc) {
-      BrowserWindow.getFocusedWindow().reload();
-      // ipc.send('reload-main-window');
+    transfers.loadDatabase((err) => {
+      transfers.insert({
+        name: name,
+        price: price
+      }, function (err, newDoc) {
+        BrowserWindow.getFocusedWindow().reload();
+      });
     });
 
     transfersModal.modal('hide');
 
-    name.val("");
-    price.val("");
+    this.reset();
 
     return false;
   });
@@ -61,12 +69,13 @@ function removeRecord (id, name) {
     buttons: ["OK", "Отменить"]
   }, function (index) {
     if (index === 0) {
-      transfers.remove({ _id: id }, {}, function (err, numRemoved) {
-        if (err)
-        console.log(err);
-        else
-        $('#'+id).remove();
-        // ipc.send('reload-main-window');
+      transfers.loadDatabase((err) => {
+        transfers.remove({ _id: id }, {}, function (err, numRemoved) {
+          if (err)
+            console.log(err);
+          else
+            $('#'+id).remove();
+        });
       });
     }
   });
