@@ -90,10 +90,10 @@ function addAccommodation () {
   hotels.loadDatabase((err) => {
     hotels.find({}, function(err, docs){
       if (docs.length > 0) {
-        $.each(docs, function(id, obj) {
+        $.each(docs, function(id, doc) {
           $('.hotel', form)
-          .append($('<option>', { value : obj.roomType.single.rub + '/' + obj.roomType.double.rub + '/' + obj.roomType.triple.rub + '/' + obj.extraBed })
-          .text(obj.name));
+            .append($('<option>', { value : doc.name })
+            .text(doc.name));
         });
       }
     });
