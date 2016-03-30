@@ -67,8 +67,9 @@ const serviceForm = $('.serviceForm');
 const serviceIds = [];
 var serviceId  = $('#services > .serviceForm').size();
 
-$('#headingStartDate').datepicker({format : "dd-mm-yyyy"});
-$('#headingEndDate').datepicker({format : "dd-mm-yyyy"});
+$('#headingStartDate, #headingEndDate').datepicker({
+    language: "ru"
+});
 
 function addAccommodation () {
 
