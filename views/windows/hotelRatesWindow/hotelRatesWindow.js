@@ -7,6 +7,7 @@ const dialog = require('electron').remote.dialog;
 const BrowserWindow = require('electron').remote.BrowserWindow;
 
 const hotelRates = require('../../../db').hotelRates;
+const hotels = require('../../../db').hotels;
 
 const hotelRatesList = $('#hotelRatesList');
 const hotelRatesModal = $('#hotelRatesModal');
@@ -56,6 +57,21 @@ $(document).ready(() => {
         hotelRatesList.html('<div class="jumbotron text-center"><strong>Тарифы не найдены.</strong></div>');
       }
     });
+  });
+
+  hotels.loadDatabase((err) => {
+
+    hotels.find({}, (err, docs) => {
+
+      if (docs.length > 0) {
+        $.each(docs, function(id, doc) {
+          $('#name')
+            .append($('<option>', { value : doc.name })
+            .text(doc.name));
+        });
+      }
+    });
+
   });
 
   $('form#addHotelRate').submit(function (event) {
