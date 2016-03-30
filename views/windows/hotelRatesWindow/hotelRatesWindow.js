@@ -58,7 +58,7 @@ $(document).ready(() => {
     });
   });
 
-  $('form#addHotel').submit(function (event) {
+  $('form#addHotelRate').submit(function (event) {
 
     event.preventDefault();
 
