@@ -13,6 +13,12 @@ const hotelsModal = $('#hotelsModal');
 
 $(document).ready(() => {
 
+  $('.input-daterange').datepicker({
+    language: "ru",
+    autoclose: true,
+    todayHighlight: true
+  });
+
   hotels.loadDatabase((err) => {
 
     hotels.find({}, function (err, docs) {
