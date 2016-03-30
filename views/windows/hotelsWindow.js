@@ -34,6 +34,11 @@ $(document).ready(() => {
               </div>
               <div class="panel-body">
                 <div class="roomsLayout">
+                  <p><b>Действие тарифа:</b></p>
+                  ${doc.start} - ${doc.end}
+                </div>
+                <br/>
+                <div class="roomsLayout">
                   <b>Одиночная: </b>${doc.roomType.single.rub}р.
                   <br/>
                   <b>Двойная: </b>${doc.roomType.double.rub}р.
@@ -58,6 +63,8 @@ $(document).ready(() => {
     event.preventDefault();
 
     const name = $('#name').val();
+    const start = $('#start').val();
+    const end = $('#end').val();
     const singleRoom = $('#singleRoom').val();
     const doubleRoom = $('#doubleRoom').val();
     const trippleRoom = $('#trippleRoom').val();
@@ -67,6 +74,8 @@ $(document).ready(() => {
 
       hotels.insert({
         name: name,
+        start: start,
+        end: end,
         roomType: {
           single: {
             rub: singleRoom
