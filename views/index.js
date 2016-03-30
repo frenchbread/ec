@@ -14,6 +14,7 @@ const generateExcelReport = require('../lib/generateExcelReport');
 
 const dbWindows = [
   $('#openHotelsWindow'),
+  $('#openHotelRatesWindow'),
   $('#openTransfersWindow'),
   $('#openDriversWindow'),
   $('#openExcursionsWindow'),

@@ -3,7 +3,7 @@
 const electron = require('electron');
 const BrowserWindow = electron.BrowserWindow;
 
-let mainWindow, hotelsWindow, transfersWindow, driversWindow, excursionsWindow, restaurantsWindow;
+let mainWindow, hotelsWindow, hotelRatesWindow, transfersWindow, driversWindow, excursionsWindow, restaurantsWindow;
 
 exports.mainWindow = function () {
 
@@ -21,6 +21,13 @@ exports.dbWindows = [
     hotelsWindow.loadURL(`file://${__dirname}/views/windows/hotelsWindow/hotelsWindow.html`);
 
     return hotelsWindow;
+  },
+  function () {
+
+    hotelRatesWindow = new BrowserWindow({ width: 400, height: 800, show: false });
+    hotelRatesWindow.loadURL(`file://${__dirname}/views/windows/hotelRatesWindow/hotelRatesWindow.html`);
+
+    return hotelRatesWindow;
   },
   function () {
 
@@ -54,6 +61,7 @@ exports.dbWindows = [
 
 exports.IPCs = [
   'show-hotelsWindow',
+  'show-hotelRatesWindow',
   'show-transfersWindow',
   'show-driversWindow',
   'show-excursionsWindow',
