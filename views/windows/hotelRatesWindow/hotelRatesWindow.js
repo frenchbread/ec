@@ -59,20 +59,7 @@ $(document).ready(() => {
     });
   });
 
-  hotels.loadDatabase((err) => {
-
-    hotels.find({}, (err, docs) => {
-
-      if (docs.length > 0) {
-        $.each(docs, function(id, doc) {
-          $('#name')
-            .append($('<option>', { value : doc.name })
-            .text(doc.name));
-        });
-      }
-    });
-
-  });
+  updateHotelsList();
 
   $('form#addHotelRate').submit(function (event) {
 
@@ -115,6 +102,10 @@ $(document).ready(() => {
 
     return false;
   });
+
+  $('#updateHotelsList').on('click', () => {
+    updateHotelsList();
+  });
 });
 
 function removeRecord (id, name) {
@@ -134,3 +125,24 @@ function removeRecord (id, name) {
     }
   });
 };
+
+function updateHotelsList () {
+
+  const hotelsList = $('#name');
+
+  hotelsList.html('');
+
+  hotels.loadDatabase((err) => {
+
+    hotels.find({}, (err, docs) => {
+
+      if (docs.length > 0) {
+        $.each(docs, function(id, doc) {
+          hotelsList
+            .append($('<option>', { value : doc.name })
+            .text(doc.name));
+        });
+      }
+    });
+  });
+}
