@@ -18,35 +18,35 @@ exports.dbWindows = [
   function () {
 
     hotelsWindow = new BrowserWindow({ width: 400, height: 800, show: false });
-    hotelsWindow.loadURL(`file://${__dirname}/views/windows/hotelsWindow.html`);
+    hotelsWindow.loadURL(`file://${__dirname}/views/windows/hotelsWindow/hotelsWindow.html`);
 
     return hotelsWindow;
   },
   function () {
 
     transfersWindow = new BrowserWindow({ width: 400, height: 800, show: false });
-    transfersWindow.loadURL(`file://${__dirname}/views/windows/transfersWindow.html`);
+    transfersWindow.loadURL(`file://${__dirname}/views/windows/transfersWindow/transfersWindow.html`);
 
     return transfersWindow;
   },
   function () {
 
     driversWindow = new BrowserWindow({ width: 400, height: 800, show: false });
-    driversWindow.loadURL(`file://${__dirname}/views/windows/driversWindow.html`);
+    driversWindow.loadURL(`file://${__dirname}/views/windows/driversWindow/driversWindow.html`);
 
     return driversWindow;
   },
   function () {
 
     excursionsWindow = new BrowserWindow({ width: 400, height: 800, show: false });
-    excursionsWindow.loadURL(`file://${__dirname}/views/windows/excursionsWindow.html`);
+    excursionsWindow.loadURL(`file://${__dirname}/views/windows/excursionsWindow/excursionsWindow.html`);
 
     return excursionsWindow;
   },
   function () {
 
     restaurantsWindow = new BrowserWindow({ width: 400, height: 800, show: false });
-    restaurantsWindow.loadURL(`file://${__dirname}/views/windows/restaurantsWindow.html`);
+    restaurantsWindow.loadURL(`file://${__dirname}/views/windows/restaurantsWindow/restaurantsWindow.html`);
 
     return restaurantsWindow;
   }

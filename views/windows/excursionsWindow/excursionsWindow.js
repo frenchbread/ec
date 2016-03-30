@@ -6,7 +6,7 @@ const ipc = require('electron').ipcRenderer;
 const dialog = require('electron').remote.dialog;
 const BrowserWindow = require('electron').remote.BrowserWindow;
 
-const excursions = require('../../db').excursions;
+const excursions = require('../../../db').excursions;
 
 const excursionsList = $('#excursionsList');
 const excursionsModal = $('#excursionsModal');

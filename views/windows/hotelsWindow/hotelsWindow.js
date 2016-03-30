@@ -6,7 +6,7 @@ const ipc = require('electron').ipcRenderer;
 const dialog = require('electron').remote.dialog;
 const BrowserWindow = require('electron').remote.BrowserWindow;
 
-const hotels = require('../../db').hotels;
+const hotels = require('../../../db').hotels;
 
 const hotelsList = $('#hotelsList');
 const hotelsModal = $('#hotelsModal');

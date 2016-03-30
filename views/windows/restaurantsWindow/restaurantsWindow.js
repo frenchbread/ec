@@ -6,7 +6,7 @@ const ipc = require('electron').ipcRenderer;
 const dialog = require('electron').remote.dialog;
 const BrowserWindow = require('electron').remote.BrowserWindow;
 
-const restaurants = require('../../db').restaurants;
+const restaurants = require('../../../db').restaurants;
 
 const restaurantsList = $('#restaurantsList');
 const restaurantsModal = $('#restaurantsModal');
