@@ -50,18 +50,18 @@ const roomData = [
 // Accommodation & rooms
 const accommodationForm = $('.accommodationForm');
 const accommodationIds = [];
-var accommodationId = $('#accommodations > .accommodationForm').size();
+let accommodationId = $('#accommodations > .accommodationForm').size();
 const roomForm = $('.roomForm');
 const roomIds = [];
-var roomId = $('#rooms > .roomForm').size();
+let roomId = $('#rooms > .roomForm').size();
 
 // Program & services
 const programForm = $('.programForm');
 const programIds = [];
-var programId = $('#programs > .programForm').size();
+let programId = $('#programs > .programForm').size();
 const serviceForm = $('.serviceForm');
 const serviceIds = [];
-var serviceId  = $('#services > .serviceForm').size();
+let serviceId  = $('#services > .serviceForm').size();
 
 $('#heading-datepicker').datepicker({
   format: "dd.mm.yyyy",
