@@ -1,6 +1,7 @@
 'use strict';
 
 const _ = require('underscore');
+const moment = require('moment');
 
 const ipc = require('electron').ipcRenderer;
 const dialog = require('electron').remote.dialog;
@@ -14,11 +15,14 @@ const hotelRatesModal = $('#hotelRatesModal');
 
 $(document).ready(() => {
 
-  $('.input-daterange').datepicker({
+  let pickerOtps = {
+    format: "dd.mm.yyyy",
     language: "ru",
     autoclose: true,
     todayHighlight: true
-  });
+  };
+
+  $('.input-daterange').datepicker(pickerOtps);
 
   hotelRates.loadDatabase((err) => {
 
@@ -27,24 +31,33 @@ $(document).ready(() => {
       if (docs.length > 0) {
 
         _.each(docs, function (doc) {
+
+          moment.locale('ru');
+
+          let start = moment(doc.start).format("DD MMM YYYY");
+          let end = moment(doc.end).format("DD MMM YYYY")
+
           hotelRatesList.append(`
             <div class="panel panel-default" id="${doc._id}">
               <div class="panel-heading">
-                ${doc.name}
+                ${doc.title}
                 <button class="btn btn-danger btn-xs pull-right" onclick="removeRecord('${doc._id}', '${doc.name}')">x</button>
               </div>
               <div class="panel-body">
+                <p>
+                  <b>Отель: </b>${doc.name}
+                </p>
                 <div class="roomsLayout">
                   <p><b>Действие тарифа:</b></p>
-                  ${doc.start} - ${doc.end}
+                  ${start} - ${end}
                 </div>
                 <br/>
                 <div class="roomsLayout">
-                  <b>Одиночная: </b>${doc.roomType.single.rub}р.
+                  <b>Одиночная: </b>${doc.single}р.
                   <br/>
-                  <b>Двойная: </b>${doc.roomType.double.rub}р.
+                  <b>Двойная: </b>${doc.double}р.
                   <br/>
-                  <b>Тройная: </b>${doc.roomType.triple.rub}р.
+                  <b>Тройная: </b>${doc.triple}р.
                 </div>
                 <br/>
                 <b>Доп. кровать: </b>${doc.extraBed}р.
@@ -65,6 +78,7 @@ $(document).ready(() => {
 
     event.preventDefault();
 
+    const title = $('#title').val();
     const name = $('#name').val();
     const start = $('#start').val();
     const end = $('#end').val();
@@ -76,20 +90,13 @@ $(document).ready(() => {
     hotelRates.loadDatabase((err) => {
 
       hotelRates.insert({
+        title: title,
         name: name,
-        start: start,
-        end: end,
-        roomType: {
-          single: {
-            rub: singleRoom
-          },
-          double: {
-            rub: doubleRoom
-          },
-          triple: {
-            rub: trippleRoom
-          }
-        },
+        start: moment(start, "DD.MM.YYYY").toDate(),
+        end: moment(end, "DD.MM.YYYY").toDate(),
+        single: singleRoom,
+        double: doubleRoom,
+        triple: trippleRoom,
         extraBed: extraBed
       }, function (err, newDoc) {
         BrowserWindow.getFocusedWindow().reload();
@@ -105,6 +112,33 @@ $(document).ready(() => {
 
   $('#updateHotelsList').on('click', () => {
     updateHotelsList();
+  });
+
+  $('#name').on('change', () => {
+    hotelRates.loadDatabase(() => {
+      hotelRates.find({name: $('#name').val()}, (err, rates) => {
+
+        let datesDisabled = [];
+
+        _.each(rates, (rate) => {
+          let start = moment(rate.start);
+          let end = moment(rate.end);
+
+          let diff = end.diff(start, 'days');
+
+          let ittr = start;
+
+          for (let i = 0; i <= diff; i++) {
+
+            datesDisabled.push(ittr.format('DD.MM.YYYY'));
+
+            ittr = start.add(1, 'days')
+          }
+        });
+
+        $('#start, #end').datepicker('setDatesDisabled', datesDisabled);
+      });
+    });
   });
 });
 
