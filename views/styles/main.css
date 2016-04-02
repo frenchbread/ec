@@ -73,3 +73,9 @@ header.head-menu ul li a{
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
 }
+
+/* Date picker */
+
+.datepicker table tr td.disabled, .datepicker table tr td.disabled:active {
+  color: #ff0000;
+}
