@@ -21,6 +21,7 @@
     "electron-prebuilt": "^0.37.2"
   },
   "dependencies": {
+    "async": "^2.0.0-rc.2",
     "moment": "^2.12.0",
     "nedb": "^1.8.0",
     "node-excel-export": "^1.2.0",
