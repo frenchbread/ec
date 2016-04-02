@@ -1,6 +1,7 @@
 'use strict';
 
 const _ = require('underscore');
+const moment = require('moment');
 
 const ipc = require('electron').ipcRenderer;
 const BrowserWindow = require('electron').remote.BrowserWindow;
@@ -25,6 +26,7 @@ for (let i=0;i<dbWindows.length;i++) {
 const db = require('../db');
 
 const hotels = db.hotels;
+const hotelRates = db.hotelRates;
 const transfers = db.transfers;
 const drivers = db.drivers;
 const excursions = db.excursions;
@@ -63,12 +65,14 @@ const serviceForm = $('.serviceForm');
 const serviceIds = [];
 let serviceId  = $('#services > .serviceForm').size();
 
-$('#heading-datepicker').datepicker({
+let datePickerOpts = {
   format: "dd.mm.yyyy",
   language: "ru",
   autoclose: true,
   todayHighlight: true
-});
+};
+
+$('#heading-datepicker').datepicker(datePickerOpts);
 
 function addAccommodation () {
 
@@ -78,21 +82,17 @@ function addAccommodation () {
 
   form.attr('id', 'accommodationForm_'+accommodationId);
 
-  const opts = {
-    format: "dd.mm.yyyy",
-    language: "ru",
-    autoclose: true,
-    todayHighlight: true
-  }
-
   $('.accommodationNum', form).text(accommodationId);
   $('.removeAccommodation', form).attr('onclick', 'removeAccommodation('+accommodationId+');');
   $('.addRoom', form).attr('onclick', 'addRoom('+accommodationId+');');
-  $('.hotel', form).attr('id', 'hotel_'+accommodationId);
+  $('.hotel', form).attr({
+    'id': 'hotel_'+accommodationId,
+    'onchange': 'switchHotel('+accommodationId+', this)'
+  });
   $('.moveIn', form).attr('id', 'moveIn_'+accommodationId);
   $('.moveOut', form).attr('id', 'moveOut_'+accommodationId);
 
-  $('.input-daterange', form).attr('id', 'hotel-datepicker_'+accommodationId).datepicker(opts);
+  $('.input-daterange', form).attr('id', 'hotel-datepicker_'+accommodationId).datepicker(datePickerOpts);
 
   hotels.loadDatabase((err) => {
     hotels.find({}, function(err, docs){
@@ -112,6 +112,64 @@ function addAccommodation () {
 
   return false;
 };
+
+function switchHotel (accommodationId) {
+  let hotel = $('#hotel_'+accommodationId).val();
+
+  hotelRates.loadDatabase((err) => {
+    hotelRates.find({name: hotel}, (err, rates) => {
+
+      let moveIn = $('#moveIn_'+accommodationId);
+      let moveOut = $('#moveOut_'+accommodationId);
+
+      moveIn.datepicker('destroy');
+      moveOut.datepicker('destroy');
+
+      if (rates.length > 0) {
+
+        let highlightedDates = [];
+
+        _.each(rates, (rate) => {
+
+          let start = moment(rate.start);
+          let end = moment(rate.end);
+
+          let diff = end.diff(start, 'days');
+
+          let ittr = start;
+
+          for (let i = 0; i <= diff; i++) {
+
+            highlightedDates.push(ittr.format('D.M.YYYY'));
+
+            ittr = start.add(1, 'days')
+          }
+        });
+
+        datePickerOpts.beforeShowDay = (date) => {
+             var d = date;
+             var curr_date = d.getDate();
+             var curr_month = d.getMonth() + 1; //Months are zero based
+             var curr_year = d.getFullYear();
+             var formattedDate = curr_date + "." + curr_month + "." + curr_year
+             if ($.inArray(formattedDate, highlightedDates) != -1){
+               return {
+                  classes: 'activeClass'
+               };
+             }
+          return;
+        };
+      } else {
+        datePickerOpts.beforeShowDay = () => { return; };
+      }
+
+      moveIn.datepicker(datePickerOpts);
+      moveOut.datepicker(datePickerOpts);
+
+      // $('#hotel-datepicker_'+accommodationId).datepicker(datePickerOpts);
+    });
+  });
+}
 
 function removeAccommodation (accommodationId) {
 
