@@ -77,5 +77,5 @@ header.head-menu ul li a{
 /* Date picker */
 
 .datepicker table tr td.disabled, .datepicker table tr td.disabled:active, .activeClass {
-  background-color: rgba(0,1 10, 255, 0.3);
+  background-color: rgba(0, 110, 255, 0.3);
 }
