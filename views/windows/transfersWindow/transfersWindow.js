@@ -6,7 +6,7 @@ const ipc = require('electron').ipcRenderer;
 const dialog = require('electron').remote.dialog;
 const BrowserWindow = require('electron').remote.BrowserWindow;
 
-const transfers = require('../../db').transfers;
+const transfers = require('../../../db').transfers;
 
 const transfersList = $('#transfersList');
 const transfersModal = $('#transfersModal');
