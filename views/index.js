@@ -1,16 +1,11 @@
 'use strict';
 
-const fs = require('fs');
-
 const _ = require('underscore');
 
 const ipc = require('electron').ipcRenderer;
-const dialog = require('electron').remote.dialog;
 const BrowserWindow = require('electron').remote.BrowserWindow;
 
 const IPCs = require('../windows').IPCs;
-
-const generateExcelReport = require('../lib/generateExcelReport');
 
 const dbWindows = [
   $('#openHotelsWindow'),
@@ -84,8 +79,8 @@ function addAccommodation () {
   $('.removeAccommodation', form).attr('onclick', 'removeAccommodation('+accommodationId+');');
   $('.addRoom', form).attr('onclick', 'addRoom('+accommodationId+');');
   $('.hotel', form).attr('id', 'hotel_'+accommodationId);
-  $('.moveIn', form).attr('id', 'moveIn_'+accommodationId).datepicker({format : "dd-mm-yyyy"});
-  $('.moveOut', form).attr('id', 'moveOut_'+accommodationId).datepicker({format : "dd-mm-yyyy"});
+  $('.moveIn', form).attr('id', 'moveIn_'+accommodationId).datepicker({language: "ru"});
+  $('.moveOut', form).attr('id', 'moveOut_'+accommodationId).datepicker({language: "ru"});
 
   hotels.loadDatabase((err) => {
     hotels.find({}, function(err, docs){
@@ -334,29 +329,7 @@ $('form#mainForm').submit(function (event) {
 
     if (err) console.log(err);
 
-    let dataToExport = generateExcelReport(data);
-
-    dialog.showSaveDialog(BrowserWindow.getFocusedWindow(), {
-      title: 'report.xlsx',
-      defaultPath: __dirname,
-      filters: [
-        { name: 'Excel Workbook', extensions: ['xlsx'] }
-      ]
-    }, function (filePath) {
-
-      if (filePath === undefined) return;
-
-      fs.writeFile(filePath, dataToExport, 'binary', function (err) {
-
-        if (err) console.log(err);
-
-        dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
-          message: "Файл сохранен в " + filePath,
-          buttons: ["OK"]
-        });
-      });
-
-    });
+    console.log('done');
 
   });
 
