@@ -63,8 +63,11 @@ const serviceForm = $('.serviceForm');
 const serviceIds = [];
 var serviceId  = $('#services > .serviceForm').size();
 
-$('#headingStartDate, #headingEndDate').datepicker({
-    language: "ru"
+$('#heading-datepicker').datepicker({
+  format: "dd.mm.yyyy",
+  language: "ru",
+  autoclose: true,
+  todayHighlight: true
 });
 
 function addAccommodation () {
@@ -75,12 +78,21 @@ function addAccommodation () {
 
   form.attr('id', 'accommodationForm_'+accommodationId);
 
+  const opts = {
+    format: "dd.mm.yyyy",
+    language: "ru",
+    autoclose: true,
+    todayHighlight: true
+  }
+
   $('.accommodationNum', form).text(accommodationId);
   $('.removeAccommodation', form).attr('onclick', 'removeAccommodation('+accommodationId+');');
   $('.addRoom', form).attr('onclick', 'addRoom('+accommodationId+');');
   $('.hotel', form).attr('id', 'hotel_'+accommodationId);
-  $('.moveIn', form).attr('id', 'moveIn_'+accommodationId).datepicker({language: "ru"});
-  $('.moveOut', form).attr('id', 'moveOut_'+accommodationId).datepicker({language: "ru"});
+  $('.moveIn', form).attr('id', 'moveIn_'+accommodationId);
+  $('.moveOut', form).attr('id', 'moveOut_'+accommodationId);
+
+  $('.input-daterange', form).attr('id', 'hotel-datepicker_'+accommodationId).datepicker(opts);
 
   hotels.loadDatabase((err) => {
     hotels.find({}, function(err, docs){

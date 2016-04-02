@@ -35,10 +35,11 @@
             <input id="headingCity" type="text" placeholder="Город" class="form-control"/>
           </div>
           <div class="form-group">
-            <input id="headingStartDate" type="text" placeholder="C (dd-mm-yyyy)" class="form-control"/>
-          </div>
-          <div class="form-group">
-            <input id="headingEndDate" type="text" placeholder="До (dd-mm-yyyy)" class="form-control"/>
+            <div class="input-group input-daterange" id="heading-datepicker">
+              <input type="text" class="form-control" id="headingStartDate" placeholder="01.01.2016">
+              <span class="input-group-addon">-</span>
+              <input type="text" class="form-control" id="headingEndDate" placeholder="31.12.2016">
+            </div>
           </div>
           <div class="form-group">
             <input id="headingPplAmount" type="number" placeholder="Кол-во гостей" class="form-control"/>
@@ -93,14 +94,12 @@
                 </select>
               </div>
               <div class="form-group">
-                <label >Дата заселения</label>
-                <br/>
-                <input type="text" placeholder="dd-mm-yyyy" class="form-control moveIn"/>
-              </div>
-              <div class="form-group">
-                <label>Дата выезда</label>
-                <br/>
-                <input type="text" placeholder="dd-mm-yyyy" class="form-control moveOut"/>
+                <label >Даты пребывания</label>
+                <div class="input-group input-daterange">
+                  <input type="text" class="form-control moveIn" placeholder="01.01.2016">
+                  <span class="input-group-addon">-</span>
+                  <input type="text" class="form-control moveOut" placeholder="31.12.2016">
+                </div>
               </div>
             </div>
             <div class="col-md-3">
