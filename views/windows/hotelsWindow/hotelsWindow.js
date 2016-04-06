@@ -6,7 +6,7 @@ const ipc = require('electron').ipcRenderer;
 const dialog = require('electron').remote.dialog;
 const BrowserWindow = require('electron').remote.BrowserWindow;
 
-const hotels = require('../../db').hotels;
+const hotels = require('../../../db').hotels;
 
 const hotelsList = $('#hotelsList');
 const hotelsModal = $('#hotelsModal');
@@ -22,27 +22,16 @@ $(document).ready(() => {
         _.each(docs, function (doc) {
           hotelsList.append(`
             <div class="panel panel-default" id="${doc._id}">
-              <div class="panel-heading">
+              <div class="panel-body">
                 ${doc.name}
                 <button class="btn btn-danger btn-xs pull-right" onclick="removeRecord('${doc._id}', '${doc.name}')">x</button>
-              </div>
-              <div class="panel-body">
-                <div class="roomsLayout">
-                  <b>Одиночная: </b>${doc.roomType.single.rub}р.
-                  <br/>
-                  <b>Двойная: </b>${doc.roomType.double.rub}р.
-                  <br/>
-                  <b>Тройная: </b>${doc.roomType.triple.rub}р.
-                </div>
-                <br/>
-                <b>Доп. кровать: </b>${doc.extraBed}р.
               </div>
             </div>
           `);
         });
       } else {
 
-        hotelsList.html('<div class="jumbotron text-center"><strong>Тарифы не найдены.</strong></div>');
+        hotelsList.html('<div class="jumbotron text-center"><strong>Отели не найдены.</strong></div>');
       }
     });
   });
@@ -52,6 +41,8 @@ $(document).ready(() => {
     event.preventDefault();
 
     const name = $('#name').val();
+    const start = $('#start').val();
+    const end = $('#end').val();
     const singleRoom = $('#singleRoom').val();
     const doubleRoom = $('#doubleRoom').val();
     const trippleRoom = $('#trippleRoom').val();
@@ -61,18 +52,6 @@ $(document).ready(() => {
 
       hotels.insert({
         name: name,
-        roomType: {
-          single: {
-            rub: singleRoom
-          },
-          double: {
-            rub: doubleRoom
-          },
-          triple: {
-            rub: trippleRoom
-          }
-        },
-        extraBed: extraBed
       }, function (err, newDoc) {
         BrowserWindow.getFocusedWindow().reload();
       });

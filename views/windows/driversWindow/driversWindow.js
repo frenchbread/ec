@@ -6,7 +6,7 @@ const ipc = require('electron').ipcRenderer;
 const dialog = require('electron').remote.dialog;
 const BrowserWindow = require('electron').remote.BrowserWindow;
 
-const drivers = require('../../db').drivers;
+const drivers = require('../../../db').drivers;
 
 const driversList = $('#driversList');
 const driversModal = $('#driversModal');

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Index page</title>
   <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="./vendor/datepicker.css">
+  <link rel="stylesheet" href="../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css">
   <link rel="stylesheet" href="./styles/main.css">
 </head>
 <body>
@@ -13,6 +13,7 @@
       <ul >
         <strong class="title">Тарифы:</strong>
         <li><a href="#" id="openHotelsWindow">Отели</a></li>
+        <li><a href="#" id="openHotelRatesWindow">Тарифы на отели</a></li>
         <li><a href="#" id="openTransfersWindow">Трансферы</a></li>
         <li><a href="#" id="openDriversWindow">Аренда с водителем</a></li>
         <li><a href="#" id="openExcursionsWindow">Экскурсии</a></li>
@@ -34,10 +35,11 @@
             <input id="headingCity" type="text" placeholder="Город" class="form-control"/>
           </div>
           <div class="form-group">
-            <input id="headingStartDate" type="text" placeholder="C (dd-mm-yyyy)" class="form-control"/>
-          </div>
-          <div class="form-group">
-            <input id="headingEndDate" type="text" placeholder="До (dd-mm-yyyy)" class="form-control"/>
+            <div class="input-group input-daterange" id="heading-datepicker">
+              <input type="text" class="form-control" id="headingStartDate" placeholder="01.01.2016">
+              <span class="input-group-addon">-</span>
+              <input type="text" class="form-control" id="headingEndDate" placeholder="31.12.2016">
+            </div>
           </div>
           <div class="form-group">
             <input id="headingPplAmount" type="number" placeholder="Кол-во гостей" class="form-control"/>
@@ -92,14 +94,12 @@
                 </select>
               </div>
               <div class="form-group">
-                <label >Дата заселения</label>
-                <br/>
-                <input type="text" placeholder="dd-mm-yyyy" class="form-control moveIn"/>
-              </div>
-              <div class="form-group">
-                <label>Дата выезда</label>
-                <br/>
-                <input type="text" placeholder="dd-mm-yyyy" class="form-control moveOut"/>
+                <label >Даты пребывания</label>
+                <div class="input-group input-daterange">
+                  <input type="text" class="form-control moveIn" placeholder="01.01.2016">
+                  <span class="input-group-addon">-</span>
+                  <input type="text" class="form-control moveOut" placeholder="31.12.2016">
+                </div>
               </div>
             </div>
             <div class="col-md-3">
@@ -243,6 +243,7 @@
   window.$ = window.jQuery = require('../bower_components/jquery/dist/jquery.min.js');
 </script>
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="./vendor/bootstrap-datepicker.js"></script>
+<script src="../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script src="../bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.ru.min.js"></script>
 <script src="./index.js"></script>
 </html>

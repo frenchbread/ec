@@ -1,19 +1,16 @@
 'use strict';
 
-const fs = require('fs');
-
 const _ = require('underscore');
+const moment = require('moment');
 
 const ipc = require('electron').ipcRenderer;
-const dialog = require('electron').remote.dialog;
 const BrowserWindow = require('electron').remote.BrowserWindow;
 
 const IPCs = require('../windows').IPCs;
 
-const generateExcelReport = require('../lib/generateExcelReport');
-
 const dbWindows = [
   $('#openHotelsWindow'),
+  $('#openHotelRatesWindow'),
   $('#openTransfersWindow'),
   $('#openDriversWindow'),
   $('#openExcursionsWindow'),
@@ -29,6 +26,7 @@ for (let i=0;i<dbWindows.length;i++) {
 const db = require('../db');
 
 const hotels = db.hotels;
+const hotelRates = db.hotelRates;
 const transfers = db.transfers;
 const drivers = db.drivers;
 const excursions = db.excursions;
@@ -54,21 +52,27 @@ const roomData = [
 // Accommodation & rooms
 const accommodationForm = $('.accommodationForm');
 const accommodationIds = [];
-var accommodationId = $('#accommodations > .accommodationForm').size();
+let accommodationId = $('#accommodations > .accommodationForm').size();
 const roomForm = $('.roomForm');
 const roomIds = [];
-var roomId = $('#rooms > .roomForm').size();
+let roomId = $('#rooms > .roomForm').size();
 
 // Program & services
 const programForm = $('.programForm');
 const programIds = [];
-var programId = $('#programs > .programForm').size();
+let programId = $('#programs > .programForm').size();
 const serviceForm = $('.serviceForm');
 const serviceIds = [];
-var serviceId  = $('#services > .serviceForm').size();
+let serviceId  = $('#services > .serviceForm').size();
 
-$('#headingStartDate').datepicker({format : "dd-mm-yyyy"});
-$('#headingEndDate').datepicker({format : "dd-mm-yyyy"});
+let datePickerOpts = {
+  format: "dd.mm.yyyy",
+  language: "ru",
+  autoclose: true,
+  todayHighlight: true
+};
+
+$('#heading-datepicker').datepicker(datePickerOpts);
 
 function addAccommodation () {
 
@@ -81,17 +85,22 @@ function addAccommodation () {
   $('.accommodationNum', form).text(accommodationId);
   $('.removeAccommodation', form).attr('onclick', 'removeAccommodation('+accommodationId+');');
   $('.addRoom', form).attr('onclick', 'addRoom('+accommodationId+');');
-  $('.hotel', form).attr('id', 'hotel_'+accommodationId);
-  $('.moveIn', form).attr('id', 'moveIn_'+accommodationId).datepicker({format : "dd-mm-yyyy"});
-  $('.moveOut', form).attr('id', 'moveOut_'+accommodationId).datepicker({format : "dd-mm-yyyy"});
+  $('.hotel', form).attr({
+    'id': 'hotel_'+accommodationId,
+    'onchange': 'switchHotel('+accommodationId+', this)'
+  });
+  $('.moveIn', form).attr('id', 'moveIn_'+accommodationId);
+  $('.moveOut', form).attr('id', 'moveOut_'+accommodationId);
+
+  $('.input-daterange', form).attr('id', 'hotel-datepicker_'+accommodationId).datepicker(datePickerOpts);
 
   hotels.loadDatabase((err) => {
     hotels.find({}, function(err, docs){
       if (docs.length > 0) {
-        $.each(docs, function(id, obj) {
+        $.each(docs, function(id, doc) {
           $('.hotel', form)
-          .append($('<option>', { value : obj.roomType.single.rub + '/' + obj.roomType.double.rub + '/' + obj.roomType.triple.rub + '/' + obj.extraBed })
-          .text(obj.name));
+            .append($('<option>', { value : doc.name })
+            .text(doc.name));
         });
       }
     });
@@ -103,6 +112,64 @@ function addAccommodation () {
 
   return false;
 };
+
+function switchHotel (accommodationId) {
+  let hotel = $('#hotel_'+accommodationId).val();
+
+  hotelRates.loadDatabase((err) => {
+    hotelRates.find({name: hotel}, (err, rates) => {
+
+      let moveIn = $('#moveIn_'+accommodationId);
+      let moveOut = $('#moveOut_'+accommodationId);
+
+      moveIn.datepicker('destroy');
+      moveOut.datepicker('destroy');
+
+      if (rates.length > 0) {
+
+        let highlightedDates = [];
+
+        _.each(rates, (rate) => {
+
+          let start = moment(rate.start);
+          let end = moment(rate.end);
+
+          let diff = end.diff(start, 'days');
+
+          let ittr = start;
+
+          for (let i = 0; i <= diff; i++) {
+
+            highlightedDates.push(ittr.format('D.M.YYYY'));
+
+            ittr = start.add(1, 'days')
+          }
+        });
+
+        datePickerOpts.beforeShowDay = (date) => {
+             var d = date;
+             var curr_date = d.getDate();
+             var curr_month = d.getMonth() + 1; //Months are zero based
+             var curr_year = d.getFullYear();
+             var formattedDate = curr_date + "." + curr_month + "." + curr_year
+             if ($.inArray(formattedDate, highlightedDates) != -1){
+               return {
+                  classes: 'activeClass'
+               };
+             }
+          return;
+        };
+      } else {
+        datePickerOpts.beforeShowDay = () => { return; };
+      }
+
+      moveIn.datepicker(datePickerOpts);
+      moveOut.datepicker(datePickerOpts);
+
+      // $('#hotel-datepicker_'+accommodationId).datepicker(datePickerOpts);
+    });
+  });
+}
 
 function removeAccommodation (accommodationId) {
 
@@ -332,29 +399,7 @@ $('form#mainForm').submit(function (event) {
 
     if (err) console.log(err);
 
-    let dataToExport = generateExcelReport(data);
-
-    dialog.showSaveDialog(BrowserWindow.getFocusedWindow(), {
-      title: 'report.xlsx',
-      defaultPath: __dirname,
-      filters: [
-        { name: 'Excel Workbook', extensions: ['xlsx'] }
-      ]
-    }, function (filePath) {
-
-      if (filePath === undefined) return;
-
-      fs.writeFile(filePath, dataToExport, 'binary', function (err) {
-
-        if (err) console.log(err);
-
-        dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
-          message: "Файл сохранен в " + filePath,
-          buttons: ["OK"]
-        });
-      });
-
-    });
+    console.log('done');
 
   });
 

@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Тарифы на отели</title>
+  <link rel="stylesheet" href="../../../bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css">
+  <link rel="stylesheet" href="../../styles/main.css">
+</head>
+<body>
+  <div class="container-fluid">
+    <legend>
+      <h3>
+        Тарифы на отели
+        <button type="button" name="button" class="btn btn-sm btn-default pull-right" data-toggle="modal" data-target="#hotelRatesModal">Добавить</button>
+      </h3>
+    </legend>
+    <div class="" id=hotelRatesList></div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="hotelRatesModal" tabindex="-1" role="dialog" aria-labelledby="hotelRatesModalLabel">
+    <div class="modal-dialog" role="document">
+      <form id="addHotelRate">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="hotelRatesModalLabel">Добавить</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="title">Название</label>
+              <input type="text" class="form-control" id="title" placeholder="Название тарифа (чтобы их отличать)">
+            </div>
+            <div class="form-group">
+              <label for="name">Отель <a href="#" id="updateHotelsList"><span class="glyphicon glyphicon-refresh"></span></a></label>
+              <select class="form-control" id='name'>
+                <option>-</option>
+              </select>
+              <!-- <p class="help-block"></p> -->
+            </div>
+            <div class="roomForm">
+              <div class="form-group">
+                <label for="start">Период действия тарифа</label>
+                <div class="input-daterange input-group" id="datepicker">
+                    <input type="text" class="form-control" name="start" id="start" placeholder="01.01.2015"/>
+                    <span class="input-group-addon"> - </span>
+                    <input type="text" class="form-control" name="end" id="end" placeholder="31.12.2015"/>
+                </div>
+              </div>
+            </div>
+            <div class="roomForm">
+              <div class="form-group">
+                <label for="price">Одиночная комната. Цена (р.)</label>
+                <input type="number" class="form-control" id="singleRoom" placeholder="1200">
+              </div>
+              <div class="form-group">
+                <label for="price">Двойная комната. Цена (р.)</label>
+                <input type="number" class="form-control" id="doubleRoom" placeholder="1200">
+              </div>
+              <div class="form-group">
+                <label for="price">Тройная комната. Цена (р.)</label>
+                <input type="number" class="form-control" id="trippleRoom" placeholder="1200">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="price">Доп. кровать. Цена (р.)</label>
+              <input type="number" class="form-control" id="extraBed" placeholder="1200">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script type="text/javascript">
+    window.$ = window.jQuery = require('../../../bower_components/jquery/dist/jquery.min.js');
+  </script>
+  <script src="./hotelRatesWindow.js"></script>
+  <script src="../../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="../../../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+  <script src="../../../bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.ru.min.js"></script>
+</body>
+</html>

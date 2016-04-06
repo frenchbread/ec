@@ -6,21 +6,21 @@ const ipc = require('electron').ipcRenderer;
 const dialog = require('electron').remote.dialog;
 const BrowserWindow = require('electron').remote.BrowserWindow;
 
-const restaurants = require('../../db').restaurants;
+const transfers = require('../../../db').transfers;
 
-const restaurantsList = $('#restaurantsList');
-const restaurantsModal = $('#restaurantsModal');
+const transfersList = $('#transfersList');
+const transfersModal = $('#transfersModal');
 
 $(document).ready(() => {
 
-  restaurants.loadDatabase((err) => {
+  transfers.loadDatabase((err) => {
 
-    restaurants.find({}, function (err, docs) {
+    transfers.find({}, function (err, docs) {
 
       if (docs.length > 0) {
 
         _.each(docs, function (doc) {
-          restaurantsList.append(`
+          transfersList.append(`
             <div class="panel panel-default" id="${doc._id}">
               <div class="panel-heading">
                 ${doc.name}
@@ -33,21 +33,21 @@ $(document).ready(() => {
           `);
         });
       } else {
-        restaurantsList.html('<div class="jumbotron text-center"><strong>Тарифы не найдены.</strong></div>');
+
+        transfersList.html('<div class="jumbotron text-center"><strong>Тарифы не найдены.</strong></div>');
       }
     });
   });
 
-  $('form#addRestaurant').submit(function (event) {
+  $('form#addTransfer').submit(function (event) {
 
     event.preventDefault();
 
     const name = $('#name').val();
     const price = $('#price').val();
 
-    restaurants.loadDatabase((err) => {
-
-      restaurants.insert({
+    transfers.loadDatabase((err) => {
+      transfers.insert({
         name: name,
         price: price
       }, function (err, newDoc) {
@@ -55,7 +55,7 @@ $(document).ready(() => {
       });
     });
 
-    restaurantsModal.modal('hide');
+    transfersModal.modal('hide');
 
     this.reset();
 
@@ -69,8 +69,8 @@ function removeRecord (id, name) {
     buttons: ["OK", "Отменить"]
   }, function (index) {
     if (index === 0) {
-      restaurants.loadDatabase((err) => {
-        restaurants.remove({ _id: id }, {}, function (err, numRemoved) {
+      transfers.loadDatabase((err) => {
+        transfers.remove({ _id: id }, {}, function (err, numRemoved) {
           if (err)
             console.log(err);
           else
